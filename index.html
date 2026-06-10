@@ -231,6 +231,54 @@ footer{padding:2.5rem 4vw;background:var(--ink);border-top:1px solid rgba(248,24
 .fd-sr.fd-in{opacity:1;transform:none}
 @media(max-width:768px){.fd-layout{grid-template-columns:1fr;gap:3rem}.fd-pillars{border-left:none;border-top:1px solid var(--faint);padding-top:2rem}}
 
+
+/* S2P DEMO */
+.s2p-section{padding:8rem 4vw;background:var(--bg);border-bottom:1px solid var(--faint)}
+.s2p-inner{display:grid;grid-template-columns:1fr 1.25fr;gap:4rem;align-items:center;max-width:1280px}
+.s2p-sup{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--forest2);font-weight:600;margin-bottom:.75rem}
+.s2p-hr{width:42px;height:2px;background:var(--goldb);border-radius:1px;margin-bottom:1.6rem}
+.s2p-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.6rem,5vw,4.2rem);letter-spacing:.03em;line-height:1;color:var(--ink);margin-bottom:1.2rem}
+.s2p-title .accent{color:var(--goldb)}
+.s2p-desc{font-family:'Instrument Serif',serif;font-style:italic;font-size:1rem;color:var(--muted);line-height:1.8;margin-bottom:1.6rem;max-width:430px}
+.s2p-desc strong{color:var(--forest);font-style:normal;font-family:'Syne',sans-serif;font-weight:600}
+.s2p-feats{display:flex;flex-direction:column;gap:.7rem;margin-bottom:2rem}
+.s2p-feat{display:flex;gap:.7rem;align-items:flex-start;font-size:.85rem;color:var(--muted);line-height:1.5}
+.s2p-feat span:first-child{color:var(--goldb);font-weight:700;flex-shrink:0}
+.s2p-free{display:inline-block;background:var(--forest);color:#f8f5f0;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;padding:.35rem .9rem;border-radius:20px;margin-bottom:1.4rem}
+.s2p-cta{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--forest);font-weight:600;text-decoration:none;border-bottom:1.5px solid var(--forest);padding-bottom:.25rem;transition:color .2s,border-color .2s;display:inline-flex;align-items:center;gap:.5rem}
+.s2p-cta:hover{color:var(--goldb);border-color:var(--goldb)}
+/* mockup */
+.s2p-mock{background:#fff;border-radius:14px;box-shadow:0 24px 64px rgba(14,36,21,.16);overflow:hidden;border:1px solid rgba(14,36,21,.06)}
+.s2p-chrome{background:#e9e4da;padding:.55rem .9rem;display:flex;align-items:center;gap:.5rem}
+.s2p-dot{width:9px;height:9px;border-radius:50%}
+.s2p-url{flex:1;background:#f8f5f0;border-radius:5px;font-size:.66rem;color:#8a8377;padding:.25rem .7rem;margin-left:.5rem;font-family:'Syne',sans-serif}
+.s2p-body{display:flex;min-height:330px}
+.s2p-side{width:120px;background:#0f172a;padding:.9rem .7rem;flex-shrink:0}
+.s2p-side-logo{display:flex;align-items:center;gap:.35rem;margin-bottom:1rem}
+.s2p-side-logo span{color:#fff;font-size:.6rem;font-weight:800;letter-spacing:.08em;font-family:'Syne',sans-serif}
+.s2p-nav-stub{height:8px;border-radius:4px;background:rgba(255,255,255,.12);margin-bottom:.55rem}
+.s2p-nav-stub.on{background:#2563eb}
+.s2p-main{flex:1;padding:1rem 1.1rem;background:#f1f5f9;font-family:'Syne',sans-serif}
+.s2p-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:.8rem}
+.s2p-kpi{background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:.6rem .7rem}
+.s2p-kpi .l{font-size:.52rem;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;font-weight:700}
+.s2p-kpi .v{font-size:1.02rem;font-weight:800;color:#0f172a;margin-top:.15rem}
+.s2p-kpi .v.gr{color:#16a34a}
+.s2p-chart{background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:.7rem .8rem .5rem;margin-bottom:.8rem}
+.s2p-chart .l{font-size:.56rem;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;font-weight:700;margin-bottom:.5rem}
+.s2p-bars{display:flex;align-items:flex-end;gap:7px;height:72px}
+.s2p-bar{flex:1;background:linear-gradient(to top,#2563eb,#60a5fa);border-radius:3px 3px 0 0;height:0%;transition:height .7s cubic-bezier(.2,.8,.3,1)}
+.s2p-bar:nth-child(even){background:linear-gradient(to top,#16a34a,#4ade80)}
+.s2p-order{background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:.6rem .8rem;display:flex;align-items:center;gap:.7rem;opacity:0;transform:translateY(10px);transition:opacity .5s,transform .5s}
+.s2p-order.in{opacity:1;transform:none}
+.s2p-order .po{font-size:.66rem;font-weight:800;color:#0f172a}
+.s2p-order .sup{font-size:.62rem;color:#64748b;flex:1}
+.s2p-order .amt{font-size:.68rem;font-weight:700;color:#0f172a}
+.s2p-tag{font-size:.56rem;font-weight:700;padding:.18rem .55rem;border-radius:12px;background:#fef3c7;color:#d97706;transition:background .3s,color .3s;white-space:nowrap}
+.s2p-tag.ok{background:#dcfce7;color:#16a34a}
+.s2p-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;margin:2.4rem 0 2rem;border-top:1px solid var(--faint);padding-top:2.2rem}
+@media(max-width:900px){.s2p-inner{grid-template-columns:1fr;gap:2.5rem}.s2p-side{width:64px}.s2p-pillars{grid-template-columns:1fr;gap:1.6rem}}
+
 </style>
 </head>
 <body>
@@ -393,6 +441,37 @@ spend breaks down.">Así se descompone<br>tu gasto.</h2>
 </section>
 
 
+
+<!-- S2P DEMO -->
+<section class="s2p-section sr" id="plataforma">
+  <div style="max-width:1100px">
+    <div class="s2p-sup" data-es="LEMALLI S2P · PLATAFORMA SOURCE-TO-PAY" data-en="LEMALLI S2P · SOURCE-TO-PAY PLATFORM">LEMALLI S2P · PLATAFORMA SOURCE-TO-PAY</div>
+    <div class="s2p-hr"></div>
+    <h2 class="s2p-title"><span data-es="DIGITALIZAMOS" data-en="WE DIGITALIZE">DIGITALIZAMOS</span><br><span data-es="TU CICLO" data-en="YOUR SPEND">TU CICLO</span> <span class="accent" data-es="DE GASTO." data-en="CYCLE.">DE GASTO.</span></h2>
+    <div class="s2p-free" data-es="Software incluido · Sin costo adicional" data-en="Software included · At no extra cost">Software incluido · Sin costo adicional</div>
+
+    <div class="s2p-pillars">
+      <div class="fd-pillar fd-sr" style="transition-delay:.1s">
+        <div class="fd-pillar-num">01</div>
+        <div class="fd-pillar-title" data-es="Digitalizamos" data-en="We digitalize">Digitalizamos</div>
+        <p class="fd-pillar-desc" data-es="Tu ciclo de gasto completo: solicitudes de pedido, órdenes de compra, aprobaciones y pagos en una sola plataforma." data-en="Your complete spend cycle: purchase requests, purchase orders, approvals and payments in one platform.">Tu ciclo de gasto completo: solicitudes de pedido, órdenes de compra, aprobaciones y pagos en una sola plataforma.</p>
+      </div>
+      <div class="fd-pillar fd-sr" style="transition-delay:.22s">
+        <div class="fd-pillar-num">02</div>
+        <div class="fd-pillar-title" data-es="Medimos" data-en="We measure">Medimos</div>
+        <p class="fd-pillar-desc" data-es="Armamos los KPIs relevantes a tu negocio: gasto, savings, budget y gestión por comprador, en vivo." data-en="We build the KPIs relevant to your business: spend, savings, budget and per-buyer management, live.">Armamos los KPIs relevantes a tu negocio: gasto, savings, budget y gestión por comprador, en vivo.</p>
+      </div>
+      <div class="fd-pillar fd-sr" style="transition-delay:.34s">
+        <div class="fd-pillar-num">03</div>
+        <div class="fd-pillar-title" data-es="Empoderamos" data-en="We empower">Empoderamos</div>
+        <p class="fd-pillar-desc" data-es="Le damos la herramienta a tus compradores: trazabilidad total, histórico de precios y control de cada euro." data-en="We give the tool to your buyers: full traceability, price history and control of every euro.">Le damos la herramienta a tus compradores: trazabilidad total, histórico de precios y control de cada euro.</p>
+      </div>
+    </div>
+
+    <p class="s2p-desc" style="max-width:520px" data-es="La plataforma se adapta a tu operación y la vemos juntos en una reunión. <strong>Sin licencias, sin costos ocultos.</strong>" data-en="The platform adapts to your operation and we walk through it together in a meeting. <strong>No licenses, no hidden costs.</strong>">La plataforma se adapta a tu operación y la vemos juntos en una reunión. <strong>Sin licencias, sin costos ocultos.</strong></p>
+    <a href="#contacto" class="s2p-cta" data-es="Quiero verla en una reunión →" data-en="Show me in a meeting →">Quiero verla en una reunión →</a>
+  </div>
+</section>
 
 <!-- ABOUT -->
 <section class="about-section sr" id="fundadores">

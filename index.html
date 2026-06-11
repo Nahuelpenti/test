@@ -28,17 +28,9 @@ html{scroll-behavior:smooth}
 body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 4vw;background:transparent;backdrop-filter:blur(0px);border-bottom:1px solid transparent;transition:background .45s ease,backdrop-filter .45s ease,border-color .45s ease,padding .45s ease}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.9rem 4vw;background:rgba(248,245,240,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--faint);transition:background .35s ease,padding .35s ease}
 nav.scrolled{padding:.9rem 4vw;background:rgba(248,245,240,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--faint)}
 /* over the dark hero, nav text/logo go light until scrolled */
-nav:not(.scrolled) .nav-link{color:rgba(248,245,240,.82)}
-nav:not(.scrolled) .nav-link:hover{color:#fff}
-nav:not(.scrolled) .logo-wrap span{color:#f8f5f0}
-nav:not(.scrolled) .logo-svg rect{stroke:#f8f5f0}
-nav:not(.scrolled) .logo-svg line{stroke:#c9a020}
-nav:not(.scrolled) .lang-btn{color:rgba(248,245,240,.7)}
-nav:not(.scrolled) .lang-btn.active{color:#f8f5f0}
-nav:not(.scrolled) .nav-burger span{background:#f8f5f0}
 .logo-wrap{display:flex;align-items:center;gap:.35rem;text-decoration:none;overflow:visible}
 .logo-svg{flex-shrink:0;transition:transform .35s ease}
 .logo-wrap:hover .logo-svg{transform:scale(1.05)}
@@ -430,6 +422,7 @@ body.drawer-open .drawer{transform:translateX(0)}
 .ind-card-desc{font-family:'Syne',sans-serif;font-size:.8rem;color:rgba(248,245,240,.62);margin-top:.5rem;line-height:1.4}
 @media(max-width:760px){.ind-card{width:240px;height:320px}.ind-section{padding:5rem 0}}
 
+section[id]{scroll-margin-top:90px}
 </style>
 </head>
 <body>
@@ -476,8 +469,10 @@ body.drawer-open .drawer{transform:translateX(0)}
   </div>
   <nav class="drawer-links">
     <a href="#servicios" class="drawer-link" onclick="closeDrawer()" data-es="Servicios" data-en="Services">Servicios</a>
-    <a href="#fundadores" class="drawer-link" onclick="closeDrawer()" data-es="Fundadores" data-en="Founders">Fundadores</a>
+    <a href="#industrias" class="drawer-link" onclick="closeDrawer()" data-es="Sectores" data-en="Sectors">Sectores</a>
+    <a href="#metodo" class="drawer-link" onclick="closeDrawer()" data-es="Método" data-en="Method">Método</a>
     <a href="#plataforma" class="drawer-link" onclick="closeDrawer()" data-es="Plataforma" data-en="Platform">Plataforma</a>
+    <a href="#fundadores" class="drawer-link" onclick="closeDrawer()" data-es="Fundadores" data-en="Founders">Fundadores</a>
     <a href="#contacto" class="drawer-link" onclick="closeDrawer()" data-es="Contacto" data-en="Contact">Contacto</a>
   </nav>
   <a href="https://lemalli.es/s2p.html" class="drawer-s2p" target="_blank" rel="noopener" onclick="closeDrawer()">

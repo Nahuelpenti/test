@@ -279,6 +279,50 @@ footer{padding:2.5rem 4vw;background:var(--ink);border-top:1px solid rgba(248,24
 .s2p-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;margin:2.4rem 0 2rem;border-top:1px solid var(--faint);padding-top:2.2rem}
 @media(max-width:900px){.s2p-inner{grid-template-columns:1fr;gap:2.5rem}.s2p-side{width:64px}.s2p-pillars{grid-template-columns:1fr;gap:1.6rem}}
 
+
+/* S2P BLUR PREVIEW */
+.s2p-preview{margin-top:3.5rem;position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(14,36,21,.08);box-shadow:0 24px 64px rgba(14,36,21,.14);max-width:1100px}
+.s2p-pv-blur{filter:blur(6px);transform:scale(1.02);transition:filter .5s ease;pointer-events:none;user-select:none}
+.s2p-preview:hover .s2p-pv-blur{filter:blur(8px)}
+.s2p-pv-chrome{background:#e9e4da;padding:.6rem 1rem;display:flex;align-items:center;gap:.5rem}
+.s2p-pv-dot{width:10px;height:10px;border-radius:50%}
+.s2p-pv-url{flex:1;background:#f8f5f0;border-radius:6px;font-size:.72rem;color:#8a8377;padding:.3rem .8rem;margin-left:.6rem;font-family:'Syne',sans-serif}
+.s2p-pv-body{display:flex;min-height:380px;background:#f1f5f9}
+.s2p-pv-side{width:150px;background:#0f172a;padding:1.1rem .85rem;flex-shrink:0}
+.s2p-pv-logo{display:flex;align-items:center;gap:.4rem;margin-bottom:1.4rem}
+.s2p-pv-logo span{color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.08em;font-family:'Syne',sans-serif}
+.s2p-pv-stub{height:10px;border-radius:5px;background:rgba(255,255,255,.13);margin-bottom:.7rem}
+.s2p-pv-stub.on{background:#2563eb}
+.s2p-pv-main{flex:1;padding:1.3rem 1.5rem;font-family:'Syne',sans-serif}
+.s2p-pv-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-bottom:1.1rem}
+.s2p-pv-kpi{background:#fff;border:1px solid #e2e8f0;border-radius:11px;padding:.9rem 1rem}
+.s2p-pv-kpi .l{font-size:.6rem;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;font-weight:700}
+.s2p-pv-kpi .v{font-size:1.4rem;font-weight:800;color:#0f172a;margin-top:.3rem}
+.s2p-pv-kpi .v.gr{color:#16a34a}
+.s2p-pv-row{display:grid;grid-template-columns:1.5fr 1fr;gap:.9rem;margin-bottom:1.1rem}
+.s2p-pv-card{background:#fff;border:1px solid #e2e8f0;border-radius:11px;padding:1rem 1.1rem}
+.s2p-pv-card .l{font-size:.62rem;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;font-weight:700;margin-bottom:.8rem}
+.s2p-pv-bars{display:flex;align-items:flex-end;gap:9px;height:110px}
+.s2p-pv-bar{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(to top,#2563eb,#60a5fa)}
+.s2p-pv-bar:nth-child(even){background:linear-gradient(to top,#16a34a,#4ade80)}
+.s2p-pv-donut{width:110px;height:110px;border-radius:50%;margin:0 auto;background:conic-gradient(#2563eb 0 38%,#7c3aed 38% 60%,#0891b2 60% 80%,#d97706 80% 100%)}
+.s2p-pv-donut::after{content:'';display:block;width:58px;height:58px;border-radius:50%;background:#fff;position:relative;top:26px;left:26px}
+.s2p-pv-trow{display:flex;align-items:center;gap:.8rem;padding:.6rem 0;border-bottom:1px solid #f1f5f9}
+.s2p-pv-trow .a{width:62px;height:9px;border-radius:4px;background:#cbd5e1}
+.s2p-pv-trow .b{flex:1;height:9px;border-radius:4px;background:#e2e8f0}
+.s2p-pv-trow .c{width:48px;height:9px;border-radius:4px;background:#cbd5e1}
+.s2p-pv-pill{width:54px;height:18px;border-radius:10px}
+.s2p-pv-pill.g{background:#dcfce7}.s2p-pv-pill.a{background:#fef3c7}
+/* lock overlay */
+.s2p-pv-lock{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle at center,rgba(248,245,240,.55) 0%,rgba(248,245,240,.82) 70%);padding:2rem}
+.s2p-pv-lock-icon{width:62px;height:62px;border-radius:50%;background:var(--forest);display:flex;align-items:center;justify-content:center;margin-bottom:1.3rem;box-shadow:0 12px 32px rgba(26,82,51,.3)}
+.s2p-pv-lock-icon svg{width:28px;height:28px;stroke:#f8f5f0}
+.s2p-pv-lock-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,3.5vw,2.6rem);letter-spacing:.03em;color:var(--ink);line-height:1}
+.s2p-pv-lock-sub{font-family:'Instrument Serif',serif;font-style:italic;font-size:1rem;color:var(--muted);margin-top:.6rem;max-width:380px;line-height:1.6}
+.s2p-pv-lock-cta{margin-top:1.6rem;display:inline-flex;align-items:center;gap:.5rem;background:var(--forest);color:#f8f5f0;font-family:'Syne',sans-serif;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:.85rem 1.8rem;border-radius:30px;text-decoration:none;transition:background .2s,transform .2s}
+.s2p-pv-lock-cta:hover{background:var(--forest2);transform:translateY(-2px)}
+@media(max-width:760px){.s2p-pv-side{display:none}.s2p-pv-kpis{grid-template-columns:1fr 1fr}.s2p-pv-row{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -470,6 +514,69 @@ spend breaks down.">Así se descompone<br>tu gasto.</h2>
 
     <p class="s2p-desc" style="max-width:520px" data-es="La plataforma se adapta a tu operación y la vemos juntos en una reunión. <strong>Sin licencias, sin costos ocultos.</strong>" data-en="The platform adapts to your operation and we walk through it together in a meeting. <strong>No licenses, no hidden costs.</strong>">La plataforma se adapta a tu operación y la vemos juntos en una reunión. <strong>Sin licencias, sin costos ocultos.</strong></p>
     <a href="#contacto" class="s2p-cta" data-es="Quiero verla en una reunión →" data-en="Show me in a meeting →">Quiero verla en una reunión →</a>
+
+    <div class="s2p-preview">
+      <div class="s2p-pv-blur" aria-hidden="true">
+        <div class="s2p-pv-chrome">
+          <div class="s2p-pv-dot" style="background:#e8654f"></div>
+          <div class="s2p-pv-dot" style="background:#e9b44c"></div>
+          <div class="s2p-pv-dot" style="background:#6cbf6c"></div>
+          <div class="s2p-pv-url">s2p.lemalli.es / panel</div>
+        </div>
+        <div class="s2p-pv-body">
+          <div class="s2p-pv-side">
+            <div class="s2p-pv-logo">
+              <svg width="18" height="18" viewBox="0 0 42 42" fill="none"><rect x="2" y="2" width="38" height="38" stroke="#60a5fa" stroke-width="3"/><line x1="22" y1="21" x2="34" y2="21" stroke="#fbbf24" stroke-width="3.5"/></svg>
+              <span>LEMALLI S2P</span>
+            </div>
+            <div class="s2p-pv-stub on"></div>
+            <div class="s2p-pv-stub" style="width:85%"></div>
+            <div class="s2p-pv-stub" style="width:92%"></div>
+            <div class="s2p-pv-stub" style="width:78%"></div>
+            <div class="s2p-pv-stub" style="width:88%"></div>
+            <div class="s2p-pv-stub" style="width:72%"></div>
+          </div>
+          <div class="s2p-pv-main">
+            <div class="s2p-pv-kpis">
+              <div class="s2p-pv-kpi"><div class="l">Gasto total</div><div class="v">€1.42M</div></div>
+              <div class="s2p-pv-kpi"><div class="l">Savings</div><div class="v gr">€127K</div></div>
+              <div class="s2p-pv-kpi"><div class="l">Budget</div><div class="v">88%</div></div>
+              <div class="s2p-pv-kpi"><div class="l">Órdenes</div><div class="v">24</div></div>
+            </div>
+            <div class="s2p-pv-row">
+              <div class="s2p-pv-card">
+                <div class="l">Evolución del gasto</div>
+                <div class="s2p-pv-bars">
+                  <div class="s2p-pv-bar" style="height:38%"></div><div class="s2p-pv-bar" style="height:52%"></div>
+                  <div class="s2p-pv-bar" style="height:45%"></div><div class="s2p-pv-bar" style="height:68%"></div>
+                  <div class="s2p-pv-bar" style="height:58%"></div><div class="s2p-pv-bar" style="height:80%"></div>
+                  <div class="s2p-pv-bar" style="height:72%"></div><div class="s2p-pv-bar" style="height:95%"></div>
+                </div>
+              </div>
+              <div class="s2p-pv-card">
+                <div class="l">Por categoría</div>
+                <div class="s2p-pv-donut"></div>
+              </div>
+            </div>
+            <div class="s2p-pv-card">
+              <div class="l">Últimas órdenes</div>
+              <div class="s2p-pv-trow"><span class="a"></span><span class="b"></span><span class="c"></span><span class="s2p-pv-pill g"></span></div>
+              <div class="s2p-pv-trow"><span class="a"></span><span class="b"></span><span class="c"></span><span class="s2p-pv-pill a"></span></div>
+              <div class="s2p-pv-trow" style="border:none"><span class="a"></span><span class="b"></span><span class="c"></span><span class="s2p-pv-pill g"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="s2p-pv-lock">
+        <div class="s2p-pv-lock-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        </div>
+        <div class="s2p-pv-lock-title" data-es="SISTEMA EN VIVO SOURCE-TO-PAY PARA PROFESIONALIZAR TU ÁREA" data-en="LIVE SOURCE-TO-PAY SYSTEM TO PROFESSIONALIZE YOUR TEAM">SISTEMA EN VIVO SOURCE-TO-PAY PARA PROFESIONALIZAR TU ÁREA</div>
+        <div class="s2p-pv-lock-sub" data-es="Panel en vivo, órdenes, savings y proveedores. Te lo mostramos completo en una reunión." data-en="Live dashboard, orders, savings and suppliers. We show it in full in a meeting.">Panel en vivo, órdenes, savings y proveedores. Te lo mostramos completo en una reunión.</div>
+        <a href="#contacto" class="s2p-pv-lock-cta" data-es="Desbloquear en una reunión" data-en="Unlock in a meeting">Desbloquear en una reunión</a>
+      </div>
+    </div>
+
   </div>
 </section>
 

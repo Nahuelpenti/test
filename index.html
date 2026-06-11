@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -63,8 +64,9 @@ nav ul{display:flex;flex-direction:row;gap:2.2rem;list-style:none;align-items:ce
 .hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
 .hero-slide{position:absolute;inset:0;opacity:0;background-size:cover;background-position:center;animation:heroKen 8s ease-out infinite alternate;will-change:transform,opacity;transition:opacity 1.6s ease-in-out}
 .hero-slide.on{opacity:1}
+.hero-slide:first-child{opacity:1}
 @keyframes heroKen{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.35) translate(-3%,-2%)}}
-.hero-bg::after{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(120deg,rgba(14,36,21,.9) 0%,rgba(14,36,21,.66) 45%,rgba(14,36,21,.4) 100%)}
+.hero-bg::after{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(120deg,rgba(14,36,21,.86) 0%,rgba(14,36,21,.52) 45%,rgba(14,36,21,.22) 100%)}
 .hero>*:not(.hero-bg){position:relative;z-index:3}
 .hero-bg{position:absolute!important;z-index:0}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 65% 35%,rgba(26,82,51,.06) 0%,transparent 65%);pointer-events:none}
@@ -451,6 +453,11 @@ body.drawer-open .drawer{transform:translateX(0)}
     <button class="lang-btn-d" onclick="setLang('en');closeDrawer()" data-es="Inglés" data-en="English">English</button>
   </div>
 </aside>
+<script>
+function toggleDrawer(){document.body.classList.toggle('drawer-open');}
+function closeDrawer(){document.body.classList.remove('drawer-open');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDrawer();});
+</script>
 
 <!-- HERO -->
 <section class="hero">
@@ -1091,11 +1098,9 @@ function handleSubmit(e){
 })();
 
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js">
-// MOBILE DRAWER
-function toggleDrawer(){document.body.classList.toggle('drawer-open');}
-function closeDrawer(){document.body.classList.remove('drawer-open');}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDrawer();});
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+
 
 // HERO PHOTO SLIDESHOW
 (function(){
@@ -1129,6 +1134,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDrawer(
     slides[i].classList.add('on');
   },4000);
 })();
+
 </script>
 </body>
 </html>

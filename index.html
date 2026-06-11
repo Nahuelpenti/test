@@ -220,7 +220,7 @@ body.drawer-open .drawer{transform:translateX(0)}
 .drawer-close{background:none;border:none;cursor:pointer;color:var(--muted);padding:.3rem;border-radius:8px;transition:background .2s,color .2s}
 .drawer-close:hover{background:var(--faint);color:var(--forest)}
 .drawer-close svg{width:22px;height:22px;display:block}
-.drawer-links{display:flex;flex-direction:column;gap:.2rem}
+.drawer-links{position:static;display:flex;flex-direction:column;gap:.2rem;padding:0;background:none;border:none;backdrop-filter:none}
 .drawer-link{text-decoration:none;color:var(--ink);font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:600;padding:.85rem .5rem;border-radius:10px;transition:background .2s,color .2s,padding-left .2s}
 .drawer-link:hover{background:rgba(26,82,51,.06);color:var(--forest);padding-left:.85rem}
 .drawer-s2p{margin-top:1.4rem;display:flex;align-items:center;justify-content:center;gap:.55rem;text-decoration:none;color:#f8f5f0;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;padding:.95rem 1rem;border-radius:14px;background:linear-gradient(120deg,#0e2415 0%,#1a5233 55%,#246b42 100%);box-shadow:0 6px 20px rgba(26,82,51,.3);border:1px solid rgba(201,160,32,.45)}
@@ -471,14 +471,13 @@ section[id]{scroll-margin-top:90px}
     <a href="#servicios" class="drawer-link" onclick="closeDrawer()" data-es="Servicios" data-en="Services">Servicios</a>
     <a href="#industrias" class="drawer-link" onclick="closeDrawer()" data-es="Sectores" data-en="Sectors">Sectores</a>
     <a href="#metodo" class="drawer-link" onclick="closeDrawer()" data-es="Método" data-en="Method">Método</a>
-    <a href="#plataforma" class="drawer-link" onclick="closeDrawer()" data-es="Plataforma" data-en="Platform">Plataforma</a>
+    <a href="#plataforma" class="drawer-link" onclick="closeDrawer()" data-es="La plataforma" data-en="The platform">La plataforma</a>
     <a href="#fundadores" class="drawer-link" onclick="closeDrawer()" data-es="Fundadores" data-en="Founders">Fundadores</a>
     <a href="#contacto" class="drawer-link" onclick="closeDrawer()" data-es="Contacto" data-en="Contact">Contacto</a>
   </nav>
   <a href="https://lemalli.es/s2p.html" class="drawer-s2p" target="_blank" rel="noopener" onclick="closeDrawer()">
     <span class="live-dot"></span>
-    <span data-es="Ver plataforma" data-en="View platform">Ver plataforma</span>
-    <svg class="s2p-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:14px;height:14px;stroke-width:2.4"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    <span data-es="Acceder al S2P →" data-en="Access S2P →">Acceder al S2P →</span>
   </a>
   <div class="drawer-lang">
     <button class="lang-btn-d" onclick="setLang('es');closeDrawer()" data-es="Español" data-en="Spanish">Español</button>

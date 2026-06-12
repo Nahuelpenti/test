@@ -180,6 +180,42 @@ body:not(.is-admin) .admin-only{display:none!important}
 .hint{font-size:.78rem;color:var(--muted);background:var(--primary-light);border-radius:8px;padding:.7rem .9rem;margin-bottom:1rem;line-height:1.5}
 .hint strong{color:var(--primary-dark)}
 
+
+/* ASISTENTE IA */
+.ai-fab{position:fixed;bottom:24px;right:24px;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#1a5233,#246b42);color:#fff;border:none;cursor:pointer;box-shadow:0 8px 28px rgba(26,82,51,.4);display:flex;align-items:center;justify-content:center;z-index:300;transition:transform .2s,box-shadow .2s}
+.ai-fab:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 12px 34px rgba(26,82,51,.5)}
+.ai-fab svg{width:26px;height:26px}
+.ai-fab .ai-badge{position:absolute;top:-3px;right:-3px;width:16px;height:16px;background:#c9a020;border-radius:50%;border:2px solid #fff;font-size:8px;display:flex;align-items:center;justify-content:center;color:#0e2415;font-weight:800}
+.ai-panel{position:fixed;bottom:94px;right:24px;width:min(420px,calc(100vw - 48px));height:min(620px,calc(100vh - 140px));background:#fff;border-radius:18px;box-shadow:0 24px 64px rgba(14,36,21,.28);z-index:300;display:none;flex-direction:column;overflow:hidden;border:1px solid var(--faint)}
+.ai-panel.open{display:flex}
+.ai-head{background:linear-gradient(135deg,#0e2415,#1a5233);color:#fff;padding:1rem 1.2rem;display:flex;align-items:center;gap:.7rem}
+.ai-head-ic{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ai-head-ic svg{width:18px;height:18px}
+.ai-head-t{flex:1}
+.ai-head-t .n{font-weight:700;font-size:.92rem}
+.ai-head-t .s{font-size:.7rem;opacity:.7}
+.ai-close{background:none;border:none;color:#fff;cursor:pointer;opacity:.7;padding:.2rem}
+.ai-close:hover{opacity:1}
+.ai-body{flex:1;overflow-y:auto;padding:1.2rem;display:flex;flex-direction:column;gap:.9rem;background:var(--bg)}
+.ai-msg{max-width:85%;padding:.7rem .9rem;border-radius:12px;font-size:.84rem;line-height:1.55;white-space:pre-wrap;word-wrap:break-word}
+.ai-msg.user{align-self:flex-end;background:var(--primary);color:#fff;border-bottom-right-radius:3px}
+.ai-msg.bot{align-self:flex-start;background:#fff;border:1px solid var(--faint);color:var(--ink);border-bottom-left-radius:3px}
+.ai-msg.bot strong{color:var(--primary-dark)}
+.ai-typing{align-self:flex-start;display:flex;gap:4px;padding:.7rem .9rem}
+.ai-typing span{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:aiBlink 1.2s infinite both}
+.ai-typing span:nth-child(2){animation-delay:.2s}.ai-typing span:nth-child(3){animation-delay:.4s}
+@keyframes aiBlink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+.ai-suggests{padding:0 1.2rem .6rem;display:flex;flex-wrap:wrap;gap:.4rem;background:var(--bg)}
+.ai-chip{font-size:.72rem;padding:.4rem .7rem;border:1px solid var(--faint);border-radius:14px;background:#fff;cursor:pointer;color:var(--slate);transition:background .15s,border-color .15s}
+.ai-chip:hover{background:var(--primary-light);border-color:var(--primary)}
+.ai-foot{padding:.8rem;border-top:1px solid var(--faint);display:flex;gap:.5rem;background:#fff}
+.ai-input{flex:1;border:1px solid var(--faint);border-radius:10px;padding:.6rem .8rem;font-family:inherit;font-size:.84rem;resize:none;outline:none;max-height:90px}
+.ai-input:focus{border-color:var(--primary)}
+.ai-send{background:var(--primary);color:#fff;border:none;border-radius:10px;width:40px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.ai-send:hover{background:var(--primary-dark)}
+.ai-send:disabled{opacity:.4;cursor:not-allowed}
+.ai-send svg{width:18px;height:18px}
+
 </style>
 </head>
 <body>
@@ -252,6 +288,10 @@ body:not(.is-admin) .admin-only{display:none!important}
       <button class="nav-item" data-view="savings">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>
         <span>Savings vs Budget</span>
+      </button>
+      <button class="nav-item" data-view="materials">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        <span>Materiales</span>
       </button>
       <button class="nav-item" data-view="prices">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -359,8 +399,8 @@ var SEED={
   }
 };
 
-var DB={orders:[],suppliers:[],budgets:[],ccs:[],sps:[],users:[],config:{}};
-var _deleted={orders:[],sps:[],suppliers:[],ccs:[]}; // track deletions to sync
+var DB={orders:[],suppliers:[],budgets:[],ccs:[],sps:[],users:[],config:{},materials:[]};
+var _deleted={orders:[],sps:[],suppliers:[],ccs:[],materials:[]}; // track deletions to sync
 
 // ===== CARGA DESDE SUPABASE =====
 async function loadFromSupabase(){
@@ -372,7 +412,8 @@ async function loadFromSupabase(){
     sb.from('ccs').select('*').eq('company_id',cid),
     sb.from('sps').select('*').eq('company_id',cid),
     sb.from('config').select('*').eq('company_id',cid).limit(1),
-    sb.from('profiles').select('*').eq('company_id',cid)
+    sb.from('profiles').select('*').eq('company_id',cid),
+    sb.from('materials').select('*').eq('company_id',cid)
   ]);
   DB.orders=res[0].data||[];
   DB.suppliers=res[1].data||[];
@@ -381,7 +422,8 @@ async function loadFromSupabase(){
   DB.sps=res[4].data||[];
   DB.config=(res[5].data&&res[5].data[0])?res[5].data[0]:{};
   DB.users=(res[6].data||[]).map(function(p){return {user:p.name,name:p.name,role:p.role};});
-  _deleted={orders:[],sps:[],suppliers:[],ccs:[]};
+  DB.materials=(res[7]&&res[7].data)||[];
+  _deleted={orders:[],sps:[],suppliers:[],ccs:[],materials:[]};
 }
 
 // ===== GUARDADO EN SUPABASE =====
@@ -410,6 +452,7 @@ async function syncToSupabase(){
     if(DB.sps.length)      await sb.from('sps').upsert(DB.sps.map(cleanRow));
     if(DB.suppliers.length)await sb.from('suppliers').upsert(DB.suppliers.map(cleanRow));
     if(DB.ccs.length)      await sb.from('ccs').upsert(DB.ccs.map(cleanRow));
+    if(DB.materials.length)await sb.from('materials').upsert(DB.materials.map(cleanRow));
     if(DB.budgets.length)  await sb.from('budgets').upsert(DB.budgets.map(cleanRow));
     if(DB.config&&DB.config.name!==undefined){
       var cfg=cleanRow(DB.config); delete cfg.id; cfg.company_id=SESSION.company_id;
@@ -546,6 +589,7 @@ var TITLES={
   budget:['Budget vs Gasto','Ejecución presupuestaria por categoría'],
   savings:['Savings vs Budget','Ahorro capturado contra presupuesto'],
   prices:['Histórico de precios','Evolución de precio unitario por código de material'],
+  materials:['Catálogo de materiales','Maestro de materiales: código, descripción, categoría y unidad'],
   direccion:['Panel Dirección','KPIs estratégicos y gestión por comprador'],
   users:['Usuarios','Gestión de accesos y roles'],
   sps:['Solicitudes de pedido','Requerimientos de material o servicio que originan las OC'],
@@ -576,6 +620,7 @@ function render(view){
   else if(view==='sps')c.innerHTML=viewSPs();
   else if(view==='aprobaciones')c.innerHTML=viewAprobaciones();
   else if(view==='config')c.innerHTML=viewConfig();
+  else if(view==='materials')c.innerHTML=viewMaterials();
   // build charts after DOM
   setTimeout(function(){
     if(view==='dashboard')buildDashCharts();
@@ -758,7 +803,7 @@ function ordersTableHTML(){
       '<td>'+paySel(idx,o.paid||'No pagado')+'</td>'+
       '<td><div class="row-actions">'+
         adminBtns+printBtn+mailBtn+
-        '<button class="icon-btn" title="'+(o.comment?('Comentario: '+o.comment.replace(/"/g,'&quot;')):'Agregar comentario')+'" onclick="openCommentModal('+idx+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>'+(o.comment?'<span class="comment-dot"></span>':'')+'</button>'+
+        '<button class="icon-btn" title="'+(o.comment?('Comentario: '+o.comment.replace(/"/g,'&quot;')):'Agregar comentario')+'" onclick="openCommentModal('+idx+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>'+(o.comment?'<span class="comment-dot"></span>':'')+'</button>'+'<button class="icon-btn" title="Documentos adjuntos" onclick="openDocsModal('+idx+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg></button>'+
         editBtns+
       '</div></td>'+
     '</tr>';
@@ -780,9 +825,14 @@ function sendOC(idx){
   var sup=(DB.suppliers||[]).find(function(s){return s.name===o.supplier;})||{};
   if(!sup.email){toast('Configurá el email del proveedor en la sección Proveedores');return;}
   var C=DB.config||{};
+  // remitente = usuario logueado del S2P
+  var fromName=(SESSION&&SESSION.name)||'';
+  var fromEmail=(SESSION&&SESSION.email)||'';
+  // 1) descargar el PDF primero para que el usuario lo adjunte
+  printOrder(idx);
   var nl='\n';
   var lines=['Estimado/a '+(sup.contact||'proveedor')+',','',
-    'Adjuntamos la Orden de Compra '+o.id+' aprobada por '+(C.name||'nuestra empresa')+'.','',
+    'Le enviamos la Orden de Compra '+o.id+' aprobada por '+(C.name||'nuestra empresa')+'.','',
     'Detalle:',
     '- Material: '+(o.material||'—')+' — '+(o.matDesc||''),
     '- Cantidad: '+(o.qty||0),
@@ -791,10 +841,13 @@ function sendOC(idx){
     .concat(o.sp?['- Referencia solicitud: '+o.sp]:[])
     .concat(o.cc?['- Centro de costo: '+ccLabel(o.cc)]:[])
     .concat(['- Condiciones de pago: '+(C.payTerms||'—'),'',
-    'Por favor confirmar recepción y plazo de entrega.','','Saludos cordiales,',(C.name||''),(C.email||'')]);
+    'IMPORTANTE: adjuntar el PDF '+o.id+'.pdf que se acaba de descargar.','',
+    'Por favor confirmar recepción y plazo de entrega.','','Saludos cordiales,',
+    fromName,(C.name||''),fromEmail||(C.email||'')]);
+  // mailto con remitente del usuario (from no se puede forzar en mailto, pero abre SU cliente de correo)
   var href='mailto:'+sup.email+'?subject='+encodeURIComponent('Orden de Compra '+o.id+' — '+(C.name||''))+'&body='+encodeURIComponent(lines.join(nl));
-  window.location.href=href;
-  toast('Email abierto — adjuntá el PDF descargado de la OC');
+  setTimeout(function(){window.location.href=href;},600);
+  toast('PDF descargado + email abierto desde tu cuenta — adjuntá el PDF '+o.id+'.pdf');
 }
 function openSupplierModal(i){
   var isNew=(i===-1);
@@ -954,10 +1007,19 @@ function printOrder(idx){
 }
 
 // ---- NEW ORDER ----
+function fillMatFromCatalog(code){
+  code=(code||'').trim().toUpperCase();
+  var m=(DB.materials||[]).find(function(x){return x.code===code;});
+  if(!m)return;
+  var d=document.getElementById('f-matdesc');
+  if(d&&!d.value)d.value=m.description||'';
+}
 function viewNewOrder(){
   var supOpts=DB.suppliers.map(function(s){return '<option value="'+s.name+'" data-cat="'+s.category+'">'+s.name+'</option>';}).join('');
   var budOpts=DB.budgets.map(function(b){return '<option value="'+b.cat+'">'+b.cat+'</option>';}).join('');
-  var mats={};DB.orders.forEach(function(o){if(o.material)mats[o.material]=o.matDesc||'';});
+  var mats={};
+  (DB.materials||[]).forEach(function(m){if(m.code)mats[m.code]=m.description||'';});
+  DB.orders.forEach(function(o){if(o.material&&!mats[o.material])mats[o.material]=o.matDesc||'';});
   var matOpts=Object.keys(mats).sort().map(function(m){return '<option value="'+m+'">'+mats[m]+'</option>';}).join('');
   var spOpts=(DB.sps||[]).filter(function(s){return s.status==='Abierta';}).map(function(s){return '<option value="'+s.id+'"'+(PENDING_SP===s.id?' selected':'')+'>'+s.id+' — '+(s.matDesc||s.material||'')+' ('+s.qty+')</option>';}).join('');
   var spBanner=PENDING_SP?'<div class="hint" style="margin-bottom:1.2rem"><strong>Creando OC desde la solicitud '+PENDING_SP+'.</strong> Los campos se completaron con los datos de la solicitud — revisalos y elegí el proveedor.</div>':'';
@@ -967,7 +1029,7 @@ function viewNewOrder(){
     '<div class="field"><label>Fecha</label><input type="date" id="f-date" value="'+new Date().toISOString().slice(0,10)+'" required></div>'+
     '<div class="field full"><label>Proveedor</label><select id="f-supplier" required>'+supOpts+'</select></div>'+
     '<div class="field full"><label>Solicitud de pedido asociada (opcional)</label><select id="f-sp" onchange="spPrefill(this.value)"><option value="">Sin solicitud — compra directa</option>'+spOpts+'</select></div>'+
-    '<div class="field"><label>Código de material</label><input type="text" id="f-material" placeholder="MAT-001" list="matList"><datalist id="matList">'+matOpts+'</datalist></div>'+
+    '<div class="field"><label>Código de material</label><input type="text" id="f-material" placeholder="MAT-001" list="matList" onchange="fillMatFromCatalog(this.value)"><datalist id="matList">'+matOpts+'</datalist></div>'+
     '<div class="field"><label>Descripción del material</label><input type="text" id="f-matdesc" placeholder="Ej: Acero laminado (ton)"></div>'+
     '<div class="field"><label>Cantidad</label><input type="number" id="f-qty" min="0" step="1" placeholder="0"></div>'+
     '<div class="field"><label>Tipo</label><select id="f-type"><option>Material</option><option>Servicio</option></select></div>'+
@@ -1523,6 +1585,118 @@ function deleteCC(i){
   }
 }
 
+// ---- CATÁLOGO DE MATERIALES ----
+function viewMaterials(){
+  var mats=DB.materials||[];
+  var cats={};mats.forEach(function(m){if(m.category)cats[m.category]=(cats[m.category]||0)+1;});
+  var rows=mats.map(function(m,i){
+    var usos=(DB.orders||[]).filter(function(o){return o.material===m.code;}).length;
+    return '<tr>'+
+      '<td class="td-strong">'+(m.code||'—')+'</td>'+
+      '<td>'+(m.description||'—')+'</td>'+
+      '<td><span class="tag tag-blue">'+(m.category||'—')+'</span></td>'+
+      '<td>'+(m.unit||'—')+'</td>'+
+      '<td>'+usos+' OC</td>'+
+      '<td><div class="row-actions">'+
+        '<button class="icon-btn" title="Editar" onclick="openMatModal('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg></button>'+
+        '<button class="icon-btn del" title="Eliminar" onclick="deleteMat('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>'+
+      '</div></td>'+
+    '</tr>';
+  }).join('');
+  if(!rows)rows='<tr><td colspan="6" class="empty">No hay materiales cargados. Importá un Excel o agregá manualmente.</td></tr>';
+  return ''+
+  '<div class="section-stats" style="grid-template-columns:repeat(3,1fr)">'+
+    '<div class="mini-stat"><div class="l">Materiales</div><div class="v">'+mats.length+'</div></div>'+
+    '<div class="mini-stat"><div class="l">Categorías</div><div class="v">'+Object.keys(cats).length+'</div></div>'+
+    '<div class="mini-stat"><div class="l">En uso (con OC)</div><div class="v">'+mats.filter(function(m){return (DB.orders||[]).some(function(o){return o.material===m.code;});}).length+'</div></div>'+
+  '</div>'+
+  '<div class="hint" style="max-width:820px"><strong>Maestro de materiales.</strong> Importá tu catálogo desde Excel con las columnas <strong>Codigo, Descripcion, Categoria, Unidad</strong>. Una vez cargados, estos materiales se autocompletan al crear órdenes y solicitudes en toda la plataforma.</div>'+
+  '<div class="card" style="margin-bottom:1.2rem"><div class="card-head"><div class="card-title">Catálogo</div>'+
+    '<div style="display:flex;gap:.5rem">'+
+      '<button class="btn btn-ghost" onclick="downloadMatTemplate()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Plantilla</button>'+
+      '<label class="btn btn-ghost" style="cursor:pointer"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importar Excel<input type="file" accept=".xlsx,.xls,.csv" style="display:none" onchange="importMaterials(event)"></label>'+
+      '<button class="btn btn-primary" onclick="openMatModal(-1)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Nuevo</button>'+
+    '</div></div>'+
+  '<div class="table-wrap"><table><thead><tr><th>Código</th><th>Descripción</th><th>Categoría</th><th>Unidad</th><th>Uso</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+function openMatModal(i){
+  var isNew=(i===-1);
+  var m=isNew?{code:'',description:'',category:'',unit:''}:DB.materials[i];
+  if(!m)return;
+  var el=document.getElementById('modalContent');
+  el.innerHTML=''+
+    '<div class="modal-head"><div class="modal-title">'+(isNew?'Nuevo material':'Editar material')+'</div>'+
+      '<button class="modal-close" onclick="closeModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
+    '<div class="form-grid">'+
+      '<div class="field"><label>Código</label><input type="text" id="mt-code" value="'+(m.code||'')+'" placeholder="MAT-001"></div>'+
+      '<div class="field"><label>Unidad</label><input type="text" id="mt-unit" value="'+(m.unit||'')+'" placeholder="ud / kg / m / ton"></div>'+
+      '<div class="field full"><label>Descripción</label><input type="text" id="mt-desc" value="'+(m.description||'').replace(/"/g,'&quot;')+'" placeholder="Descripción del material"></div>'+
+      '<div class="field full"><label>Categoría</label><input type="text" id="mt-cat" value="'+(m.category||'')+'" placeholder="Ej: Materia prima"></div>'+
+    '</div><div class="form-actions"><button class="btn btn-primary" onclick="saveMat('+i+')">'+(isNew?'Crear':'Guardar')+'</button>'+
+    '<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button></div>';
+  document.getElementById('modalBg').classList.add('show');
+}
+function saveMat(i){
+  var code=(document.getElementById('mt-code').value||'').trim().toUpperCase();
+  if(!code){toast('El código es obligatorio');return;}
+  var data={code:code,
+    description:(document.getElementById('mt-desc').value||'').trim(),
+    category:(document.getElementById('mt-cat').value||'').trim(),
+    unit:(document.getElementById('mt-unit').value||'').trim()};
+  if(i===-1){
+    if((DB.materials||[]).some(function(x){return x.code===code;})){toast('Ese código ya existe');return;}
+    if(!DB.materials)DB.materials=[];
+    DB.materials.push(Object.assign({id:code},data));
+    toast('Material creado');
+  }else{
+    Object.assign(DB.materials[i],data);DB.materials[i].id=DB.materials[i].id||code;
+    toast('Material actualizado');
+  }
+  save();closeModal();render('materials');
+}
+function deleteMat(i){
+  var m=DB.materials[i];if(!m)return;
+  if(confirm('¿Eliminar el material '+m.code+'?')){
+    if(m.id)_deleted.materials.push(m.id);
+    DB.materials.splice(i,1);save();toast('Material eliminado');render('materials');
+  }
+}
+function downloadMatTemplate(){
+  var sample=[{'Codigo':'MAT-001','Descripcion':'Acero laminado S275','Categoria':'Materia prima','Unidad':'ton'}];
+  var ws=XLSX.utils.json_to_sheet(sample);
+  ws['!cols']=[{wch:14},{wch:32},{wch:18},{wch:10}];
+  var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Materiales');
+  XLSX.writeFile(wb,'plantilla_materiales.xlsx');
+}
+function importMaterials(ev){
+  var f=ev.target.files[0];if(!f)return;
+  var rd=new FileReader();
+  rd.onload=function(e){
+    try{
+      var wb=XLSX.read(e.target.result,{type:'binary'});
+      var rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+      if(!DB.materials)DB.materials=[];
+      var added=0,updated=0;
+      rows.forEach(function(r){
+        var code=String(r.Codigo||r.codigo||r.Code||r['Código']||'').trim().toUpperCase();
+        if(!code)return;
+        var data={code:code,
+          description:String(r.Descripcion||r.descripcion||r['Descripción']||r.Description||''),
+          category:String(r.Categoria||r.categoria||r['Categoría']||r.Category||''),
+          unit:String(r.Unidad||r.unidad||r.Unit||r.UM||'')};
+        var ex=DB.materials.find(function(x){return x.code===code;});
+        if(ex){Object.assign(ex,data);updated++;}
+        else{DB.materials.push(Object.assign({id:code},data));added++;}
+      });
+      save();
+      toast('Importado: '+added+' nuevos, '+updated+' actualizados');
+      render('materials');
+    }catch(err){toast('Error al leer el Excel. Verificá el formato.');}
+  };
+  rd.readAsBinaryString(f);
+  ev.target.value='';
+}
+
 function chartOpts(money,legend){
   return {responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:legend!==undefined?true:false,position:'bottom',labels:{padding:14,font:{size:11},usePointStyle:true,pointStyle:'circle'}},
@@ -1592,6 +1766,62 @@ function saveEdit(e,idx){
   save();closeModal();toast('Orden actualizada');render('orders');
 }
 function closeModal(){document.getElementById('modalBg').classList.remove('show');}
+async function openDocsModal(idx){
+  var o=DB.orders[idx];if(!o)return;
+  var el=document.getElementById('modalContent');
+  el.innerHTML=''+
+    '<div class="modal-head"><div class="modal-title">Documentos — '+o.id+'</div>'+
+      '<button class="modal-close" onclick="closeModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
+    '<div class="hint" style="margin-bottom:1rem">Adjuntá presupuestos, cotizaciones de la licitación, fichas técnicas u otros documentos de esta orden.</div>'+
+    '<div id="docsList" style="margin-bottom:1rem"><div class="empty">Cargando documentos...</div></div>'+
+    '<label class="btn btn-primary" style="cursor:pointer"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Subir documento<input type="file" style="display:none" onchange="uploadDoc(event,\''+o.id+'\')"></label>';
+  document.getElementById('modalBg').classList.add('show');
+  listDocs(o.id);
+}
+function docPath(orderId){return (SESSION?SESSION.company_id:'EMP')+'/'+orderId+'/';}
+async function listDocs(orderId){
+  var box=document.getElementById('docsList');if(!box)return;
+  try{
+    var res=await sb.storage.from('oc-docs').list(docPath(orderId),{limit:100});
+    if(res.error)throw res.error;
+    var files=res.data||[];
+    if(!files.length){box.innerHTML='<div class="empty">Sin documentos adjuntos.</div>';return;}
+    box.innerHTML=files.map(function(f){
+      return '<div style="display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;border:1px solid var(--faint);border-radius:8px;margin-bottom:.4rem">'+
+        '<svg fill="none" stroke="var(--primary)" viewBox="0 0 24 24" style="width:18px;height:18px;flex-shrink:0"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>'+
+        '<span style="flex:1;font-size:.82rem;word-break:break-all">'+f.name+'</span>'+
+        '<button class="icon-btn" title="Descargar" onclick="downloadDoc(\''+orderId+'\',\''+f.name.replace(/\'/g,"")+'\')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>'+
+        '<button class="icon-btn del" title="Eliminar" onclick="deleteDoc(\''+orderId+'\',\''+f.name.replace(/\'/g,"")+'\')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg></button>'+
+      '</div>';
+    }).join('');
+  }catch(e){box.innerHTML='<div class="empty">No se pudieron cargar los documentos. Verificá que el bucket "oc-docs" exista en Supabase Storage.</div>';}
+}
+async function uploadDoc(ev,orderId){
+  var f=ev.target.files[0];if(!f)return;
+  if(f.size>15*1024*1024){toast('El archivo supera 15MB');return;}
+  toast('Subiendo '+f.name+'...');
+  try{
+    var path=docPath(orderId)+Date.now()+'_'+f.name;
+    var res=await sb.storage.from('oc-docs').upload(path,f);
+    if(res.error)throw res.error;
+    toast('Documento subido');
+    listDocs(orderId);
+  }catch(e){toast('Error al subir. ¿Existe el bucket "oc-docs"?');}
+  ev.target.value='';
+}
+async function downloadDoc(orderId,name){
+  try{
+    var res=await sb.storage.from('oc-docs').createSignedUrl(docPath(orderId)+name,60);
+    if(res.data&&res.data.signedUrl)window.open(res.data.signedUrl,'_blank');
+  }catch(e){toast('No se pudo descargar');}
+}
+async function deleteDoc(orderId,name){
+  if(!confirm('¿Eliminar '+name+'?'))return;
+  try{
+    await sb.storage.from('oc-docs').remove([docPath(orderId)+name]);
+    toast('Documento eliminado');listDocs(orderId);
+  }catch(e){toast('No se pudo eliminar');}
+}
 function openCommentModal(idx){
   var o=DB.orders[idx];if(!o)return;
   var m=document.getElementById('modalContent');
@@ -1727,6 +1957,495 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()
     document.getElementById('loginOverlay').style.display='flex';
   }
 })();
+
+// ============ ASISTENTE POR REGLAS ============
+var AI_OPEN=false;
+function toggleAI(){
+  AI_OPEN=!AI_OPEN;
+  document.getElementById('aiPanel').classList.toggle('open',AI_OPEN);
+  if(AI_OPEN){
+    document.getElementById('aiFab').style.display='none';
+    if(!document.getElementById('aiBody').children.length)aiWelcome();
+    setTimeout(function(){document.getElementById('aiInput').focus();},100);
+  }else{document.getElementById('aiFab').style.display='flex';}
+}
+function aiKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();aiAsk();}}
+function aiAddMsg(text,who){
+  var b=document.getElementById('aiBody');
+  var d=document.createElement('div');d.className='ai-msg '+who;
+  d.innerHTML=text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  b.appendChild(d);b.scrollTop=b.scrollHeight;return d;
+}
+function aiWelcome(){
+  aiAddMsg('¡Hola'+(SESSION&&SESSION.name?' '+SESSION.name.split(' ')[0]:'')+'! Soy tu asistente. Puedo responder sobre órdenes, proveedores, materiales, savings, plazos de pago, centros de costo y más. Probá una de estas o escribí tu pregunta:','bot');
+  aiRefreshChips();
+}
+function aiRefreshChips(){
+  var ex=['Tendencia de precio de [material]','¿Cómo es el proveedor [nombre]?','Plazo de pago promedio por proveedor','¿Qué OC están pendientes de aprobación?','Resumen de gasto y savings','Comentario de la OC [id]','Gasto por centro de costo','Top 5 proveedores por gasto'];
+  var c=document.getElementById('aiSuggests');
+  c.innerHTML=ex.map(function(q){return '<button class="ai-chip" onclick="aiChip(this)">'+q+'</button>';}).join('');
+}
+function aiChip(el){document.getElementById('aiInput').value=el.textContent;document.getElementById('aiSuggests').innerHTML='';aiAsk();}
+function eur2(n){return '€'+Number(n||0).toLocaleString('es-ES',{maximumFractionDigits:0});}
+function eurD(n){return '€'+Number(n||0).toLocaleString('es-ES',{maximumFractionDigits:2});}
+function norm(s){return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+
+// ---- entity extraction from the live DB ----
+function findMaterial(q){
+  var n=norm(q);
+  // by code
+  var codes={};
+  (DB.materials||[]).forEach(function(m){if(m.code)codes[m.code]=m.description||'';});
+  (DB.orders||[]).forEach(function(o){if(o.material)codes[o.material]=codes[o.material]||o.matDesc||'';});
+  var found=null;
+  Object.keys(codes).forEach(function(code){
+    if(n.indexOf(norm(code))>=0)found=code;
+  });
+  if(found)return found;
+  // by description words
+  Object.keys(codes).forEach(function(code){
+    var d=norm(codes[code]);
+    if(d&&d.length>3&&n.indexOf(d.split(' ')[0])>=0&&d.split(' ')[0].length>3)found=code;
+  });
+  return found;
+}
+function findSupplier(q){
+  var n=norm(q);var best=null;
+  (DB.suppliers||[]).forEach(function(s){
+    var sn=norm(s.name);
+    if(n.indexOf(sn)>=0){best=s;return;}
+    // partial: first significant word
+    var w=sn.split(' ').filter(function(x){return x.length>3;})[0];
+    if(w&&n.indexOf(w)>=0)best=best||s;
+  });
+  return best;
+}
+function findCC(q){
+  var n=norm(q);var found=null;
+  (DB.ccs||[]).forEach(function(c){
+    if(n.indexOf(norm(c.code))>=0||(c.name&&n.indexOf(norm(c.name))>=0))found=c;
+  });
+  return found;
+}
+function findBuyer(q){
+  var n=norm(q);var found=null;
+  (DB.users||[]).forEach(function(u){
+    if(u.name&&n.indexOf(norm(u.name).split(' ')[0])>=0&&norm(u.name).split(' ')[0].length>2)found=u.name;
+  });
+  return found;
+}
+function findOC(q){
+  var m=(q||'').toUpperCase().match(/PO[-\s]?\d+/);
+  if(m){var id=m[0].replace(/\s/,'-');if(id.indexOf('-')<0)id=id.replace('PO','PO-');return id;}
+  return null;
+}
+function findSP(q){
+  var m=(q||'').toUpperCase().match(/SP[-\s]?\d+/);
+  if(m){var id=m[0].replace(/\s/,'-');if(id.indexOf('-')<0)id=id.replace('SP','SP-');return id;}
+  return null;
+}
+// date range from text: "en marzo", "2026-03", "este año", "ultimo trimestre", "entre X y Y"
+var MESES={enero:'01',febrero:'02',marzo:'03',abril:'04',mayo:'05',junio:'06',julio:'07',agosto:'08',septiembre:'09',setiembre:'09',octubre:'10',noviembre:'11',diciembre:'12'};
+function findDateRange(q){
+  var n=norm(q);
+  // explicit YYYY-MM
+  var ym=n.match(/(\d{4})[-/](\d{1,2})/);
+  if(ym){var mm=('0'+ym[2]).slice(-2);return {from:ym[1]+'-'+mm+'-01',to:ym[1]+'-'+mm+'-31',label:mm+'/'+ym[1]};}
+  // month name (+ optional year)
+  for(var mes in MESES){
+    if(n.indexOf(mes)>=0){
+      var yr=(n.match(/20\d{2}/)||[])[0]||'2026';
+      return {from:yr+'-'+MESES[mes]+'-01',to:yr+'-'+MESES[mes]+'-31',label:mes+' '+yr};
+    }
+  }
+  // year only
+  var yr=n.match(/\b(20\d{2})\b/);
+  if(yr&&(n.indexOf('año')>=0||n.indexOf('ano')>=0||n.indexOf('en '+yr[1])>=0))
+    return {from:yr[1]+'-01-01',to:yr[1]+'-12-31',label:yr[1]};
+  // trimester
+  if(n.indexOf('trimestre')>=0){
+    return {from:'2026-01-01',to:'2026-03-31',label:'último trimestre'};
+  }
+  return null;
+}
+function ordersIn(range){
+  return (DB.orders||[]).filter(function(o){
+    if(range&&range.from&&o.date<range.from)return false;
+    if(range&&range.to&&o.date>range.to)return false;
+    return true;
+  });
+}
+
+// ---- answer builders ----
+function ansPriceTrend(mat){
+  var list=(DB.orders||[]).filter(function(o){return o.material===mat&&o.qty>0;}).sort(function(a,b){return a.date<b.date?-1:1;});
+  if(!list.length)return 'No tengo órdenes con cantidad cargada para **'+mat+'**, así que no puedo calcular la tendencia de precio.';
+  var desc=(list[0].matDesc||'');
+  var ups=list.map(function(o){return {date:o.date,up:o.amount/o.qty,sup:o.supplier};});
+  var first=ups[0].up,last=ups[ups.length-1].up;
+  var chg=first?((last-first)/first*100):0;
+  var minP=Math.min.apply(null,ups.map(function(x){return x.up;}));
+  var maxP=Math.max.apply(null,ups.map(function(x){return x.up;}));
+  var avg=ups.reduce(function(a,x){return a+x.up;},0)/ups.length;
+  var txt='**'+mat+'**'+(desc?' — '+desc:'')+'\n';
+  txt+='Tendencia de precio unitario sobre **'+ups.length+' compras**:\n';
+  txt+='• Primer precio: **'+eurD(first)+'** ('+ups[0].date+')\n';
+  txt+='• Último precio: **'+eurD(last)+'** ('+ups[ups.length-1].date+')\n';
+  txt+='• Variación: **'+(chg>0?'+':'')+chg.toFixed(1)+'%** '+(chg>0?'📈 subió':chg<0?'📉 bajó':'se mantuvo')+'\n';
+  txt+='• Promedio: '+eurD(avg)+' · Rango: '+eurD(minP)+' – '+eurD(maxP);
+  return txt;
+}
+function ansSupplier(s){
+  var ords=(DB.orders||[]).filter(function(o){return o.supplier===s.name;});
+  var gasto=ords.reduce(function(a,o){return a+(+o.amount||0);},0);
+  var sav=ords.reduce(function(a,o){return a+(+o.saving||0);},0);
+  var pagas=ords.filter(function(o){return o.paid==='Pagado';}).length;
+  var txt='**'+s.name+'**\n';
+  if(s.category)txt+='• Categoría: '+s.category+'\n';
+  if(s.contact)txt+='• Contacto: '+s.contact+(s.email?' ('+s.email+')':'')+'\n';
+  if(s.phone)txt+='• Teléfono: '+s.phone+'\n';
+  txt+='• Rating: '+(s.rating||0)+'/5\n';
+  txt+='• Órdenes: **'+ords.length+'** · Gasto total: **'+eur2(gasto)+'** · Savings: '+eur2(sav)+'\n';
+  txt+='• Pagadas: '+pagas+' de '+ords.length;
+  var withC=ords.filter(function(o){return o.comment;});
+  if(withC.length)txt+='\n• Última observación ('+withC[withC.length-1].id+'): "'+withC[withC.length-1].comment+'"';
+  return txt;
+}
+function ansPayTerms(s){
+  function rate(list){var p=list.filter(function(o){return o.paid==='Pagado';}).length;return list.length?Math.round(p/list.length*100):0;}
+  if(s){
+    var ords=(DB.orders||[]).filter(function(o){return o.supplier===s.name;});
+    if(!ords.length)return 'No hay órdenes registradas de **'+s.name+'**.';
+    return 'Plazo/estado de pago de **'+s.name+'**:\n• '+rate(ords)+'% de sus '+ords.length+' órdenes están pagadas.\n• Pendientes de pago: '+ords.filter(function(o){return o.paid!=='Pagado';}).length+'.'+(DB.config&&DB.config.payTerms?'\n• Condición general configurada: '+DB.config.payTerms:'');
+  }
+  // all suppliers
+  var rows=(DB.suppliers||[]).map(function(sp){
+    var l=(DB.orders||[]).filter(function(o){return o.supplier===sp.name;});
+    return {n:sp.name,r:rate(l),c:l.length};
+  }).filter(function(x){return x.c>0;}).sort(function(a,b){return b.r-a.r;});
+  if(!rows.length)return 'No hay datos de pago todavía.';
+  return 'Estado de pago por proveedor (% órdenes pagadas):\n'+rows.map(function(x){return '• '+x.n+': **'+x.r+'%** ('+x.c+' OC)';}).join('\n');
+}
+function ansOC(id){
+  var o=(DB.orders||[]).find(function(x){return x.id===id;});
+  if(!o)return 'No encontré la orden **'+id+'**.';
+  var up=o.qty>0?(o.amount/o.qty):null;
+  var txt='**'+o.id+'**\n';
+  txt+='• Proveedor: '+o.supplier+'\n';
+  txt+='• Material: '+(o.material||'—')+(o.matDesc?' ('+o.matDesc+')':'')+'\n';
+  if(o.qty)txt+='• Cantidad: '+o.qty+(up?' · P. unitario: '+eurD(up):'')+'\n';
+  txt+='• Monto: **'+eur2(o.amount)+'** · Saving: '+eur2(o.saving)+'\n';
+  txt+='• Estado: '+o.status+' · Entrega: '+(o.delivery||'—')+' · Pago: '+(o.paid||'—')+'\n';
+  if(o.cc)txt+='• Centro de costo: '+ccLabel(o.cc)+'\n';
+  if(o.buyer)txt+='• Comprador: '+o.buyer+'\n';
+  txt+='• Comentario: '+(o.comment?'"'+o.comment+'"':'(sin comentarios)');
+  return txt;
+}
+function ansComment(id){
+  var o=(DB.orders||[]).find(function(x){return x.id===id;});
+  if(!o)return 'No encontré la orden **'+id+'**.';
+  return o.comment?('Comentario de **'+o.id+'**:\n"'+o.comment+'"'):'La orden **'+o.id+'** no tiene comentarios cargados.';
+}
+function ansPending(){
+  var p=(DB.orders||[]).filter(function(o){return o.status==='Pendiente'||o.status==='En revisión';});
+  if(!p.length)return 'No hay órdenes pendientes de aprobación. ✅';
+  var tot=p.reduce(function(a,o){return a+(+o.amount||0);},0);
+  return 'Hay **'+p.length+'** órdenes pendientes de aprobación ('+eur2(tot)+' en total):\n'+p.map(function(o){return '• '+o.id+' — '+o.supplier+' — '+eur2(o.amount)+(o.buyer?' ('+o.buyer+')':'');}).join('\n');
+}
+function ansSummary(range){
+  var o=ordersIn(range);
+  var gasto=o.reduce(function(a,x){return a+(+x.amount||0);},0);
+  var sav=o.reduce(function(a,x){return a+(+x.saving||0);},0);
+  var rate=gasto+sav>0?(sav/(gasto+sav)*100):0;
+  var lbl=range?(' en '+range.label):'';
+  return 'Resumen'+lbl+':\n• Órdenes: **'+o.length+'**\n• Gasto: **'+eur2(gasto)+'**\n• Savings: **'+eur2(sav)+'** ('+rate.toFixed(1)+'% rate)\n• Aprobadas: '+o.filter(function(x){return x.status==='Aprobada';}).length+' · Pendientes: '+o.filter(function(x){return x.status==='Pendiente'||x.status==='En revisión';}).length;
+}
+function ansByCC(range){
+  var o=ordersIn(range);var map={};
+  o.forEach(function(x){var k=x.cc||'Sin CC';map[k]=(map[k]||0)+(+x.amount||0);});
+  var keys=Object.keys(map).sort(function(a,b){return map[b]-map[a];});
+  if(!keys.length)return 'No hay gasto registrado'+(range?' en '+range.label:'')+'.';
+  return 'Gasto por centro de costo'+(range?' ('+range.label+')':'')+':\n'+keys.map(function(k){return '• '+(k==='Sin CC'?k:ccLabel(k))+': **'+eur2(map[k])+'**';}).join('\n');
+}
+function ansTopSuppliers(range){
+  var o=ordersIn(range);var map={};
+  o.forEach(function(x){map[x.supplier]=(map[x.supplier]||0)+(+x.amount||0);});
+  var rows=Object.keys(map).map(function(k){return {n:k,v:map[k]};}).sort(function(a,b){return b.v-a.v;}).slice(0,5);
+  if(!rows.length)return 'No hay datos de proveedores'+(range?' en '+range.label:'')+'.';
+  return 'Top 5 proveedores por gasto'+(range?' ('+range.label+')':'')+':\n'+rows.map(function(x,i){return (i+1)+'. **'+x.n+'** — '+eur2(x.v);}).join('\n');
+}
+function ansByBuyer(range){
+  var o=ordersIn(range);var map={};
+  o.forEach(function(x){var b=x.buyer||'—';if(!map[b])map[b]={g:0,s:0,c:0};map[b].g+=+x.amount||0;map[b].s+=+x.saving||0;map[b].c++;});
+  var keys=Object.keys(map);if(!keys.length)return 'No hay datos por comprador.';
+  return 'Gestión por comprador'+(range?' ('+range.label+')':'')+':\n'+keys.map(function(k){return '• '+k+': '+map[k].c+' OC · '+eur2(map[k].g)+' gasto · '+eur2(map[k].s)+' savings';}).join('\n');
+}
+function ansBudget(){
+  var rows=(DB.budgets||[]).map(function(b){
+    var sp=(DB.orders||[]).filter(function(o){return o.budgetCat===b.cat;}).reduce(function(a,o){return a+(+o.amount||0);},0);
+    var pct=b.budget>0?Math.round(sp/b.budget*100):0;
+    return '• '+b.cat+': '+eur2(sp)+' / '+eur2(b.budget)+' ('+pct+'%)';
+  });
+  return rows.length?('Ejecución de budget:\n'+rows.join('\n')):'No hay budgets cargados.';
+}
+function ansMaterial(mat){
+  var m=(DB.materials||[]).find(function(x){return x.code===mat;});
+  var ords=(DB.orders||[]).filter(function(o){return o.material===mat;});
+  var txt='**'+mat+'**'+(m&&m.description?' — '+m.description:'')+'\n';
+  if(m){if(m.category)txt+='• Categoría: '+m.category+'\n';if(m.unit)txt+='• Unidad: '+m.unit+'\n';}
+  txt+='• Compras registradas: '+ords.length;
+  if(ords.length){var g=ords.reduce(function(a,o){return a+(+o.amount||0);},0);txt+=' · Gasto total: '+eur2(g);}
+  return txt;
+}
+// ---- COUNTS & AGGREGATES ----
+function ansCount(what){
+  switch(what){
+    case 'materiales': return 'Tenés **'+(DB.materials||[]).length+'** materiales en el catálogo.';
+    case 'proveedores': return 'Tenés **'+(DB.suppliers||[]).length+'** proveedores cargados.';
+    case 'ordenes': return 'Hay **'+(DB.orders||[]).length+'** órdenes de compra registradas.';
+    case 'solicitudes': return 'Hay **'+(DB.sps||[]).length+'** solicitudes de pedido en total ('+(DB.sps||[]).filter(function(s){return s.status==='Abierta';}).length+' abiertas).';
+    case 'cc': return 'Tenés **'+(DB.ccs||[]).length+'** centros de costo: '+(DB.ccs||[]).map(function(c){return c.code;}).join(', ')+'.';
+    case 'usuarios': return 'Hay **'+(DB.users||[]).length+'** usuarios: '+(DB.users||[]).map(function(u){return u.name+' ('+(u.role==='admin'?'admin':'comprador')+')';}).join(', ')+'.';
+    case 'budgets': return 'Tenés **'+(DB.budgets||[]).length+'** categorías de budget definidas.';
+    case 'categorias': var cats={};(DB.materials||[]).forEach(function(m){if(m.category)cats[m.category]=1;});(DB.orders||[]).forEach(function(o){if(o.category)cats[o.category]=1;});return 'Hay **'+Object.keys(cats).length+'** categorías: '+Object.keys(cats).join(', ')+'.';
+  }
+  return null;
+}
+function ansLastPrice(mat){
+  var list=(DB.orders||[]).filter(function(o){return o.material===mat&&o.qty>0;}).sort(function(a,b){return a.date<b.date?-1:1;});
+  if(!list.length)return 'No tengo precio registrado para **'+mat+'** (faltan órdenes con cantidad).';
+  var last=list[list.length-1];
+  return 'El último precio de **'+mat+'** fue **'+eurD(last.amount/last.qty)+'** por unidad ('+last.date+', proveedor '+last.supplier+').';
+}
+function ansFirstPrice(mat){
+  var list=(DB.orders||[]).filter(function(o){return o.material===mat&&o.qty>0;}).sort(function(a,b){return a.date<b.date?-1:1;});
+  if(!list.length)return 'No tengo precio para **'+mat+'**.';
+  var f=list[0];
+  return 'El primer precio registrado de **'+mat+'** fue **'+eurD(f.amount/f.qty)+'** ('+f.date+').';
+}
+function ansAvgPrice(mat){
+  var list=(DB.orders||[]).filter(function(o){return o.material===mat&&o.qty>0;});
+  if(!list.length)return 'No tengo precios para **'+mat+'**.';
+  var avg=list.reduce(function(a,o){return a+o.amount/o.qty;},0)/list.length;
+  return 'El precio promedio de **'+mat+'** es **'+eurD(avg)+'** (sobre '+list.length+' compras).';
+}
+function ansOCbySupplier(s){
+  if(s){
+    var n=(DB.orders||[]).filter(function(o){return o.supplier===s.name;}).length;
+    return '**'+s.name+'** tiene **'+n+'** órdenes de compra.';
+  }
+  var map={};(DB.orders||[]).forEach(function(o){map[o.supplier]=(map[o.supplier]||0)+1;});
+  var rows=Object.keys(map).sort(function(a,b){return map[b]-map[a];});
+  if(!rows.length)return 'No hay órdenes registradas.';
+  return 'Órdenes por proveedor:\n'+rows.map(function(k){return '• '+k+': **'+map[k]+'**';}).join('\n');
+}
+function ansOCbyStatus(st){
+  var map={Pendiente:0,'En revisión':0,Aprobada:0,Rechazada:0};
+  (DB.orders||[]).forEach(function(o){map[o.status]=(map[o.status]||0)+1;});
+  if(st){var key=st==='revis'?'En revisión':st==='aprob'?'Aprobada':st==='rechaz'?'Rechazada':st==='pend'?'Pendiente':null;
+    var k=key||Object.keys(map).find(function(x){return norm(x).indexOf(norm(st))>=0;});if(k&&map[k]!==undefined)return 'Hay **'+map[k]+'** órdenes en estado "'+k+'".';}
+  return 'Órdenes por estado:\n• Pendientes: '+map['Pendiente']+'\n• En revisión: '+map['En revisión']+'\n• Aprobadas: '+map['Aprobada']+'\n• Rechazadas: '+map['Rechazada'];
+}
+function ansHighestOC(){
+  var o=(DB.orders||[]).slice().sort(function(a,b){return b.amount-a.amount;})[0];
+  if(!o)return 'No hay órdenes.';
+  return 'La orden de mayor monto es **'+o.id+'** — '+o.supplier+' — **'+eur2(o.amount)+'**'+(o.material?' ('+o.material+')':'')+'.';
+}
+function ansLowestOC(){
+  var o=(DB.orders||[]).slice().sort(function(a,b){return a.amount-b.amount;})[0];
+  if(!o)return 'No hay órdenes.';
+  return 'La orden de menor monto es **'+o.id+'** — '+o.supplier+' — **'+eur2(o.amount)+'**.';
+}
+function ansBestSupplierSaving(){
+  var map={};(DB.orders||[]).forEach(function(o){map[o.supplier]=(map[o.supplier]||0)+(+o.saving||0);});
+  var rows=Object.keys(map).sort(function(a,b){return map[b]-map[a];});
+  if(!rows.length)return 'Sin datos de savings.';
+  return 'El proveedor con más savings es **'+rows[0]+'** ('+eur2(map[rows[0]])+').';
+}
+function ansBestRating(){
+  var s=(DB.suppliers||[]).slice().sort(function(a,b){return (b.rating||0)-(a.rating||0);})[0];
+  if(!s)return 'No hay proveedores.';
+  return 'El proveedor mejor calificado es **'+s.name+'** con rating '+(s.rating||0)+'/5.';
+}
+function ansSupplierList(){
+  if(!(DB.suppliers||[]).length)return 'No hay proveedores cargados.';
+  return 'Proveedores ('+DB.suppliers.length+'):\n'+DB.suppliers.map(function(s){return '• '+s.name+(s.category?' — '+s.category:'');}).join('\n');
+}
+function ansMaterialList(){
+  if(!(DB.materials||[]).length)return 'No hay materiales en el catálogo. Importá un Excel desde la sección Materiales.';
+  return 'Materiales ('+DB.materials.length+'):\n'+DB.materials.map(function(m){return '• '+m.code+(m.description?' — '+m.description:'')+(m.unit?' ['+m.unit+']':'');}).join('\n');
+}
+function ansMaterialsByCategory(cat){
+  var list=(DB.materials||[]).filter(function(m){return norm(m.category).indexOf(norm(cat))>=0;});
+  if(!list.length)return 'No encontré materiales en la categoría "'+cat+'".';
+  return 'Materiales en "'+cat+'" ('+list.length+'):\n'+list.map(function(m){return '• '+m.code+' — '+(m.description||'');}).join('\n');
+}
+function ansSavingTotal(range){
+  var o=ordersIn(range);var sav=o.reduce(function(a,x){return a+(+x.saving||0);},0);
+  return 'Savings'+(range?' en '+range.label:' totales')+': **'+eur2(sav)+'** sobre '+o.length+' órdenes.';
+}
+function ansAvgTicket(range){
+  var o=ordersIn(range);if(!o.length)return 'No hay órdenes'+(range?' en '+range.label:'')+'.';
+  var g=o.reduce(function(a,x){return a+(+x.amount||0);},0);
+  return 'El ticket promedio'+(range?' ('+range.label+')':'')+' es **'+eur2(g/o.length)+'** ('+o.length+' órdenes, '+eur2(g)+' total).';
+}
+function ansPaidUnpaid(){
+  var p=(DB.orders||[]).filter(function(o){return o.paid==='Pagado';}).length;
+  var np=(DB.orders||[]).filter(function(o){return o.paid!=='Pagado';}).length;
+  return 'Estado de pago: **'+p+'** pagadas, **'+np+'** sin pagar (de '+(DB.orders||[]).length+' órdenes).';
+}
+function ansConfig(){
+  var c=DB.config||{};
+  return 'Datos del emisor de las OC:\n• Razón social: '+(c.name||'—')+'\n• CIF: '+(c.cif||'—')+'\n• Condiciones de pago: '+(c.payTerms||'—')+'\n• Entrega: '+(c.delivery||'—');
+}
+function ansSPbySupplier(){
+  var conv=(DB.sps||[]).filter(function(s){return s.status==='Convertida';}).length;
+  var rej=(DB.sps||[]).filter(function(s){return s.status==='Rechazada';}).length;
+  return 'Solicitudes: '+(DB.sps||[]).filter(function(s){return s.status==='Abierta';}).length+' abiertas, '+conv+' convertidas en OC, '+rej+' rechazadas.';
+}
+function ansSPs(){
+  var open=(DB.sps||[]).filter(function(s){return s.status==='Abierta';});
+  if(!open.length)return 'No hay solicitudes de pedido abiertas.';
+  return 'Solicitudes abiertas ('+open.length+'):\n'+open.map(function(s){return '• '+s.id+' — '+(s.matDesc||s.material||'')+' ('+s.qty+') — '+(s.requester||'');}).join('\n');
+}
+function ansDelivery(){
+  var pend=(DB.orders||[]).filter(function(o){return o.delivery!=='Entregado'&&o.status==='Aprobada';});
+  if(!pend.length)return 'Todas las órdenes aprobadas están entregadas. ✅';
+  return 'Órdenes aprobadas sin entrega completa ('+pend.length+'):\n'+pend.map(function(o){return '• '+o.id+' — '+o.supplier+' — '+(o.delivery||'Pendiente');}).join('\n');
+}
+
+// ---- intent router ----
+function aiAnswer(q){
+  var n=norm(q);
+  var range=findDateRange(q);
+  var oc=findOC(q), sp=findSP(q), mat=findMaterial(q), sup=findSupplier(q), cc=findCC(q), buyer=findBuyer(q);
+  var has=function(){for(var i=0;i<arguments.length;i++){if(n.indexOf(arguments[i])>=0)return true;}return false;};
+  var asks=function(){return has.apply(null,arguments);};
+
+  // ---- COUNTS (cuántos / cuántas) ----
+  if(has('cuantos','cuántos','cuantas','cuántas','cantidad de','numero de','número de','total de')){
+    if(has('material'))return ansCount('materiales');
+    if(has('proveedor'))return ansCount('proveedores');
+    if(has('solicitud','sp'))return ansCount('solicitudes');
+    if(has('centro de costo','centro costo','centros de costo','centros costo'))return ansCount('cc');
+    if(has('usuario','comprador'))return ansCount('usuarios');
+    if(has('budget','presupuesto'))return ansCount('budgets');
+    if(has('categoria','categoría','rubro'))return ansCount('categorias');
+    if(has('orden','oc')&&sup)return ansOCbySupplier(sup);
+    if(has('orden','oc')&&!range)return ansCount('ordenes');
+  }
+  // "di de alta" / "cargué" -> counts
+  if(has('di de alta','dado de alta','cargue','cargué','registre','registré','tengo')){
+    if(has('material'))return ansCount('materiales');
+    if(has('proveedor'))return ansCount('proveedores');
+    if(has('orden','oc'))return ansCount('ordenes');
+    if(has('solicitud'))return ansCount('solicitudes');
+    if(has('usuario'))return ansCount('usuarios');
+    if(has('centro'))return ansCount('cc');
+  }
+  // ---- LAST / FIRST / AVG price of a material ----
+  if(mat&&has('ultimo precio','último precio','ultimo valor','último valor','precio actual','cuanto cuesta','cuánto cuesta','cuanto sale','cuánto sale','precio mas reciente','precio más reciente'))return ansLastPrice(mat);
+  if(mat&&has('primer precio','precio inicial','precio original'))return ansFirstPrice(mat);
+  if(mat&&has('precio promedio','promedio de precio','precio medio'))return ansAvgPrice(mat);
+  // ---- OC by supplier / status ----
+  if((has('cuantas oc','cuántas oc','cuantas orden','cuántas orden','ordenes por proveedor','órdenes por proveedor','oc por proveedor'))&&!has('estado'))return ansOCbySupplier(sup);
+  if(has('en revision','en revisión')&&has('cuantas','cuántas'))return ansOCbyStatus('revis');
+  if(has('parcial')&&has('cuantas','cuántas'))return 'Hay **'+(DB.orders||[]).filter(function(o){return o.delivery==='Parcial';}).length+'** órdenes con entrega parcial.';
+  if(has('por estado','cuantas aprobadas','cuántas aprobadas','cuantas rechazadas','cuántas rechazadas','cuantas pendientes','cuántas pendientes','cuantas en revision','cuántas en revisión'))return ansOCbyStatus(n.indexOf('aprob')>=0?'aprob':n.indexOf('rechaz')>=0?'rechaz':n.indexOf('pend')>=0?'pend':n.indexOf('revis')>=0?'revis':null);
+  // ---- MAX / MIN ----
+  if(has('mas cara','más cara','mayor monto','mas alta','más alta','orden mas grande','orden más grande','mayor orden'))return ansHighestOC();
+  if(has('mas barata','más barata','menor monto','mas baja','más baja','orden mas chica','orden más chica','menor orden'))return ansLowestOC();
+  if(has('mejor calificado','mejor rating','mejor proveedor','proveedor con mejor'))return ansBestRating();
+  if(has('mas savings','más savings','mas ahorro','más ahorro','mejor saving','quien ahorr','quién ahorr'))return ansBestSupplierSaving();
+  // ---- CC list / count standalone ----
+  if(has('centro de costo','centro costo','centros de costo','centros costo')&&has('que ','qué ','cuales','cuáles','listame','lista','mostrame','hay'))return ansCount('cc');
+  // ---- LISTS ----
+  if(has('lista de proveedor','listar proveedor','listame los proveedor','que proveedores tengo','qué proveedores tengo','cuales proveedores','cuáles proveedores','mostrame los proveedor','todos los proveedor'))return ansSupplierList();
+  if(has('lista de material','listar material','listame los material','que materiales tengo','qué materiales tengo','cuales materiales','cuáles materiales','mostrame los material','todos los material','catalogo de material','catálogo de material'))return ansMaterialList();
+  // materials by category
+  if(has('material')&&has('categoria','categoría','rubro')&&!has('cuantas','cuántas','cuantos','cuántos')){
+    var catWord=q.split(/categor[ií]a|rubro/i)[1];
+    if(catWord)return ansMaterialsByCategory(catWord.replace(/[:\s]+/,' ').trim().split(' ')[0]);
+  }
+  // ---- TICKET / PAID ----
+  if(has('ticket','promedio por orden','monto promedio','gasto promedio'))return ansAvgTicket(range);
+  if(has('cuantas pagadas','cuántas pagadas','cuantas sin pagar','cuántas sin pagar','pagadas y','pagado vs','estado de pago general'))return ansPaidUnpaid();
+  // ---- CONFIG ----
+  if(has('datos de la empresa','razon social','razón social','cif','emisor','datos del emisor','condiciones generales'))return ansConfig();
+  // ---- SP status breakdown ----
+  if(has('solicitud')&&has('estado','convertida','rechazada','cuantas'))return ansSPbySupplier();
+
+
+  // comment of an OC
+  if(oc&&has('coment','observ','nota'))return ansComment(oc);
+  // OC detail
+  if(oc)return ansOC(oc);
+  // SP
+  if(sp){var s=(DB.sps||[]).find(function(x){return x.id===sp;});return s?('**'+s.id+'** — '+(s.matDesc||s.material||'')+'\n• Estado: '+s.status+'\n• Solicitante: '+(s.requester||'—')+'\n• Cantidad: '+s.qty+(s.linkedPO?'\n• OC vinculada: '+s.linkedPO:'')):'No encontré la solicitud '+sp+'.';}
+
+  // price trend
+  if(mat&&has('tendencia','precio','evolucion','evolución','vario','varió','varia','subio','subió','historico','histórico'))return ansPriceTrend(mat);
+  // payment terms
+  if(has('plazo de pago','plazo pago','condicion de pago','condiciones de pago','dias de pago','paga','pago promedio')&&!oc)return ansPayTerms(sup);
+  // supplier profile
+  if(sup&&has('como es','cómo es','quien es','quién es','proveedor','contame','datos de','informacion de','información de','rating','telefono','teléfono','email','contacto'))return ansSupplier(sup);
+  if(sup&&!mat&&!has('top','ranking'))return ansSupplier(sup);
+  // pending approvals
+  if(has('pendiente','aprobar','aprobacion','aprobación','por aprobar','sin aprobar'))return ansPending();
+  // delivery
+  if(has('entrega','entregad','entrego','entregó','recib','sin entregar','pendiente de entrega','no se entrego','no se entregó','falta entregar'))return ansDelivery();
+  // top suppliers / ranking
+  if(has('top','ranking','principales','mayores')&&has('proveedor'))return ansTopSuppliers(range);
+  // by cost center
+  if(cc&&has('cuanto','cuánto','gasto','gastamos','gasté'))return ansByCC(range);
+  if(has('centro de costo','centro costo','por area','por área'))return ansByCC(range);
+  // by buyer
+  if(has('comprador','por persona','quien compro','quién compró','gestion por','gestión por'))return ansByBuyer(range);
+  // budget
+  if(has('budget','presupuesto','ejecucion','ejecución'))return ansBudget();
+  // material profile
+  if(mat)return ansMaterial(mat);
+  // SP list
+  if(has('solicitud','solicitudes','sp ','pedido'))return ansSPs();
+  // ordenes de un periodo -> resumen
+  if(range&&has('orden','ordenes','órdenes','oc'))return ansSummary(range);
+  // summary / spend / savings
+  if(has('resumen','resumime','gasto','savings','ahorro','ahorramos','ahorrado','cuanto gast','cuánto gast','cuanto ahorr','cuánto ahorr','total'))return ansSummary(range);
+  // fallback
+  return null;
+}
+function aiAsk(){
+  var inp=document.getElementById('aiInput');
+  var q=(inp.value||'').trim();if(!q)return;
+  document.getElementById('aiSuggests').innerHTML='';
+  aiAddMsg(q,'user');inp.value='';
+  var ans=null;
+  try{ans=aiAnswer(q);}catch(e){ans=null;}
+  if(!ans){
+    ans='No estoy seguro de cómo responder eso. Puedo ayudarte con:\n• Tendencia de precio de un material (ej: "tendencia de MAT-002")\n• Datos de un proveedor (ej: "cómo es Indutech")\n• Plazos de pago por proveedor\n• Detalle o comentario de una OC (ej: "comentario de PO-2045")\n• Resúmenes de gasto/savings (podés filtrar por mes o año)\n• Gasto por centro de costo, por comprador, top proveedores, budget, entregas, solicitudes';
+  }
+  setTimeout(function(){aiAddMsg(ans,'bot');aiRefreshChips();},250);
+}
 </script>
+
+<!-- ASISTENTE IA -->
+<button class="ai-fab" id="aiFab" onclick="toggleAI()" title="Asistente inteligente" aria-label="Asistente">
+  <span class="ai-badge">✦</span>
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><circle cx="8.5" cy="10.5" r="1" fill="currentColor"/><circle cx="12" cy="10.5" r="1" fill="currentColor"/><circle cx="15.5" cy="10.5" r="1" fill="currentColor"/></svg>
+</button>
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-head">
+    <div class="ai-head-ic"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.6 5.7 21l2.3-7.2-6-4.4h7.6z"/></svg></div>
+    <div class="ai-head-t"><div class="n">Asistente Lemalli</div><div class="s">Pregunta sobre tus datos de compras</div></div>
+    <button class="ai-close" onclick="toggleAI()" aria-label="Cerrar"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" style="width:20px;height:20px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div class="ai-body" id="aiBody"></div>
+  <div class="ai-suggests" id="aiSuggests"></div>
+  <div class="ai-foot">
+    <textarea class="ai-input" id="aiInput" rows="1" placeholder="Escribí tu pregunta..." onkeydown="aiKey(event)"></textarea>
+    <button class="ai-send" id="aiSend" onclick="aiAsk()" aria-label="Enviar"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+  </div>
+</div>
+
 </body>
 </html>

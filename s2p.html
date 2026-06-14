@@ -289,6 +289,10 @@ table.raw tbody tr:hover{background:var(--bg)}
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
         <span>Proveedores</span>
       </button>
+      <button class="nav-item" data-view="services">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+        <span>Servicios</span>
+      </button>
       <div class="sb-section">Análisis</div>
       <button class="nav-item" data-view="budget">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
@@ -328,7 +332,7 @@ table.raw tbody tr:hover{background:var(--bg)}
         <span>Configuración</span>
       </button>
     </nav>
-    <div class="sb-foot">Demo · Datos locales</div>
+    <div class="sb-foot">Lemalli S2P</div>
   </aside>
 
   <!-- MAIN -->
@@ -374,11 +378,11 @@ var SEED={
     {id:'PO-2041',cc:'CC-100',supplier:'Acme Logística S.L.',category:'Logística',material:'MAT-001',matDesc:'Transporte FTL nacional (viaje)',qty:400,amount:184000,budgetCat:'Logística',buyer:'nahuel',type:'Servicio',date:'2026-01-12',status:'Aprobada',saving:12400,delivery:'Entregado',paid:'Pagado',comment:''},
     {id:'PO-2042',cc:'CC-200',supplier:'Indutech Ibérica',category:'Manufactura',material:'MAT-002',matDesc:'Acero laminado S275 (ton)',qty:500,amount:296500,budgetCat:'Producción',buyer:'maria',type:'Material',date:'2026-01-20',status:'Aprobada',saving:21800,delivery:'Entregado',paid:'Pagado',comment:''},
     {id:'PO-2043',cc:'CC-400',supplier:'OfiPlus Suministros',category:'Indirectos',material:'MAT-003',matDesc:'Material de oficina (pack)',qty:380,amount:38900,budgetCat:'Indirectos',buyer:'nahuel',type:'Material',date:'2026-02-03',status:'Pendiente',saving:3100,delivery:'Pendiente',paid:'No pagado',comment:'Esperando confirmación de stock'},
-    {id:'PO-2044',cc:'CC-300',supplier:'NorthData Cloud',category:'Tecnología',material:'MAT-004',matDesc:'Licencia cloud enterprise (ud)',qty:200,amount:122000,budgetCat:'Tecnología',buyer:'maria',type:'Servicio',date:'2026-02-15',status:'Aprobada',saving:18600,delivery:'Entregado',paid:'Pagado',comment:''},
+    {id:'PO-2044',cc:'CC-300',supplier:'NorthData Cloud',category:'Tecnología',material:'MAT-004',matDesc:'Licencia cloud enterprise (ud)',qty:200,amount:122000,budgetCat:'Tecnología',currency:'EUR',buyer:'maria',type:'Servicio',date:'2026-02-15',status:'Aprobada',saving:18600,delivery:'Entregado',paid:'Pagado',comment:''},
     {id:'PO-2045',cc:'CC-100',supplier:'Transer Express',category:'Transporte',material:'MAT-005',matDesc:'Ruta last-mile (servicio)',qty:250,amount:74500,budgetCat:'Logística',buyer:'nahuel',type:'Servicio',date:'2026-03-01',status:'Aprobada',saving:6900,delivery:'Parcial',paid:'No pagado',comment:'Entrega parcial 60% — resto semana próxima'},
     {id:'PO-2046',cc:'CC-100',supplier:'Acme Logística S.L.',category:'Logística',material:'MAT-001',matDesc:'Transporte FTL nacional (viaje)',qty:330,amount:159000,budgetCat:'Logística',buyer:'nahuel',type:'Servicio',date:'2026-03-18',status:'En revisión',saving:9200,delivery:'Pendiente',paid:'No pagado',comment:''},
     {id:'PO-2047',cc:'CC-200',sp:'SP-1001',supplier:'Indutech Ibérica',category:'Manufactura',material:'MAT-002',matDesc:'Acero laminado S275 (ton)',qty:540,amount:331000,budgetCat:'Producción',buyer:'maria',type:'Material',date:'2026-04-05',status:'Aprobada',saving:27500,delivery:'Entregado',paid:'No pagado',comment:'Factura recibida, pago a 60 días'},
-    {id:'PO-2048',cc:'CC-300',supplier:'NorthData Cloud',category:'Tecnología',material:'MAT-004',matDesc:'Licencia cloud enterprise (ud)',qty:165,amount:98000,budgetCat:'Tecnología',buyer:'maria',type:'Servicio',date:'2026-04-22',status:'Aprobada',saving:11200,delivery:'Entregado',paid:'Pagado',comment:''},
+    {id:'PO-2048',cc:'CC-300',supplier:'NorthData Cloud',category:'Tecnología',material:'MAT-004',matDesc:'Licencia cloud enterprise (ud)',qty:165,amount:98000,budgetCat:'Tecnología',currency:'EUR',buyer:'maria',type:'Servicio',date:'2026-04-22',status:'Aprobada',saving:11200,delivery:'Entregado',paid:'Pagado',comment:''},
     {id:'PO-2049',cc:'CC-400',supplier:'OfiPlus Suministros',category:'Indirectos',material:'MAT-003',matDesc:'Material de oficina (pack)',qty:430,amount:45200,budgetCat:'Indirectos',buyer:'nahuel',type:'Material',date:'2026-05-09',status:'Pendiente',saving:2400,delivery:'Pendiente',paid:'No pagado',comment:''},
     {id:'PO-2050',cc:'CC-100',sp:'SP-1002',supplier:'Transer Express',category:'Transporte',material:'MAT-001',matDesc:'Transporte FTL nacional (viaje)',qty:185,amount:88000,budgetCat:'Logística',buyer:'maria',type:'Servicio',date:'2026-05-24',status:'Aprobada',saving:7600,delivery:'Parcial',paid:'No pagado',comment:''}
   ],
@@ -407,13 +411,13 @@ var SEED={
   config:{
     name:'Tu Empresa S.L.',cif:'B-00000000',address:'Calle Ejemplo 123, 28001 Madrid',
     phone:'+34 600 000 000',email:'compras@tuempresa.com',web:'www.tuempresa.com',
-    payTerms:'Transferencia a 30 días fecha factura',delivery:'Almacén central — entrega DDP',
+    payTerms:'Transferencia a 30 días fecha factura',delivery:'Almacén central — entrega DDP',baseCurrency:'USD',dataCurrency:'USD',
     notes:'Esta orden de compra se rige por las condiciones generales de contratación de la empresa emisora. La recepción de mercadería está sujeta a control de calidad y conformidad con las especificaciones acordadas.'
   }
 };
 
-var DB={orders:[],suppliers:[],budgets:[],ccs:[],sps:[],users:[],config:{},materials:[],inventory:[]};
-var _deleted={orders:[],sps:[],suppliers:[],ccs:[],materials:[],inventory:[]}; // track deletions to sync
+var DB={orders:[],suppliers:[],budgets:[],ccs:[],sps:[],users:[],config:{},materials:[],inventory:[],services:[]};
+var _deleted={orders:[],sps:[],suppliers:[],ccs:[],materials:[],inventory:[],services:[]}; // track deletions to sync
 
 // ===== CARGA DESDE SUPABASE =====
 async function loadFromSupabase(){
@@ -438,7 +442,20 @@ async function loadFromSupabase(){
   DB.users=(res[6].data||[]).map(function(p){return {user:p.name,name:p.name,role:p.role};});
   DB.materials=(res[7]&&res[7].data)||[];
   DB.inventory=(res[8]&&res[8].data)||[];
-  _deleted={orders:[],sps:[],suppliers:[],ccs:[],materials:[],inventory:[]};
+  // servicios: módulo propio. La tabla puede no existir todavía; si falla, queda en memoria.
+  try{ var sv=await sb.from('services').select('*').eq('company_id',cid); DB.services=(sv&&sv.data)||[]; }
+  catch(e){ DB.services=DB.services||[]; }
+  if(!DB.services)DB.services=[];
+  if(!DB.services.length){
+    var s4=(DB.suppliers.find(function(x){return x.name&&x.name.indexOf('NorthData')>=0;})||{}).id||'';
+    var s5=(DB.suppliers.find(function(x){return x.name&&x.name.indexOf('Transer')>=0;})||{}).id||'';
+    DB.services=[
+      {id:'SV-1',name:'Licencia cloud enterprise',svcType:'Suscripción',supplierId:s4,start:'2025-07-01',end:'2026-06-30',amount:48000,currency:'USD',owner:'IT — Marina López',cc:'CC-300',note:'Renovación automática salvo aviso 60 días antes.'},
+      {id:'SV-2',name:'Transporte y distribución',svcType:'Mensual',supplierId:s5,start:'2025-01-01',end:'2026-12-31',amount:12000,currency:'EUR',owner:'Logística — Diego Ruiz',cc:'CC-200',note:'Tarifa por ruta con revisión semestral de combustible.'},
+      {id:'SV-3',name:'Auditoría de procesos',svcType:'Por proyecto',supplierId:'',start:'2026-03-01',end:'2026-07-31',amount:25000,currency:'USD',owner:'Dirección — Nahuel',cc:'CC-100',note:'Servicio sin proveedor fijo asignado todavía.'}
+    ];
+  }
+  _deleted={orders:[],sps:[],suppliers:[],ccs:[],materials:[],inventory:[],services:[]};
 }
 
 // ===== GUARDADO EN SUPABASE =====
@@ -469,6 +486,7 @@ async function syncToSupabase(){
     if(DB.ccs.length)      await sb.from('ccs').upsert(DB.ccs.map(cleanRow));
     if(DB.materials.length)await sb.from('materials').upsert(DB.materials.map(cleanRow));
     if(DB.inventory.length)await sb.from('inventory').upsert(DB.inventory.map(cleanRow));
+    if(DB.services&&DB.services.length){ try{ await sb.from('services').upsert(DB.services.map(cleanRow)); }catch(e){ /* tabla services aún no creada */ } }
     if(DB.budgets.length)  await sb.from('budgets').upsert(DB.budgets.map(cleanRow));
     if(DB.config&&DB.config.name!==undefined){
       var cfg=cleanRow(DB.config); delete cfg.id; cfg.company_id=SESSION.company_id;
@@ -513,7 +531,8 @@ async function afterLogin(user){
     await sb.auth.signOut();return;
   }
   await loadFromSupabase();
-  await loadFX((DB.config&&DB.config.baseCurrency)||'EUR');
+  await preloadOrderFX();
+  await loadFX((DB.config&&DB.config.baseCurrency)||'USD');
   enterApp();
 }
 async function doLogout(){
@@ -561,13 +580,33 @@ function eur(n){return '€'+Number(n).toLocaleString('es-ES');}
 function ocMoney(o){var c=(o&&o.currency)||'EUR';return curSymbol(c)+Number((o&&o.amount)||0).toLocaleString('es-ES');}
 function ocMoneyVal(amount,cur){return curSymbol(cur||'EUR')+Number(amount||0).toLocaleString('es-ES');}
 function eurK(n){var s=curSymbol(FX.base);if(Math.abs(n)>=1e6)return s+(n/1e6).toFixed(2)+'M';if(Math.abs(n)>=1e3)return s+Math.round(n/1e3)+'K';return s+Math.round(n);}
-function sum(arr,key){return arr.reduce(function(a,b){var v=+b[key]||0;if((key==='amount'||key==='saving')&&b.currency)v=toBase(v,b.currency);return a+v;},0);}
+// claves monetarias que SIEMPRE deben convertirse a la moneda de display
+var MONEY_KEYS={amount:1,saving:1,budget:1,price:1,total:1};
+function sum(arr,key){return arr.reduce(function(a,b){var v=+b[key]||0;if(MONEY_KEYS[key]){v=toBaseOrder(v,b);}return a+v;},0);}
+// FX.rates SIEMPRE se carga con from=USD (ver loadFX). 'rates[X]' = X por 1 USD.
+// convierte el importe de UNA OC a la base de display, usando su TC propio (manual o histórico)
+function toBaseOrder(amount,o){
+  amount=+amount||0;
+  // moneda en la que está expresado el importe crudo:
+  //  - si la OC declara currency, esa;
+  //  - si no, la moneda en que se cargaron los datos (config.dataCurrency), por defecto USD.
+  var cur=(o&&o.currency)||(DB.config&&DB.config.dataCurrency)||'USD';
+  // 1) de 'cur' a USD: usd = amount * (USD por 1 'cur')
+  var usd=amount*usdPerUnit(o,cur);
+  // 2) de USD a la moneda de display de hoy
+  if(FX.base==='USD')return usd;
+  var perUsd=FX.rates[FX.base];   // 'display' por 1 USD
+  return (perUsd&&perUsd>0)?usd*perUsd:usd;
+}
+// monto de una OC convertido a la moneda de display (respeta TC propio/histórico)
+function amt(o){return toBaseOrder(+((o&&o.amount))||0,o);}
+function amtOf(o,key){return toBaseOrder(+((o&&o[key]))||0,o);}
 function byMonth(orders){
   var m={};
   orders.forEach(function(o){
     var k=o.date.slice(0,7);
     if(!m[k])m[k]={spend:0,saving:0};
-    m[k].spend+=+o.amount; m[k].saving+=+o.saving;
+    m[k].spend+=amt(o); m[k].saving+=amtOf(o,'saving');
   });
   return m;
 }
@@ -598,29 +637,91 @@ function toast(msg){var t=document.getElementById('toast');document.getElementBy
 var charts={};
 // ===== MULTIMONEDA =====
 var CURRENCIES=['EUR','USD','GBP','ARS','BRL','MXN','CLP','COP','UYU','PEN'];
-var FX={base:'EUR',rates:{EUR:1},date:'',loaded:false};
+var FX={base:'USD',rates:{USD:1},date:'',loaded:false};
+// Tasas de respaldo (aprox., 'X por 1 USD'). Se usan SOLO si la API de TC no responde
+// (sin red / CORS / rate limit). Evita que al cambiar de moneda cambie el símbolo
+// pero no el valor. Valores aproximados — se sobrescriben con TC real al cargar.
+var FX_FALLBACK={USD:1,EUR:0.92,GBP:0.79,ARS:1180,BRL:5.45,MXN:18.5,CLP:945,COP:4050,UYU:40,PEN:3.75};
+// ===== TC HISTÓRICO POR FECHA =====
+// FXHIST[YYYY-MM-DD] = { base:'USD', rates:{EUR:.., ...} } cacheado por fecha de OC
+var FXHIST={};
+// trae el TC de una fecha concreta (Frankfurter / BCE) con base USD; cae al más cercano hábil
+async function loadFXForDate(date){
+  if(!date)return null;
+  if(FXHIST[date])return FXHIST[date];
+  try{
+    var r=await fetch('https://api.frankfurter.app/'+date+'?from=USD');
+    var d=await r.json();
+    var rates={USD:1};
+    Object.keys(d.rates||{}).forEach(function(k){rates[k]=d.rates[k];});
+    var rec={base:'USD',rates:rates,date:d.date||date};
+    FXHIST[date]=rec; return rec;
+  }catch(e){
+    // sin conexión: usar tasas de respaldo para esa fecha (aprox.)
+    var fb={}; Object.keys(FX_FALLBACK).forEach(function(k){fb[k]=FX_FALLBACK[k];});
+    var rec2={base:'USD',rates:fb,date:date};
+    FXHIST[date]=rec2; return rec2;
+  }
+}
+// precarga el TC histórico de todas las fechas de OC que no tengan TC manual
+async function preloadOrderFX(){
+  var fechas={};
+  (DB.orders||[]).forEach(function(o){ if(o.date)fechas[o.date]=1; });
+  var ds=Object.keys(fechas);
+  for(var i=0;i<ds.length;i++){ await loadFXForDate(ds[i]); }
+}
+// devuelve cuántas unidades de 'cur' equivalen a 1 USD, en la fecha de la OC.
+// prioridad: TC manual de la OC -> histórico de la fecha -> TC del día -> 1
+// cuántos USD vale 1 unidad de 'cur', para la OC dada.
+// prioridad: TC manual de la OC (USD por 1 'cur') -> histórico de la fecha -> TC del día -> 1
+function usdPerUnit(o,cur){
+  cur=cur||'USD';
+  if(cur==='USD')return 1;
+  // TC manual intuitivo: cuántos USD vale 1 'cur' (ej 1 EUR = 1.08 USD => 1.08)
+  if(o&&o.fxToUsd&&+o.fxToUsd>0)return +o.fxToUsd;
+  // histórico de la fecha: FXHIST[date].rates[cur] = cuántas 'cur' por 1 USD => invertir
+  if(o&&o.date&&FXHIST[o.date]&&FXHIST[o.date].rates[cur])return 1/FXHIST[o.date].rates[cur];
+  // TC del día: FX.rates[cur] = 'cur' por 1 USD => invertir
+  if(FX.rates[cur])return 1/FX.rates[cur];
+  return 1;
+}
+// compat: algunos sitios viejos llaman rateForOrder; lo mantenemos devolviendo 'cur por 1 USD'
+function rateForOrder(o,cur){var u=usdPerUnit(o,cur);return (u>0)?1/u:1;}
+// referencia automática: cuántos USD vale 1 'cur' en esa fecha (intuitivo)
+function refRateForDate(date,cur){
+  if(!cur||cur==='USD')return 1;
+  if(date&&FXHIST[date]&&FXHIST[date].rates[cur])return 1/FXHIST[date].rates[cur];
+  if(FX.rates[cur])return 1/FX.rates[cur];
+  return null;
+}
 function curOptions(sel){return CURRENCIES.map(function(c){return '<option value="'+c+'"'+(c===sel?' selected':'')+'>'+c+'</option>';}).join('');}
 function curSymbol(c){return ({EUR:'€',USD:'US$',GBP:'£',ARS:'$',BRL:'R$',MXN:'$',CLP:'$',COP:'$',UYU:'$',PEN:'S/'})[c]||c+' ';}
 // fetch live rates from Frankfurter (ECB), base = display currency
 async function loadFX(base){
-  base=base||(DB.config&&DB.config.baseCurrency)||'EUR';
+  base=base||(DB.config&&DB.config.baseCurrency)||'USD';
   FX.base=base;
   try{
-    var r=await fetch('https://api.frankfurter.app/latest?from='+base);
+    var r=await fetch('https://api.frankfurter.app/latest?from=USD');
     var d=await r.json();
-    FX.rates={}; FX.rates[base]=1;
+    FX.rates={USD:1};
     Object.keys(d.rates||{}).forEach(function(k){FX.rates[k]=d.rates[k];});
     FX.date=d.date||''; FX.loaded=true;
-  }catch(e){ FX.loaded=false; /* sin conexión: se usa 1:1 con aviso */ }
+  }catch(e){
+    // sin conexión / CORS / rate limit: usar tasas de respaldo para que igual convierta
+    FX.rates={}; Object.keys(FX_FALLBACK).forEach(function(k){FX.rates[k]=FX_FALLBACK[k];});
+    FX.date=''; FX.loaded=false;
+  }
 }
 // convert an amount in currency 'from' into the display base
 function toBase(amount,from){
-  amount=+amount||0; from=from||'EUR';
+  amount=+amount||0; from=from||'USD';
   if(from===FX.base)return amount;
-  // FX.rates[X] = cuántas unidades de X equivalen a 1 base => base = amount / rate[from]
-  var rate=FX.rates[from];
-  if(!rate)return amount; // sin tasa: devolver tal cual
-  return amount/rate;
+  // FX.rates[X] = X por 1 USD. Paso 'from' a USD y luego a la moneda de display.
+  var rFrom=FX.rates[from]; var usd=(rFrom&&rFrom>0)?amount/rFrom:(from==='USD'?amount:amount);
+  if(from==='USD')usd=amount;
+  if(FX.base==='USD')return usd;
+  var rDisp=FX.rates[FX.base];
+  return (rDisp&&rDisp>0)?usd*rDisp:usd;
 }
 function destroyCharts(){for(var k in charts){if(charts[k]){charts[k].destroy();}}charts={};}
 
@@ -631,6 +732,7 @@ var TITLES={
   orders:['Órdenes de compra','Repositorio de pedidos'],
   'new-order':['Cargar pedido','Registrar nueva orden de compra'],
   suppliers:['Proveedores','Contactos y categorías'],
+  services:['Servicios','Servicios contratados como módulo propio · proveedor opcional'],
   budget:['Budget vs Gasto','Ejecución presupuestaria por categoría'],
   savings:['Savings vs Budget','Ahorro capturado contra presupuesto'],
   prices:['Histórico de precios','Evolución de precio unitario por código de material'],
@@ -658,6 +760,7 @@ function render(view){
   else if(view==='orders')c.innerHTML=viewOrders();
   else if(view==='new-order')c.innerHTML=viewNewOrder();
   else if(view==='suppliers')c.innerHTML=viewSuppliers();
+  else if(view==='services')c.innerHTML=viewServices();
   else if(view==='budget')c.innerHTML=viewBudget();
   else if(view==='savings')c.innerHTML=viewSavings();
   else if(view==='prices')c.innerHTML=viewPrices();
@@ -675,19 +778,25 @@ function render(view){
     if(view==='savings')buildSavingsChart();
     if(view==='prices')buildPriceChart();
     if(view==='direccion')buildDireccionCharts();
-    if(view==='new-order'){applySPPrefill();onTypeChange();}
+    if(view==='new-order'){applySPPrefill();onTypeChange();onOrderCurrency();}
   },30);
 }
 
 // ---- DASHBOARD ----
-var DFILTER={from:'',to:''};
+var DFILTER={from:'',to:'',cat:'',sup:''};
 function dashOrders(){
   return DB.orders.filter(function(o){
     if(DFILTER.from&&o.date<DFILTER.from)return false;
     if(DFILTER.to&&o.date>DFILTER.to)return false;
+    if(DFILTER.cat&&o.category!==DFILTER.cat)return false;
+    if(DFILTER.sup&&o.supplier!==DFILTER.sup)return false;
     return true;
   });
 }
+function onDashCat(v){DFILTER.cat=v;render('dashboard');}
+function onDashSup(v){DFILTER.sup=v;render('dashboard');}
+function dashCats(){var c={};DB.orders.forEach(function(o){if(o.category)c[o.category]=1;});return Object.keys(c).sort();}
+function dashSups(){var c={};DB.orders.forEach(function(o){if(o.supplier)c[o.supplier]=1;});return Object.keys(c).sort();}
 function changeDisplayCurrency(c){
   if(DB.config)DB.config.baseCurrency=c;
   toast('Convirtiendo todo a '+c+'...');
@@ -709,7 +818,9 @@ function viewDashboard(){
     '<div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">'+
     '<span class="date-lbl">Período: desde</span><input type="date" class="filter-sel" value="'+DFILTER.from+'" onchange="onDashFrom(this.value)">'+
     '<span class="date-lbl">hasta</span><input type="date" class="filter-sel" value="'+DFILTER.to+'" onchange="onDashTo(this.value)">'+
-    (DFILTER.from||DFILTER.to?'<button class="btn btn-ghost" onclick="DFILTER={from:\'\',to:\'\'};render(\'dashboard\')">Limpiar</button>':'')+
+    '<span class="date-lbl">Sector</span><select class="filter-sel" onchange="onDashCat(this.value)"><option value="">Todos</option>'+dashCats().map(function(c){return '<option value="'+c.replace(/"/g,'&quot;')+'"'+(DFILTER.cat===c?' selected':'')+'>'+c+'</option>';}).join('')+'</select>'+
+    '<span class="date-lbl">Proveedor</span><select class="filter-sel" onchange="onDashSup(this.value)"><option value="">Todos</option>'+dashSups().map(function(c){return '<option value="'+c.replace(/"/g,'&quot;')+'"'+(DFILTER.sup===c?' selected':'')+'>'+c+'</option>';}).join('')+'</select>'+
+    (DFILTER.from||DFILTER.to||DFILTER.cat||DFILTER.sup?'<button class="btn btn-ghost" onclick="DFILTER={from:\'\',to:\'\',cat:\'\',sup:\'\'};render(\'dashboard\')">Limpiar</button>':'')+
     '</div>'+
     '<div style="display:flex;align-items:center;gap:.5rem">'+
     '<span class="date-lbl">Ver todo en</span><select class="filter-sel" onchange="changeDisplayCurrency(this.value)">'+curOptions(FX.base)+'</select>'+
@@ -750,7 +861,7 @@ function buildDashCharts(){
     options:chartOpts(true)
   });
   // category doughnut
-  var catMap={};dashOrders().forEach(function(o){catMap[o.category]=(catMap[o.category]||0)+o.amount;});
+  var catMap={};dashOrders().forEach(function(o){catMap[o.category]=(catMap[o.category]||0)+amt(o);});
   charts.cat=new Chart(document.getElementById('ch-cat'),{
     type:'doughnut',
     data:{labels:Object.keys(catMap),datasets:[{data:Object.values(catMap),backgroundColor:['#2563eb','#7c3aed','#0891b2','#d97706','#16a34a'],borderWidth:0}]},
@@ -950,12 +1061,7 @@ function openSupplierModal(i){
       '<div class="field"><label>Teléfono</label><input type="text" id="sp-phone" value="'+(s.phone||'')+'" placeholder="+34 ..."></div>'+
       '<div class="field"><label>Rating (0–5)</label><input type="number" id="sp-rating" min="0" max="5" step="0.1" value="'+(s.rating||0)+'"></div>'+
     '</div>'+
-    '<div class="card-sub" style="margin:1.2rem 0 .8rem;font-weight:600;color:var(--slate)">Contrato (servicios)</div>'+
-    '<div class="form-grid">'+
-      '<div class="field"><label>Inicio de contrato</label><input type="date" id="sp-cstart" value="'+(s.contractStart||'')+'"></div>'+
-      '<div class="field"><label>Fin de contrato</label><input type="date" id="sp-cend" value="'+(s.contractEnd||'')+'"></div>'+
-      '<div class="field full"><label>Comentarios del contrato</label><textarea id="sp-cnote" rows="2" placeholder="Condiciones, alcance, renovación automática, etc.">'+(s.contractNote||'')+'</textarea></div>'+
-    '</div><div class="form-actions"><button class="btn btn-primary" onclick="saveSupplier('+i+')">'+(isNew?'Crear proveedor':'Guardar')+'</button>'+
+    '<div class="form-actions"><button class="btn btn-primary" onclick="saveSupplier('+i+')">'+(isNew?'Crear proveedor':'Guardar')+'</button>'+
     '<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button></div>';
   document.getElementById('modalBg').classList.add('show');
 }
@@ -972,10 +1078,7 @@ function saveSupplier(i){
     contact:(document.getElementById('sp-contact').value||'').trim(),
     email:(document.getElementById('sp-email').value||'').trim(),
     phone:(document.getElementById('sp-phone').value||'').trim(),
-    rating:+document.getElementById('sp-rating').value||0,
-    contractStart:(document.getElementById('sp-cstart')||{}).value||'',
-    contractEnd:(document.getElementById('sp-cend')||{}).value||'',
-    contractNote:((document.getElementById('sp-cnote')||{}).value||'').trim()
+    rating:+document.getElementById('sp-rating').value||0
   };
   if(isNew){
     if((DB.suppliers||[]).some(function(x){return x.name===name;})){toast('Ya existe un proveedor con ese nombre');return;}
@@ -984,7 +1087,7 @@ function saveSupplier(i){
   }else{
     var s=DB.suppliers[i];if(!s)return;
     var oldName=s.name;
-    s.name=name;s.category=data.category;s.contact=data.contact;s.email=data.email;s.phone=data.phone;s.rating=data.rating;s.contractStart=data.contractStart;s.contractEnd=data.contractEnd;s.contractNote=data.contractNote;
+    s.name=name;s.category=data.category;s.contact=data.contact;s.email=data.email;s.phone=data.phone;s.rating=data.rating;
     if(name!==oldName){DB.orders.forEach(function(o){if(o.supplier===oldName)o.supplier=name;});}
     save();closeModal();toast('Proveedor actualizado');render('suppliers');
   }
@@ -1026,7 +1129,8 @@ function printOrder(idx){
   var sup=(DB.suppliers||[]).find(function(s){return s.name===o.supplier;})||{};
   var d=new window.jspdf.jsPDF({unit:'pt',format:'a4'});
   var W=595,M=48,y=0;
-  function money(n){return Number(n||0).toLocaleString('es-ES',{maximumFractionDigits:2})+' EUR';}
+  var OCUR=(o.currency||'USD');
+  function money(n){return Number(n||0).toLocaleString('es-ES',{maximumFractionDigits:2})+' '+OCUR;}
   d.setFillColor(201,160,32);d.rect(0,0,W,4,'F');
   d.setDrawColor(26,82,51);d.setLineWidth(2);d.rect(M,36,34,34);
   d.setDrawColor(201,160,32);d.setLineWidth(2.5);d.line(M+17,53,M+30,53);
@@ -1131,8 +1235,12 @@ function viewNewOrder(){
     '<div class="field"><label>Categoría de budget</label><select id="f-budget" required>'+budOpts+'</select></div>'+
     '<div class="field"><label>Estado inicial</label><input type="text" value="Pendiente de aprobación" disabled></div>'+
     '<div class="field"><label>Monto</label><input type="number" id="f-amount" min="0" step="100" placeholder="0" required></div>'+
-    '<div class="field"><label>Moneda</label><select id="f-currency">'+curOptions(DB.config&&DB.config.baseCurrency||'EUR')+'</select></div>'+
-    '<div class="field"><label>Saving estimado (€)</label><input type="number" id="f-saving" min="0" step="100" placeholder="0" value="0"></div>'+
+    '<div class="field"><label>Moneda</label><select id="f-currency" onchange="onOrderCurrency()">'+curOptions(DB.config&&DB.config.baseCurrency||'USD')+'</select></div>'+
+    '<div class="field" id="fxField" style="display:none"><label>TC original <span id="fxHelp" style="color:var(--muted);font-weight:400"></span></label>'+
+      '<div style="display:flex;gap:.4rem;align-items:center"><input type="number" id="f-fx" min="0" step="0.0001" placeholder="0.0000" style="flex:1">'+
+      '<button type="button" class="btn btn-ghost" style="padding:.45rem .6rem;white-space:nowrap" onclick="useRefFX()" title="Usar el TC de referencia de la fecha">Ref.</button></div>'+
+      '<div id="fxRefLine" style="font-size:.7rem;color:var(--muted);margin-top:.25rem"></div></div>'+
+    '<div class="field"><label>Saving estimado</label><input type="number" id="f-saving" min="0" step="100" placeholder="0" value="0"></div>'+
     '<div class="field full"><label>Notas (opcional)</label><textarea id="f-notes" rows="2" placeholder="Detalle del pedido, condiciones, plazos..."></textarea></div>'+
   '</div><div class="form-actions"><button type="submit" class="btn btn-primary">Guardar orden</button><button type="button" class="btn btn-ghost" onclick="go(\'orders\')">Cancelar</button></div></form></div>';
 }
@@ -1140,6 +1248,33 @@ function onTypeChange(){
   var t=(document.getElementById('f-type')||{}).value;
   var f=document.getElementById('matCodeField');
   if(f)f.style.display=(t==='Servicio')?'none':'';
+}
+// muestra/oculta el campo de TC según la moneda (USD no necesita TC) y trae la referencia de la fecha
+async function onOrderCurrency(){
+  var cur=(document.getElementById('f-currency')||{}).value||'USD';
+  var field=document.getElementById('fxField');
+  var help=document.getElementById('fxHelp');
+  var refLine=document.getElementById('fxRefLine');
+  if(!field)return;
+  if(cur==='USD'){ field.style.display='none'; return; }
+  field.style.display='';
+  if(help)help.textContent='(USD por 1 '+cur+')';
+  var date=(document.getElementById('f-date')||{}).value;
+  if(refLine)refLine.textContent='Buscando TC de referencia de '+(date||'la fecha')+'...';
+  var rec=await loadFXForDate(date);
+  var ref=rec&&rec.rates[cur]?(1/rec.rates[cur]):null;   // USD por 1 'cur'
+  if(ref){
+    if(refLine)refLine.innerHTML='Referencia BCE '+(rec.date||date)+': <strong>1 '+cur+' = '+ref.toFixed(4)+' USD</strong> · tocá «Ref.» para usarlo';
+    var inp=document.getElementById('f-fx');
+    if(inp&&!inp.value)inp.value=ref.toFixed(4);
+  }else if(refLine){refLine.textContent='Sin TC de referencia para esa fecha — cargalo a mano.';}
+}
+function useRefFX(){
+  var cur=(document.getElementById('f-currency')||{}).value||'USD';
+  var date=(document.getElementById('f-date')||{}).value;
+  var ref=refRateForDate(date,cur);
+  if(ref){document.getElementById('f-fx').value=ref.toFixed(4);toast('TC de referencia aplicado');}
+  else toast('No hay TC de referencia para esa fecha');
 }
 function nextPO(){
   var max=2050;DB.orders.forEach(function(o){var n=parseInt((o.id||'').replace(/\D/g,''));if(n>max)max=n;});
@@ -1168,7 +1303,8 @@ function submitOrder(e){
     matDesc:matDescIn,
     qty:+document.getElementById('f-qty').value||0,
     amount:+document.getElementById('f-amount').value||0,
-    currency:(document.getElementById('f-currency')||{}).value||'EUR',
+    currency:(document.getElementById('f-currency')||{}).value||'USD',
+    fxToUsd:+((document.getElementById('f-fx')||{}).value)||0,
     saving:+document.getElementById('f-saving').value||0,
     budgetCat:document.getElementById('f-budget').value,
     date:document.getElementById('f-date').value,
@@ -1220,6 +1356,133 @@ function viewSuppliers(){
   '<div class="card" style="margin-bottom:1.2rem"><div class="card-head"><div class="card-title">Directorio de proveedores</div>'+
     '<button class="btn btn-primary" onclick="openSupplierModal(-1)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Nuevo proveedor</button></div>'+
   '<div class="table-wrap"><table><thead><tr><th>Proveedor</th><th>Categoría</th><th>Contacto</th><th>Email</th><th>Teléfono</th><th>Órdenes</th><th>Rating</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+
+// ---- SERVICIOS (módulo propio, desacoplado del proveedor) ----
+// Cada servicio es una entidad en DB.services con proveedor OPCIONAL.
+// Campos: id, name, svcType, supplierId(opcional), start, end, amount, currency,
+//         owner(responsable interno), cc(centro de costo), note.
+function svcSupplierName(sid){
+  if(!sid)return '';
+  var sp=(DB.suppliers||[]).find(function(x){return x.id===sid;});
+  return sp?sp.name:'';
+}
+function svcStatus(sv,today,soon){
+  if(!sv.end)return '<span class="tag tag-gray">sin vencimiento</span>';
+  if(sv.end<today)return '<span class="tag tag-red">vencido</span>';
+  if(sv.end<=soon)return '<span class="tag tag-amber">por vencer</span>';
+  return '<span class="tag tag-green">vigente</span>';
+}
+function viewServices(){
+  var isAdm=isAdmin();
+  var today=new Date().toISOString().slice(0,10);
+  var soon=new Date(Date.now()+30*86400000).toISOString().slice(0,10);
+  var list=(DB.services||[]).slice();
+  var expiring=list.filter(function(v){return v.end&&v.end<=soon&&v.end>=today;});
+  var vencidos=list.filter(function(v){return v.end&&v.end<today;}).length;
+  var vigentes=list.filter(function(v){return v.end&&v.end>soon;}).length;
+  // gasto anualizado aproximado en la moneda base, sumando montos de servicios
+  var totalBase=list.reduce(function(a,v){ if(!v.amount)return a; return a+toBaseOrder(+v.amount||0,{currency:v.currency||'USD',date:v.start}); },0);
+  // alerta de próximos a vencer
+  var alert='';
+  if(expiring.length){
+    alert='<div class="card" style="margin-bottom:1.2rem;border-left:3px solid var(--red)">'+
+      '<div class="card-head"><div><div class="card-title">Servicios por vencer</div><div class="card-sub">Vencen en los próximos 30 días — conviene renovar o renegociar</div></div></div>'+
+      '<div class="table-wrap"><table class="raw"><thead><tr><th>Servicio</th><th>Tipo</th><th>Proveedor</th><th>Vence</th></tr></thead><tbody>'+
+      expiring.sort(function(a,b){return a.end<b.end?-1:1;}).map(function(v){
+        return '<tr><td class="td-strong">'+v.name+'</td><td>'+(v.svcType||'—')+'</td><td>'+(svcSupplierName(v.supplierId)||'—')+'</td><td style="color:var(--red);font-weight:700">'+v.end+'</td></tr>';
+      }).join('')+'</tbody></table></div></div>';
+  }
+  // tabla completa
+  var rows=list.sort(function(a,b){return (a.end||'9999')<(b.end||'9999')?-1:1;}).map(function(v){
+    var i=DB.services.indexOf(v);
+    var monto=v.amount?(Number(v.amount).toLocaleString('es-ES',{maximumFractionDigits:2})+' '+(v.currency||'USD')):'—';
+    return '<tr>'+
+      '<td class="td-strong">'+v.name+'</td>'+
+      '<td><span class="tag tag-blue">'+(v.svcType||'—')+'</span></td>'+
+      '<td>'+(svcSupplierName(v.supplierId)||'<span style="color:var(--muted)">sin proveedor</span>')+'</td>'+
+      '<td>'+(v.start||'—')+'</td>'+
+      '<td>'+(v.end||'—')+'</td>'+
+      '<td>'+svcStatus(v,today,soon)+'</td>'+
+      '<td style="white-space:nowrap">'+monto+'</td>'+
+      '<td>'+(v.owner||'—')+'</td>'+
+      '<td>'+(v.cc||'—')+'</td>'+
+      '<td style="max-width:220px;color:var(--slate)">'+(v.note||'—')+'</td>'+
+      (isAdm?'<td style="white-space:nowrap"><button class="icon-btn" title="Editar" onclick="openServiceModal('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg></button>'+
+        '<button class="icon-btn" title="Eliminar" onclick="deleteService('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button></td>':'')+
+    '</tr>';
+  }).join('');
+  if(!rows)rows='<tr><td colspan="'+(isAdm?11:10)+'" class="empty">Todavía no hay servicios cargados. '+(isAdm?'Creá el primero con «Nuevo servicio».':'')+'</td></tr>';
+  var addBtn=isAdm?'<button class="btn btn-primary" onclick="openServiceModal(-1)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Nuevo servicio</button>':'';
+  return ''+alert+
+  '<div class="section-stats" style="grid-template-columns:repeat(4,1fr)">'+
+    '<div class="mini-stat"><div class="l">Servicios</div><div class="v">'+list.length+'</div></div>'+
+    '<div class="mini-stat"><div class="l">Vigentes</div><div class="v" style="color:var(--green)">'+vigentes+'</div></div>'+
+    '<div class="mini-stat"><div class="l">Por vencer (30d)</div><div class="v" style="color:'+(expiring.length?'var(--amber)':'var(--ink)')+'">'+expiring.length+'</div></div>'+
+    '<div class="mini-stat"><div class="l">Gasto anual ('+curSymbol(FX.base).trim()+')</div><div class="v">'+eurK(totalBase)+'</div></div>'+
+  '</div>'+
+  '<div class="card"><div class="card-head"><div><div class="card-title">Servicios contratados</div><div class="card-sub">Módulo independiente — el proveedor es opcional</div></div>'+addBtn+'</div>'+
+  '<div class="table-wrap"><table><thead><tr><th>Servicio</th><th>Tipo</th><th>Proveedor</th><th>Inicio</th><th>Fin</th><th>Estado</th><th>Monto</th><th>Responsable</th><th>Centro de costo</th><th>Notas</th>'+(isAdm?'<th></th>':'')+'</tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+var _svcEditIdx=null;
+function openServiceModal(i){
+  var v=(i>=0)?DB.services[i]:{name:'',svcType:'',supplierId:'',start:'',end:'',amount:'',currency:(FX.base||'USD'),owner:'',cc:'',note:''};
+  if(!v)return;
+  _svcEditIdx=i;
+  var isNew=(i<0);
+  var supOpts='<option value="">— sin proveedor —</option>'+(DB.suppliers||[]).map(function(s){return '<option value="'+s.id+'"'+(s.id===v.supplierId?' selected':'')+'>'+s.name+'</option>';}).join('');
+  var ccOpts='<option value="">—</option>'+(DB.ccs||[]).map(function(c){var code=c.code||c.id||c.name;return '<option value="'+code+'"'+(code===v.cc?' selected':'')+'>'+code+(c.name&&c.name!==code?' · '+c.name:'')+'</option>';}).join('');
+  var el=document.getElementById('modalContent');
+  el.innerHTML=''+
+    '<div class="modal-head"><div class="modal-title">'+(isNew?'Nuevo servicio':'Editar servicio')+'</div>'+
+      '<button class="modal-close" onclick="closeServiceModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
+    '<div class="hint" style="margin-bottom:1rem">Servicio como entidad propia. El proveedor es opcional: podés cargar un servicio sin asignarlo a ninguno.</div>'+
+    '<div class="form-grid">'+
+      '<div class="field full"><label>Nombre del servicio</label><input type="text" id="sv-name" value="'+(v.name||'').replace(/"/g,'&quot;')+'" placeholder="Ej: Licencia cloud, Limpieza mensual, Auditoría anual"></div>'+
+      '<div class="field"><label>Tipo de servicio</label><div style="display:flex;gap:.4rem"><select id="sv-type" style="flex:1">'+svcTypeOpts(v.svcType)+'</select><button type="button" class="btn btn-ghost" style="padding:.4rem .6rem" onclick="manageSvcTypes()" title="Gestionar tipos">+</button></div></div>'+
+      '<div class="field"><label>Proveedor (opcional)</label><select id="sv-sup">'+supOpts+'</select></div>'+
+      '<div class="field"><label>Inicio</label><input type="date" id="sv-start" value="'+(v.start||'')+'"></div>'+
+      '<div class="field"><label>Fin / vencimiento</label><input type="date" id="sv-end" value="'+(v.end||'')+'"></div>'+
+      '<div class="field"><label>Monto</label><input type="number" id="sv-amount" min="0" step="0.01" value="'+(v.amount||'')+'" placeholder="0.00"></div>'+
+      '<div class="field"><label>Moneda</label><select id="sv-cur">'+curOptions(v.currency||FX.base||'USD')+'</select></div>'+
+      '<div class="field"><label>Responsable interno</label><input type="text" id="sv-owner" value="'+(v.owner||'').replace(/"/g,'&quot;')+'" placeholder="Quién gestiona el servicio"></div>'+
+      '<div class="field"><label>Centro de costo</label><select id="sv-cc">'+ccOpts+'</select></div>'+
+      '<div class="field full"><label>Condiciones / notas</label><textarea id="sv-note" rows="3" placeholder="Alcance, SLA, renovación automática, penalidades, etc.">'+(v.note||'')+'</textarea></div>'+
+    '</div>'+
+    '<div class="form-actions"><button class="btn btn-primary" onclick="saveService()">'+(isNew?'Crear servicio':'Guardar cambios')+'</button>'+
+    '<button class="btn btn-ghost" onclick="closeServiceModal()">Cancelar</button></div>';
+  document.getElementById('modalBg').classList.add('show');
+}
+function closeServiceModal(){_svcEditIdx=null;closeModal();}
+function saveService(){
+  var name=(document.getElementById('sv-name').value||'').trim();
+  if(!name){toast('Poné un nombre al servicio');return;}
+  var data={
+    name:name,
+    svcType:(document.getElementById('sv-type').value||''),
+    supplierId:(document.getElementById('sv-sup').value||''),
+    start:(document.getElementById('sv-start').value||''),
+    end:(document.getElementById('sv-end').value||''),
+    amount:+document.getElementById('sv-amount').value||0,
+    currency:(document.getElementById('sv-cur').value||'USD'),
+    owner:(document.getElementById('sv-owner').value||'').trim(),
+    cc:(document.getElementById('sv-cc').value||''),
+    note:(document.getElementById('sv-note').value||'').trim()
+  };
+  if(_svcEditIdx>=0){
+    var v=DB.services[_svcEditIdx];
+    for(var k in data)v[k]=data[k];
+  }else{
+    data.id='SV-'+Date.now();
+    DB.services.push(data);
+  }
+  _svcEditIdx=null; save(); closeModal(); toast('Servicio guardado'); render('services');
+}
+function deleteService(i){
+  var v=DB.services[i]; if(!v)return;
+  if(!confirm('¿Eliminar el servicio "'+v.name+'"?'))return;
+  if(v.id)_deleted.services.push(v.id);
+  DB.services.splice(i,1); save(); toast('Servicio eliminado'); render('services');
 }
 
 // ---- BUDGET ----
@@ -1327,6 +1590,8 @@ function buildSavingsChart(){
 // ---- chart options ----
 // ---- PRICE HISTORY ----
 var PRICE_MAT='';
+var PRICE_CAT='';
+var PRICE_Q='';
 var PENDING_SP='';
 function spPrefill(spId){
   var s=(DB.sps||[]).find(function(x){return x.id===spId;});
@@ -1346,13 +1611,28 @@ function applySPPrefill(){
   if(sel)sel.value=PENDING_SP;
   spPrefill(PENDING_SP);
 }
+function priceCatOf(code){
+  var m=(DB.materials||[]).find(function(x){return x.code===code;});
+  if(m&&m.category)return m.category;
+  var o=(DB.orders||[]).find(function(x){return x.material===code&&x.category;});
+  return o?o.category:'Sin categoría';
+}
 function viewPrices(){
   var mats={};
   DB.orders.forEach(function(o){if(o.material&&o.qty>0)mats[o.material]=o.matDesc||'';});
   var codes=Object.keys(mats).sort();
   if(!codes.length)return '<div class="card"><div class="empty">No hay órdenes con código de material y cantidad cargados.<br>Agregá código y cantidad a tus órdenes para ver el histórico de precios.</div></div>';
-  if(!PRICE_MAT||codes.indexOf(PRICE_MAT)<0)PRICE_MAT=codes[0];
-  var opts=codes.map(function(c){return '<option value="'+c+'"'+(c===PRICE_MAT?' selected':'')+'>'+c+' — '+mats[c]+'</option>';}).join('');
+  // categorías disponibles a partir de los materiales con compras
+  var catsMap={}; codes.forEach(function(c){catsMap[priceCatOf(c)]=1;});
+  var cats=Object.keys(catsMap).sort();
+  if(!PRICE_CAT||cats.indexOf(PRICE_CAT)<0)PRICE_CAT=cats[0];
+  // materiales de la categoría elegida, filtrados por búsqueda
+  var q=(PRICE_Q||'').toLowerCase();
+  var inCat=codes.filter(function(c){return priceCatOf(c)===PRICE_CAT;});
+  var filtered=inCat.filter(function(c){ if(!q)return true; return (c+' '+(mats[c]||'')).toLowerCase().indexOf(q)>=0; });
+  if(!PRICE_MAT||filtered.indexOf(PRICE_MAT)<0)PRICE_MAT=filtered[0]||inCat[0]||codes[0];
+  var catOpts=cats.map(function(c){return '<option value="'+c.replace(/"/g,'&quot;')+'"'+(c===PRICE_CAT?' selected':'')+'>'+c+'</option>';}).join('');
+  var opts=(filtered.length?filtered:inCat).map(function(c){return '<option value="'+c+'"'+(c===PRICE_MAT?' selected':'')+'>'+c+' — '+mats[c]+'</option>';}).join('');
   var list=DB.orders.filter(function(o){return o.material===PRICE_MAT&&o.qty>0;}).sort(function(a,b){return a.date<b.date?-1:1;});
   var prices=list.map(function(o){return unitP(o);});
   var first=prices[0],last=prices[prices.length-1];
@@ -1368,9 +1648,14 @@ function viewPrices(){
     return '<tr><td class="td-strong">'+o.id+'</td><td>'+o.date+'</td><td>'+o.supplier+'</td><td>'+o.qty.toLocaleString('es-ES')+'</td><td class="td-strong">'+curSymbol(o.currency||'EUR')+Number(up).toLocaleString('es-ES',{maximumFractionDigits:2})+'</td><td>'+diff+'</td><td>'+ocMoney(o)+'</td></tr>';
   }).join('');
   return ''+
-  '<div class="toolbar" style="margin-bottom:1.2rem">'+
-    '<span class="date-lbl">Código de material</span>'+
-    '<select class="filter-sel" style="min-width:320px" onchange="onPriceMat(this.value)">'+opts+'</select>'+
+  '<div class="toolbar" style="margin-bottom:1.2rem;flex-wrap:wrap;gap:.7rem">'+
+    '<div style="display:flex;flex-direction:column;gap:.25rem"><span class="date-lbl">1 · Categoría</span>'+
+      '<select class="filter-sel" style="min-width:200px" onchange="onPriceCat(this.value)">'+catOpts+'</select></div>'+
+    '<div style="display:flex;flex-direction:column;gap:.25rem;flex:1;min-width:220px"><span class="date-lbl">2 · Buscar material</span>'+
+      '<div class="search-box" style="flex:1"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'+
+      '<input type="text" id="priceSearch" placeholder="Filtrar por código o descripción..." value="'+(PRICE_Q||'').replace(/"/g,'&quot;')+'" oninput="onPriceSearch(this.value)"></div></div>'+
+    '<div style="display:flex;flex-direction:column;gap:.25rem"><span class="date-lbl">3 · Material</span>'+
+      '<select class="filter-sel" style="min-width:320px" onchange="onPriceMat(this.value)">'+opts+'</select></div>'+
   '</div>'+
   '<div class="section-stats" style="grid-template-columns:repeat(4,1fr)">'+
     '<div class="mini-stat"><div class="l">Último precio</div><div class="v">'+eurU(last)+'</div></div>'+
@@ -1383,6 +1668,14 @@ function viewPrices(){
   '<div class="table-wrap"><table><thead><tr><th>Orden</th><th>Fecha</th><th>Proveedor</th><th>Cantidad</th><th>P. unitario</th><th>Δ vs anterior</th><th>Monto total</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
 }
 function onPriceMat(v){PRICE_MAT=v;render('prices');}
+function onPriceCat(v){PRICE_CAT=v;PRICE_MAT='';render('prices');}
+function onPriceSearch(v){
+  PRICE_Q=v;
+  // re-render solo respetando el foco del buscador
+  render('prices');
+  var el=document.getElementById('priceSearch');
+  if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length);}
+}
 function buildPriceChart(){
   var el=document.getElementById('ch-price');if(!el)return;
   var list=DB.orders.filter(function(o){return o.material===PRICE_MAT&&o.qty>0;}).sort(function(a,b){return a.date<b.date?-1:1;});
@@ -1423,8 +1716,8 @@ function buyersStats(){
   orders.forEach(function(o){
     var b=o.buyer||'—';
     if(!by[b])by[b]={spend:0,saving:0,count:0,mat:0,srv:0,approved:0};
-    by[b].spend+=+o.amount;by[b].saving+=+o.saving;by[b].count++;
-    if(o.type==='Servicio')by[b].srv+=+o.amount;else by[b].mat+=+o.amount;
+    by[b].spend+=amt(o);by[b].saving+=amtOf(o,'saving');by[b].count++;
+    if(o.type==='Servicio')by[b].srv+=amt(o);else by[b].mat+=amt(o);
     if(o.status==='Aprobada')by[b].approved++;
   });
   return by;
@@ -1440,7 +1733,7 @@ function viewDireccion(){
   var matSpend=sum(orders.filter(function(o){return o.type!=='Servicio';}),'amount');
   var srvSpend=sum(orders.filter(function(o){return o.type==='Servicio';}),'amount');
   var ticket=orders.length?totalSpend/orders.length:0;
-  var supMap={};orders.forEach(function(o){supMap[o.supplier]=(supMap[o.supplier]||0)+o.amount;});
+  var supMap={};orders.forEach(function(o){supMap[o.supplier]=(supMap[o.supplier]||0)+amt(o);});
   var topSup='—',topSupV=0;
   Object.keys(supMap).forEach(function(s){if(supMap[s]>topSupV){topSupV=supMap[s];topSup=s;}});
   var conc=totalSpend>0?(topSupV/totalSpend*100):0;
@@ -1498,7 +1791,7 @@ function buildDireccionCharts(){
   if(elCC){
     var orders2=dashOrders();
     var ccMap={};
-    orders2.forEach(function(o){var k=o.cc||'Sin CC';ccMap[k]=(ccMap[k]||0)+(+o.amount||0);});
+    orders2.forEach(function(o){var k=o.cc||'Sin CC';ccMap[k]=(ccMap[k]||0)+amt(o);});
     var ccKeys=Object.keys(ccMap).sort();
     charts.cc=new Chart(elCC,{
       type:'bar',
@@ -1587,7 +1880,7 @@ function viewSPs(){
   if(!rows)rows='<tr><td colspan="11" class="empty">No hay solicitudes registradas.</td></tr>';
   // ---- SUGERIDO DE COMPRA (materiales bajo punto de pedido) ----
   var sugRows=(DB.materials||[]).map(function(m){
-    var stock=+invRec(m.code).stock||0;
+    var stock=+stockOf(m.code)||0;
     var mt=matMetrics(m.code);
     var posicion=stock+mt.enCamino;
     var rp=reorderPoint(m);
@@ -1609,16 +1902,15 @@ function viewSPs(){
   // ---- CONTRATOS POR VENCER (servicios) ----
   var today=new Date().toISOString().slice(0,10);
   var soon=new Date(Date.now()+30*86400000).toISOString().slice(0,10);
-  var contracts=(DB.suppliers||[]).filter(function(s){return s.contractEnd;});
-  var expiring=contracts.filter(function(s){return s.contractEnd<=soon;});
+  var expiring=(DB.services||[]).filter(function(v){return v.end&&v.end<=soon;});
   var contractHtml='';
   if(expiring.length){
     contractHtml='<div class="card" style="margin-bottom:1.2rem;border-left:3px solid var(--red)">'+
-      '<div class="card-head"><div><div class="card-title">📄 Contratos por vencer</div><div class="card-sub">Servicios cuyo contrato vence en los próximos 30 días — renovación sugerida</div></div></div>'+
-      '<div class="table-wrap"><table class="raw"><thead><tr><th>Proveedor</th><th>Categoría</th><th>Vence</th><th>Estado</th><th>Comentario</th></tr></thead><tbody>'+
-      expiring.map(function(s){
-        var vencido=s.contractEnd<today;
-        return '<tr><td class="td-strong">'+s.name+'</td><td>'+(s.category||'—')+'</td><td style="color:var(--red);font-weight:700">'+s.contractEnd+'</td><td>'+(vencido?'<span class="tag tag-red">vencido</span>':'<span class="tag tag-amber">renovar</span>')+'</td><td>'+(s.contractNote||'—')+'</td></tr>';
+      '<div class="card-head"><div><div class="card-title">📄 Servicios por vencer</div><div class="card-sub">Servicios cuyo contrato vence en los próximos 30 días — renovación sugerida</div></div></div>'+
+      '<div class="table-wrap"><table class="raw"><thead><tr><th>Servicio</th><th>Proveedor</th><th>Vence</th><th>Estado</th><th>Notas</th></tr></thead><tbody>'+
+      expiring.sort(function(a,b){return a.end<b.end?-1:1;}).map(function(v){
+        var vencido=v.end<today;
+        return '<tr><td class="td-strong">'+v.name+'</td><td>'+(svcSupplierName(v.supplierId)||'—')+'</td><td style="color:var(--red);font-weight:700">'+v.end+'</td><td>'+(vencido?'<span class="tag tag-red">vencido</span>':'<span class="tag tag-amber">renovar</span>')+'</td><td>'+(v.note||'—')+'</td></tr>';
       }).join('')+'</tbody></table></div></div>';
   }
   return ''+sugHtml+contractHtml+
@@ -1785,6 +2077,15 @@ function reorderPoint(m){
   return Math.round(daily*(+m.leadTime||0)+(+m.safety||0));
 }
 function invRec(code){var r=(DB.inventory||[]).find(function(x){return x.code===code;});return r||{stock:0};}
+// Stock disponible real = stock base de inventario + lo entregado por OC.
+// Así no importa por qué camino se marque "Entregado" (dropdown rápido o modal):
+// si una OC está Entregada, su cantidad cuenta como stock automáticamente.
+function stockOf(code){
+  var base=+invRec(code).stock||0;
+  var entregado=(DB.orders||[]).filter(function(o){return o.material===code&&o.delivery==='Entregado';})
+    .reduce(function(a,o){return a+(+o.qty||0);},0);
+  return base+entregado;
+}
 function matMetrics(code){
   var solicitado=(DB.sps||[]).filter(function(s){return s.material===code&&s.status!=='Rechazada'&&s.status!=='Convertida';}).reduce(function(a,s){return a+(+s.qty||0);},0);
   var enCamino=(DB.orders||[]).filter(function(o){return o.material===code&&o.status==='Aprobada'&&o.delivery!=='Entregado';}).reduce(function(a,o){return a+(+o.qty||0);},0);
@@ -1794,35 +2095,103 @@ function matMetrics(code){
 
 function viewMaterials(){
   var isAdmin=SESSION&&SESSION.role==='admin';
-  var mats=(DB.materials||[]).slice().sort(function(a,b){return a.code<b.code?-1:1;});
-  var rows=mats.map(function(m,i){
+  var mats=(DB.materials||[]).slice();
+  // estado de cada material según stock vs punto de pedido / mínimo
+  function matState(m){
     var rp=reorderPoint(m);
+    var mt=invMetrics(m.code);
+    var stock=mt.stock;
+    var disponible=stock+mt.enCamino; // lo que ya está + lo que viene
+    if(stock<=0)return {key:'sin',label:'Sin stock',color:'#c0392b',dot:'🔴',rp:rp,stock:stock,mt:mt,rank:0};
+    if(stock<=(+m.minStock||0))return {key:'critico',label:'Crítico',color:'#c0392b',dot:'🔴',rp:rp,stock:stock,mt:mt,rank:1};
+    if(disponible<=rp)return {key:'pedir',label:'Reponer',color:'#e08a1e',dot:'🟠',rp:rp,stock:stock,mt:mt,rank:2};
+    if(stock<=rp*1.25)return {key:'atento',label:'Atento',color:'#caa21a',dot:'🟡',rp:rp,stock:stock,mt:mt,rank:3};
+    return {key:'ok',label:'OK',color:'#1f9d57',dot:'🟢',rp:rp,stock:stock,mt:mt,rank:4};
+  }
+  // contar por estado
+  var counts={sin:0,critico:0,pedir:0,atento:0,ok:0};
+  mats.forEach(function(m){counts[matState(m).key]++;});
+  var alertCount=counts.sin+counts.critico+counts.pedir;
+  // filtro por estado (chips)
+  if(typeof MAT_FILTER==='undefined')window.MAT_FILTER='';
+  var fkey=window.MAT_FILTER||'';
+  // ordenar: primero los más urgentes
+  mats.sort(function(a,b){var sa=matState(a),sb=matState(b);if(sa.rank!==sb.rank)return sa.rank-sb.rank;return a.code<b.code?-1:1;});
+  var shown=fkey?mats.filter(function(m){return matState(m).key===fkey;}):mats;
+
+  // ----- ALERTA de reposición -----
+  var alertHtml='';
+  var urgentes=mats.filter(function(m){var k=matState(m).key;return k==='sin'||k==='critico'||k==='pedir';});
+  if(urgentes.length){
+    alertHtml='<div class="card" style="margin-bottom:1.2rem;border-left:3px solid var(--red)">'+
+      '<div class="card-head"><div><div class="card-title">⚠ Materiales que requieren acción</div><div class="card-sub">Stock por debajo del punto de pedido o del mínimo operativo</div></div></div>'+
+      '<div class="table-wrap"><table class="raw"><thead><tr><th>Estado</th><th>Código</th><th>Material</th><th>Stock</th><th>P. pedido</th><th>Sugerido</th>'+(isAdmin?'<th></th>':'')+'</tr></thead><tbody>'+
+      urgentes.map(function(m){
+        var st=matState(m);
+        var sugerido=Math.max(st.rp+ (+m.safety||0) - st.stock - st.mt.enCamino, Math.ceil((+m.phi||0)));
+        return '<tr>'+
+          '<td><span style="display:inline-flex;align-items:center;gap:.35rem;font-weight:700;color:'+st.color+'">'+st.dot+' '+st.label+'</span></td>'+
+          '<td class="td-strong">'+m.code+'</td>'+
+          '<td>'+(m.description||'—')+'</td>'+
+          '<td style="font-weight:700;color:'+st.color+'">'+st.stock+' '+(m.unit||'')+'</td>'+
+          '<td>'+st.rp+'</td>'+
+          '<td class="td-strong">'+(sugerido>0?sugerido+' '+(m.unit||''):'—')+'</td>'+
+          (isAdmin?'<td><button class="btn btn-ghost" style="padding:.3rem .6rem;font-size:.75rem" onclick="prefillSP(\''+m.code+'\','+(sugerido>0?sugerido:0)+')">Crear solicitud</button></td>':'')+
+        '</tr>';
+      }).join('')+'</tbody></table></div></div>';
+  }
+
+  // ----- SEMÁFORO resumen (tarjetas clicables) -----
+  function chip(key,label,n,color){
+    var active=(fkey===key);
+    return '<button onclick="setMatFilter(\''+(active?'':key)+'\')" class="mini-stat" style="cursor:pointer;text-align:left;border:1.5px solid '+(active?color:'transparent')+';background:'+(active?'rgba(0,0,0,.02)':'')+'">'+
+      '<div class="l" style="display:flex;align-items:center;gap:.3rem">'+label+'</div>'+
+      '<div class="v" style="color:'+color+'">'+n+'</div></button>';
+  }
+  var semaforo='<div class="section-stats" style="grid-template-columns:repeat(5,1fr)">'+
+    chip('ok','🟢 OK',counts.ok,'#1f9d57')+
+    chip('atento','🟡 Atento',counts.atento,'#caa21a')+
+    chip('pedir','🟠 Reponer',counts.pedir,'#e08a1e')+
+    chip('critico','🔴 Crítico',counts.critico,'#c0392b')+
+    chip('sin','⚫ Sin stock',counts.sin,'#c0392b')+
+  '</div>';
+
+  // ----- TABLA principal con columna de estado -----
+  var rows=shown.map(function(m){
+    var st=matState(m);
     return '<tr>'+
+      '<td><span title="'+st.label+'" style="display:inline-flex;align-items:center;gap:.35rem;font-weight:700;color:'+st.color+'">'+st.dot+'<span style="font-size:.78rem">'+st.label+'</span></span></td>'+
       '<td class="td-strong">'+(m.code||'—')+'</td>'+
       '<td>'+(m.description||'—')+'</td>'+
-      '<td>'+(m.category||'—')+'</td>'+
+      '<td><span class="tag tag-blue">'+(m.category||'—')+'</span></td>'+
       '<td>'+(m.unit||'—')+'</td>'+
+      '<td style="font-weight:700;color:'+st.color+'">'+st.stock+'</td>'+
       '<td>'+(+m.phi||0)+'</td>'+
       '<td>'+(+m.leadTime||0)+'d</td>'+
-      '<td>'+(+m.safety||0)+'</td>'+
       '<td>'+(+m.minStock||0)+'</td>'+
-      '<td class="td-strong">'+rp+'</td>'+
+      '<td class="td-strong">'+st.rp+'</td>'+
       '<td>'+(m.prefSupplier||'—')+'</td>'+
       (isAdmin?'<td><div class="row-actions"><button class="icon-btn" onclick="openMatModal('+DB.materials.indexOf(m)+')" title="Editar"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg></button><button class="icon-btn del" onclick="deleteMat('+DB.materials.indexOf(m)+')" title="Eliminar"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg></button></div></td>':'')+
     '</tr>';
   }).join('');
-  if(!rows)rows='<tr><td colspan="11" class="empty">No hay materiales. Importá un Excel o agregá manualmente.</td></tr>';
+  if(!rows)rows='<tr><td colspan="'+(isAdmin?12:11)+'" class="empty">'+(fkey?'No hay materiales en este estado.':'No hay materiales. Importá un Excel o agregá manualmente.')+'</td></tr>';
   var adminBtns=isAdmin?(
+    '<button class="btn btn-ghost" onclick="manageCats()">Categorías</button>'+
     '<button class="btn btn-ghost" onclick="manageUnits()">Unidades</button>'+
     '<button class="btn btn-ghost" onclick="downloadMatTemplate()">Plantilla</button>'+
     '<label class="btn btn-ghost" style="cursor:pointer">Importar Excel<input type="file" accept=".xlsx,.xls,.csv" style="display:none" onchange="importMaterials(event)"></label>'+
     '<button class="btn btn-primary" onclick="openMatModal(-1)">+ Nuevo</button>'):'';
-  return ''+
-  '<div class="toolbar" style="margin-bottom:1rem;justify-content:flex-end;gap:.5rem;flex-wrap:wrap">'+adminBtns+'</div>'+
-  '<div class="card"><div class="table-wrap"><table class="raw"><thead><tr>'+
-    '<th>Código</th><th>Descripción</th><th>Categoría</th><th>Un.</th><th title="Demanda mensual">ϕ/mes</th><th>Lead</th><th>S.Seg</th><th>S.Mín</th><th title="Punto de pedido">P.Pedido</th><th>Prov. pref.</th>'+(isAdmin?'<th></th>':'')+
+  var filterNote=fkey?'<div class="hint" style="margin-bottom:.8rem">Mostrando solo: <strong>'+fkey+'</strong> · <a href="#" onclick="setMatFilter(\'\');return false;" style="color:var(--green)">ver todos</a></div>':'';
+  return ''+alertHtml+semaforo+
+  '<div class="toolbar" style="margin:1rem 0;justify-content:flex-end;gap:.5rem;flex-wrap:wrap">'+adminBtns+'</div>'+
+  filterNote+
+  '<div class="card"><div class="card-head"><div><div class="card-title">Catálogo de materiales</div><div class="card-sub">'+mats.length+' materiales · '+alertCount+' requieren atención</div></div></div>'+
+  '<div class="table-wrap"><table class="raw"><thead><tr>'+
+    '<th>Estado</th><th>Código</th><th>Descripción</th><th>Categoría</th><th>Un.</th><th>Stock</th><th title="Demanda mensual">ϕ/mes</th><th>Lead</th><th>S.Mín</th><th title="Punto de pedido">P.Pedido</th><th>Prov. pref.</th>'+(isAdmin?'<th></th>':'')+
   '</tr></thead><tbody>'+rows+'</tbody></table></div></div>';
 }
+var MAT_FILTER='';
+function setMatFilter(k){window.MAT_FILTER=k;render('materials');}
 
 function unitOpts(sel){return '<option value="">—</option>'+unitList().map(function(u){return '<option value="'+u+'"'+(u===sel?' selected':'')+'>'+u+'</option>';}).join('');}
 function manageUnits(){
@@ -1841,8 +2210,7 @@ function openMatModal(i){
   var isNew=(i===-1);
   var m=isNew?{code:'',description:'',category:'',unit:'',phi:0,leadTime:0,safety:0,minStock:0,prefSupplier:''}:DB.materials[i];
   if(!m)return;
-  var cats=catList();
-  var catDl=cats.map(function(c){return '<option value="'+c+'">';}).join('');
+  _matEditIdx=i;
   var supOpts='<option value="">—</option>'+(DB.suppliers||[]).map(function(s){return '<option value="'+s.name+'"'+(m.prefSupplier===s.name?' selected':'')+'>'+s.name+'</option>';}).join('');
   var el=document.getElementById('modalContent');
   el.innerHTML=''+
@@ -1850,10 +2218,10 @@ function openMatModal(i){
       '<button class="modal-close" onclick="closeModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
     '<div class="card-sub" style="margin-bottom:.8rem;font-weight:600;color:var(--slate)">Datos del material</div>'+
     '<div class="form-grid">'+
-      '<div class="field"><label>Código</label><input type="text" id="mt-code" value="'+(m.code||'')+'" placeholder="MAT-001"'+(isNew?'':' readonly')+'></div>'+
+      '<div class="field full"><label>Categoría / sector</label><div style="display:flex;gap:.4rem"><select id="mt-cat" style="flex:1" onchange="onMatCatChange()">'+catOptsList(m.category)+'</select><button type="button" class="btn btn-ghost" style="padding:.4rem .6rem" onclick="manageCats()" title="Gestionar categorías">+</button></div></div>'+
+      '<div class="field"><label>Código '+(isNew?'(automático)':'')+'</label><input type="text" id="mt-code" value="'+(m.code||'')+'" placeholder="se genera al elegir categoría" readonly style="background:var(--bg);font-weight:700;letter-spacing:.5px"></div>'+
       '<div class="field"><label>Unidad</label><div style="display:flex;gap:.4rem"><select id="mt-unit" style="flex:1">'+unitOpts(m.unit)+'</select><button type="button" class="btn btn-ghost" style="padding:.4rem .6rem" onclick="manageUnits()" title="Gestionar unidades">+</button></div></div>'+
       '<div class="field full"><label>Descripción</label><input type="text" id="mt-desc" value="'+(m.description||'').replace(/"/g,'&quot;')+'" placeholder="Descripción del material"></div>'+
-      '<div class="field full"><label>Categoría</label><input type="text" id="mt-cat" value="'+(m.category||'')+'" list="mtCats" placeholder="Ej: Materia prima"><datalist id="mtCats">'+catDl+'</datalist></div>'+
     '</div>'+
     '<div class="card-sub" style="margin:1.2rem 0 .8rem;font-weight:600;color:var(--slate)">Gestión de inventario</div>'+
     '<div class="form-grid">'+
@@ -1869,12 +2237,23 @@ function openMatModal(i){
   document.getElementById('modalBg').classList.add('show');
 }
 
+// al cambiar la categoría en el modal, si es material nuevo recalcula el código estándar
+function onMatCatChange(){
+  var cat=(document.getElementById('mt-cat')||{}).value||'';
+  var codeEl=document.getElementById('mt-code');
+  if(!codeEl)return;
+  if(_matEditIdx===-1||_matEditIdx===null){ codeEl.value=cat?nextMatCode(cat):''; }
+}
 function saveMat(i){
-  var code=(document.getElementById('mt-code').value||'').trim().toUpperCase();
-  if(!code){toast('El código es obligatorio');return;}
+  var category=(document.getElementById('mt-cat').value||'').trim();
+  if(!category){toast('Elegí una categoría / sector');return;}
+  // código FIJO: en alta se autogenera; en edición se conserva el existente
+  var code;
+  if(i===-1){ code=nextMatCode(category); }
+  else { code=(DB.materials[i]&&DB.materials[i].code)||nextMatCode(category); }
   var data={code:code,
     description:(document.getElementById('mt-desc').value||'').trim(),
-    category:(document.getElementById('mt-cat').value||'').trim(),
+    category:category,
     unit:(document.getElementById('mt-unit').value||'').trim(),
     phi:+document.getElementById('mt-phi').value||0,
     leadTime:+document.getElementById('mt-lead').value||0,
@@ -1901,21 +2280,77 @@ function deleteMat(i){
   }
 }
 var STD_UNITS=['ud','kg','g','ton','l','ml','m','m2','m3','caja','pallet','rollo','par','juego','hora','servicio','viaje'];
+var STD_SVCTYPES=['Mensual','Anual','Por hora','Por proyecto','Por evento','Llave en mano','Mantenimiento','Suscripción','Por uso','Retainer'];
+function svcTypeList(){var u=(DB.config&&DB.config.svcTypes);return (u&&u.length)?u:STD_SVCTYPES;}
+function svcTypeOpts(sel){return '<option value="">—</option>'+svcTypeList().map(function(u){return '<option value="'+u+'"'+(u===sel?' selected':'')+'>'+u+'</option>';}).join('');}
+function addSvcType(u){u=(u||'').trim();if(!u)return false;if(!DB.config)DB.config={};if(!DB.config.svcTypes)DB.config.svcTypes=STD_SVCTYPES.slice();if(DB.config.svcTypes.indexOf(u)<0){DB.config.svcTypes.push(u);save();}return true;}
+function removeSvcType(u){if(DB.config&&DB.config.svcTypes){var i=DB.config.svcTypes.indexOf(u);if(i>=0){DB.config.svcTypes.splice(i,1);save();}}}
+function manageSvcTypes(){
+  var el=document.getElementById('modalContent');
+  var chips=svcTypeList().map(function(u){return '<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--bg);border:1px solid var(--faint);border-radius:14px;padding:.3rem .6rem;font-size:.8rem">'+u+' <button onclick="removeSvcType(\''+u+'\');manageSvcTypes()" style="border:none;background:none;cursor:pointer;color:var(--red);font-weight:700">×</button></span>';}).join(' ');
+  el.innerHTML=''+
+    '<div class="modal-head"><div class="modal-title">Tipos de servicio</div>'+
+      '<button class="modal-close" onclick="reopenContractAfterTypes()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
+    '<div class="hint" style="margin-bottom:1rem">Modalidades de servicio disponibles para los contratos. Solo se podrán elegir estas.</div>'+
+    '<div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.2rem">'+chips+'</div>'+
+    '<div style="display:flex;gap:.5rem"><input type="text" id="new-svctype" placeholder="Nuevo tipo (ej: Trimestral)" style="flex:1;border:1px solid var(--faint);border-radius:8px;padding:.5rem .7rem"><button class="btn btn-primary" onclick="if(addSvcType(document.getElementById(\'new-svctype\').value)){manageSvcTypes();}">Agregar</button></div>'+
+    '<div class="form-actions" style="margin-top:1.2rem"><button class="btn btn-ghost" onclick="reopenContractAfterTypes()">Listo</button></div>';
+  document.getElementById('modalBg').classList.add('show');
+}
+function reopenContractAfterTypes(){ if(typeof _svcEditIdx!=='undefined'&&_svcEditIdx!==null){openServiceModal(_svcEditIdx);} else {closeModal();} }
 function unitList(){var u=(DB.config&&DB.config.units);return (u&&u.length)?u:STD_UNITS;}
 function addUnit(u){u=(u||'').trim();if(!u)return false;if(!DB.config)DB.config={};if(!DB.config.units)DB.config.units=STD_UNITS.slice();if(DB.config.units.indexOf(u)<0){DB.config.units.push(u);save();}return true;}
 function removeUnit(u){if(DB.config&&DB.config.units){var i=DB.config.units.indexOf(u);if(i>=0){DB.config.units.splice(i,1);save();}}}
+var STD_CATS=['Materia prima','Indirectos','Servicios','Logística','Tecnología','Operaciones','Manufactura','Mantenimiento'];
 function catList(){
-  var cats={};(DB.materials||[]).forEach(function(m){if(m.category)cats[m.category]=1;});
+  // categorías estándar: las gestionadas en config + las ya usadas en datos
+  var cats={};
+  ((DB.config&&DB.config.cats)||STD_CATS).forEach(function(c){cats[c]=1;});
+  (DB.materials||[]).forEach(function(m){if(m.category)cats[m.category]=1;});
   (DB.budgets||[]).forEach(function(b){if(b.cat)cats[b.cat]=1;});
   (DB.orders||[]).forEach(function(o){if(o.category)cats[o.category]=1;});
   var arr=Object.keys(cats);
-  return arr.length?arr:['Materia prima','Indirectos','Servicios','Logística','Tecnología'];
+  return arr.length?arr:STD_CATS.slice();
+}
+function catOptsList(sel){return '<option value="">— elegí categoría —</option>'+catList().map(function(c){return '<option value="'+c.replace(/"/g,'&quot;')+'"'+(c===sel?' selected':'')+'>'+c+'</option>';}).join('');}
+// gestión de categorías (mismo patrón que unidades)
+function addCat(c){c=(c||'').trim();if(!c)return false;if(!DB.config)DB.config={};if(!DB.config.cats)DB.config.cats=catList();if(DB.config.cats.indexOf(c)<0){DB.config.cats.push(c);save();}return true;}
+function removeCat(c){if(DB.config&&DB.config.cats){var i=DB.config.cats.indexOf(c);if(i>=0){DB.config.cats.splice(i,1);save();}}}
+function manageCats(){
+  var el=document.getElementById('modalContent');
+  var chips=catList().map(function(c){return '<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--bg);border:1px solid var(--faint);border-radius:14px;padding:.3rem .6rem;font-size:.8rem">'+c+' <button onclick="removeCat(\''+c.replace(/'/g,"\\'")+'\');manageCats()" style="border:none;background:none;cursor:pointer;color:var(--red);font-weight:700">×</button></span>';}).join(' ');
+  el.innerHTML=''+
+    '<div class="modal-head"><div class="modal-title">Categorías / sectores</div>'+
+      '<button class="modal-close" onclick="reopenMatAfterCats()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
+    '<div class="hint" style="margin-bottom:1rem">Cada categoría define el prefijo del código de material (3 primeras letras, sin acentos). Ej: <strong>Operaciones → OPE-001</strong>.</div>'+
+    '<div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.2rem">'+chips+'</div>'+
+    '<div style="display:flex;gap:.5rem"><input type="text" id="new-cat" placeholder="Nueva categoría (ej: Operaciones)" style="flex:1;border:1px solid var(--faint);border-radius:8px;padding:.5rem .7rem"><button class="btn btn-primary" onclick="if(addCat(document.getElementById(\'new-cat\').value)){manageCats();}">Agregar</button></div>'+
+    '<div class="form-actions" style="margin-top:1.2rem"><button class="btn btn-ghost" onclick="reopenMatAfterCats()">Listo</button></div>';
+  document.getElementById('modalBg').classList.add('show');
+}
+var _matEditIdx=null;
+function reopenMatAfterCats(){ if(_matEditIdx!==null){openMatModal(_matEditIdx);} else {closeModal();} }
+// prefijo de 3 letras a partir de la categoría (sin acentos, A-Z)
+function catPrefix(cat){
+  var c=(cat||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z]/g,'');
+  return (c.slice(0,3)||'MAT');
+}
+// próximo código consecutivo para una categoría: PREF-001, PREF-002...
+function nextMatCode(cat){
+  var pref=catPrefix(cat);
+  var max=0;
+  (DB.materials||[]).forEach(function(m){
+    if(!m.code)return;
+    var mm=String(m.code).match(new RegExp('^'+pref+'-(\\d+)$'));
+    if(mm){var n=parseInt(mm[1],10);if(n>max)max=n;}
+  });
+  return pref+'-'+String(max+1).padStart(3,'0');
 }
 function downloadMatTemplate(){
   var cats=catList();
   var sample=[
-    {'Codigo':'MAT-001','Descripcion':'Acero laminado S275','Categoria':cats[0]||'Materia prima','Unidad':'ton'},
-    {'Codigo':'','Descripcion':'','Categoria':'','Unidad':''}
+    {'Codigo (se asigna solo)':'—','Descripcion':'Acero laminado S275','Categoria':cats[0]||'Materia prima','Unidad':'ton'},
+    {'Codigo (se asigna solo)':'—','Descripcion':'','Categoria':'','Unidad':''}
   ];
   var ws=XLSX.utils.json_to_sheet(sample);
   ws['!cols']=[{wch:14},{wch:34},{wch:20},{wch:12}];
@@ -1944,15 +2379,19 @@ function importMaterials(ev){
       if(!DB.materials)DB.materials=[];
       var added=0,updated=0;
       rows.forEach(function(r){
-        var code=String(r.Codigo||r.codigo||r.Code||r['Código']||'').trim().toUpperCase();
-        if(!code)return;
-        var data={code:code,
-          description:String(r.Descripcion||r.descripcion||r['Descripción']||r.Description||''),
-          category:String(r.Categoria||r.categoria||r['Categoría']||r.Category||''),
-          unit:String(r.Unidad||r.unidad||r.Unit||r.UM||'')};
-        var ex=DB.materials.find(function(x){return x.code===code;});
-        if(ex){Object.assign(ex,data);updated++;}
-        else{DB.materials.push(Object.assign({id:code},data));added++;}
+        var description=String(r.Descripcion||r.descripcion||r['Descripción']||r.Description||'').trim();
+        var category=String(r.Categoria||r.categoria||r['Categoría']||r.Category||'').trim();
+        var unit=String(r.Unidad||r.unidad||r.Unit||r.UM||'').trim();
+        if(!description&&!category)return;
+        if(!category){category='Indirectos';}
+        // dedupe por descripción+categoría (el código del Excel se ignora: es estándar)
+        var ex=DB.materials.find(function(x){return (x.description||'').toLowerCase()===description.toLowerCase()&&x.category===category;});
+        if(ex){ex.description=description;ex.unit=unit;updated++;}
+        else{
+          var code=nextMatCode(category);
+          DB.materials.push({id:code,code:code,description:description,category:category,unit:unit,phi:0,leadTime:0,safety:0,minStock:0,prefSupplier:''});
+          added++;
+        }
       });
       save();
       toast('Importado: '+added+' nuevos, '+updated+' actualizados');
@@ -1980,7 +2419,7 @@ function invMetrics(code){
   var entregado=(DB.orders||[]).filter(function(o){return o.material===code&&o.delivery==='Entregado';})
     .reduce(function(a,o){return a+(+o.qty||0);},0);
   var rec=invFor(code);
-  return {stock:+rec.stock||0,min:+rec.minStock||0,solicitado:solicitado,enCamino:enCamino,entregado:entregado};
+  return {stock:stockOf(code),min:+rec.minStock||0,solicitado:solicitado,enCamino:enCamino,entregado:entregado};
 }
 function viewInventory(){
   var isAdmin=SESSION&&SESSION.role==='admin';
@@ -1992,7 +2431,7 @@ function viewInventory(){
   var all=mats.concat(orphans);
   var lowCount=0,reorderCount=0;
   var rows=all.map(function(m){
-    var stock=+invRec(m.code).stock||0;
+    var stock=+stockOf(m.code)||0;
     var mt=matMetrics(m.code);
     var rp=reorderPoint(m);
     var posicion=stock+mt.enCamino; // stock + en camino
@@ -2122,8 +2561,10 @@ function openOrderModal(order,idx){
       (order.sp?'<div class="field"><label>Solicitud asociada</label><input type="text" value="'+order.sp+'" disabled></div>':'')+
       '<div class="field"><label>Categoría de budget</label><select id="e-budget" required>'+budOpts+'</select></div>'+
       (isAdmin()?'<div class="field"><label>Estado</label><select id="e-status">'+statOpts+'</select></div>':'<div class="field"><label>Estado</label><input type="text" value="'+order.status+'" disabled><select id="e-status" style="display:none"><option selected>'+order.status+'</option></select></div>')+
-      '<div class="field"><label>Monto (€)</label><input type="number" id="e-amount" min="0" step="100" value="'+order.amount+'" required></div>'+
-      '<div class="field"><label>Saving estimado (€)</label><input type="number" id="e-saving" min="0" step="100" value="'+order.saving+'"></div>'+
+      '<div class="field"><label>Monto</label><input type="number" id="e-amount" min="0" step="100" value="'+order.amount+'" required></div>'+
+      '<div class="field"><label>Moneda</label><select id="e-currency">'+curOptions(order.currency||'USD')+'</select></div>'+
+      '<div class="field"><label>TC original (USD por 1 unidad · 0=usar histórico)</label><input type="number" id="e-fx" min="0" step="0.0001" value="'+(order.fxToUsd||0)+'"></div>'+
+      '<div class="field"><label>Saving estimado</label><input type="number" id="e-saving" min="0" step="100" value="'+order.saving+'"></div>'+
       '<div class="field"><label>Entrega</label><select id="e-delivery">'+DELIV_OPTS.map(function(v){return '<option'+(v===(order.delivery||'Pendiente')?' selected':'')+'>'+v+'</option>';}).join('')+'</select></div>'+
       '<div class="field"><label>Pago</label><select id="e-paid">'+PAID_OPTS.map(function(v){return '<option'+(v===(order.paid||'No pagado')?' selected':'')+'>'+v+'</option>';}).join('')+'</select></div>'+
       '<div class="field full"><label>Comentario</label><textarea id="e-comment" rows="2">'+(order.comment||'')+'</textarea></div>'+
@@ -2147,6 +2588,8 @@ function saveEdit(e,idx){
     sp:DB.orders[idx].sp||'',
     buyer:DB.orders[idx].buyer||'',
     amount:+document.getElementById('e-amount').value||0,
+    currency:(document.getElementById('e-currency')||{}).value||'USD',
+    fxToUsd:+((document.getElementById('e-fx')||{}).value)||0,
     saving:+document.getElementById('e-saving').value||0,
     budgetCat:document.getElementById('e-budget').value,
     date:document.getElementById('e-date').value,
@@ -2155,17 +2598,8 @@ function saveEdit(e,idx){
     paid:document.getElementById('e-paid').value,
     comment:(document.getElementById('e-comment').value||'').trim()
   };
-  // si pasó a Entregado y tiene material+cantidad, ofrecer sumar al stock
-  var newDeliv=DB.orders[idx].delivery, mat=DB.orders[idx].material, qty=+DB.orders[idx].qty||0;
-  if(prevDeliv!=='Entregado'&&newDeliv==='Entregado'&&mat&&qty>0){
-    if(confirm('La OC '+DB.orders[idx].id+' quedó Entregada. ¿Sumar '+qty+' de '+mat+' al stock de inventario?')){
-      if(!DB.inventory)DB.inventory=[];
-      var rec=DB.inventory.find(function(x){return x.code===mat;});
-      if(rec)rec.stock=(+rec.stock||0)+qty;
-      else DB.inventory.push({id:mat,code:mat,stock:qty,minStock:0});
-      toast('Stock de '+mat+' actualizado (+'+qty+')');
-    }
-  }
+  // si pasó a Entregado, el stock disponible ya lo cuenta stockOf() dinámicamente.
+  // No sumamos manualmente al inventario para no contar dos veces.
   save();closeModal();render('orders');
 }
 function closeModal(){document.getElementById('modalBg').classList.remove('show');}
@@ -2736,7 +3170,7 @@ function ansDelivery(){
 // ---- intent router ----
 // ---- NUEVAS: inventario, stock, reposición, contratos, demanda ----
 function ansStock(mat){
-  var stock=+invRec(mat).stock||0;
+  var stock=+stockOf(mat)||0;
   var m=(DB.materials||[]).find(function(x){return x.code===mat;})||{};
   var mt=matMetrics(mat);
   var rp=reorderPoint(m);
@@ -2752,7 +3186,7 @@ function ansStock(mat){
 }
 function ansReorder(){
   var list=(DB.materials||[]).map(function(m){
-    var stock=+invRec(m.code).stock||0;var mt=matMetrics(m.code);var pos=stock+mt.enCamino;var rp=reorderPoint(m);
+    var stock=+stockOf(m.code)||0;var mt=matMetrics(m.code);var pos=stock+mt.enCamino;var rp=reorderPoint(m);
     if(rp>0&&pos<=rp)return {code:m.code,desc:m.description||'',stock:stock,rp:rp,sug:Math.max(rp-pos+Math.round(+m.phi||0),1),unit:m.unit||'',sup:m.prefSupplier||''};
     return null;
   }).filter(Boolean);
@@ -2771,31 +3205,89 @@ function ansDemand(mat){
   return 'Demanda (ϕ) de **'+mat+'**: **'+(+m.phi||0)+'** por mes ('+((+m.phi||0)/30).toFixed(1)+'/día). Lead time '+(+m.leadTime||0)+' días.';
 }
 function ansLowStock(){
-  var list=(DB.materials||[]).filter(function(m){var s=+invRec(m.code).stock||0;return (+m.minStock||0)>0&&s<=(+m.minStock||0);});
+  var list=(DB.materials||[]).filter(function(m){var s=+stockOf(m.code)||0;return (+m.minStock||0)>0&&s<=(+m.minStock||0);});
   if(!list.length)return 'Ningún material está bajo su stock mínimo. ✅';
-  return 'Materiales bajo stock mínimo ('+list.length+'):\n'+list.map(function(m){return '• **'+m.code+'** ('+(m.description||'')+'): stock '+(+invRec(m.code).stock||0)+' / mín '+(+m.minStock||0);}).join('\n');
+  return 'Materiales bajo stock mínimo ('+list.length+'):\n'+list.map(function(m){return '• **'+m.code+'** ('+(m.description||'')+'): stock '+(+stockOf(m.code)||0)+' / mín '+(+m.minStock||0);}).join('\n');
 }
 function ansContracts(){
-  var c=(DB.suppliers||[]).filter(function(s){return s.contractEnd;});
+  var c=(DB.services||[]).filter(function(v){return v.end;});
   if(!c.length)return 'No hay contratos cargados en los proveedores.';
   var soon=new Date(Date.now()+30*86400000).toISOString().slice(0,10);
   var today=new Date().toISOString().slice(0,10);
-  var exp=c.filter(function(s){return s.contractEnd<=soon;});
-  var txt='Contratos ('+c.length+'):\n'+c.sort(function(a,b){return a.contractEnd<b.contractEnd?-1:1;}).map(function(s){
-    var st=s.contractEnd<today?' ⚠ vencido':s.contractEnd<=soon?' ⚠ por vencer':'';
-    return '• **'+s.name+'**: vence '+s.contractEnd+st;
+  var exp=c.filter(function(v){return v.end<=soon;});
+  var txt='Servicios con vencimiento ('+c.length+'):\n'+c.sort(function(a,b){return a.end<b.end?-1:1;}).map(function(v){
+    var st=v.end<today?' ⚠ vencido':v.end<=soon?' ⚠ por vencer':'';
+    return '• **'+v.name+'**'+(v.svcType?' ('+v.svcType+')':'')+': vence '+v.end+st;
   }).join('\n');
   if(exp.length)txt+='\n\n'+exp.length+' contrato(s) requieren atención pronto.';
   return txt;
 }
 function ansContractSupplier(s){
-  if(!s.contractEnd&&!s.contractStart)return '**'+s.name+'** no tiene contrato cargado.';
-  return 'Contrato de **'+s.name+'**:\n• Inicio: '+(s.contractStart||'—')+'\n• Fin: '+(s.contractEnd||'—')+(s.contractNote?'\n• Nota: '+s.contractNote:'');
+  var svs=(DB.services||[]).filter(function(v){return v.supplierId===s.id;});
+  if(!svs.length)return '**'+s.name+'** no tiene servicios asociados.';
+  return 'Servicios de **'+s.name+'**:\n'+svs.map(function(v){return '• '+v.name+(v.svcType?' ('+v.svcType+')':'')+(v.end?' — vence '+v.end:'');}).join('\n');
+}
+// detecta una moneda objetivo mencionada en la pregunta (ej 'en euros', 'a usd')
+function detectTargetCur(q){
+  var n=norm(q);
+  var map={EUR:['euro','euros','eur'],USD:['dolar','dolares','usd','dólar'],GBP:['libra','libras','gbp'],ARS:['peso argentino','ars'],BRL:['real','reales','brl'],MXN:['peso mexicano','mxn']};
+  for(var k in map){for(var i=0;i<map[k].length;i++){if(n.indexOf(norm(map[k][i]))>=0)return k;}}
+  return null;
+}
+// convierte una OC puntual a la moneda pedida (o a la base) explicando el TC usado
+function ansConvertOC(oc,targetCur){
+  var o=(DB.orders||[]).find(function(x){return x.id===oc;});
+  if(!o)return 'No encontré la orden '+oc+'.';
+  var cur=o.currency||(DB.config&&DB.config.dataCurrency)||'USD';
+  var tgt=targetCur||FX.base||'USD';
+  // monto original en su moneda
+  var orig=Number(o.amount||0).toLocaleString('es-ES',{maximumFractionDigits:2})+' '+cur;
+  // a USD con el TC propio de la OC
+  var usd=(+o.amount||0)*usdPerUnit(o,cur);
+  // de USD a la moneda objetivo (FX.rates[tgt] = tgt por 1 USD)
+  var val=usd;
+  if(tgt!=='USD'){var per=FX.rates[tgt];val=(per&&per>0)?usd*per:usd;}
+  var conv=Number(val).toLocaleString('es-ES',{maximumFractionDigits:2})+' '+tgt;
+  var tcInfo=(cur===tgt)?'misma moneda':(o.fxToUsd?('TC manual de la OC: 1 '+cur+' = '+(+o.fxToUsd).toFixed(4)+' USD'):'TC histórico de la fecha '+o.date);
+  return '**'+o.id+'** ('+o.supplier+')\n• Original: '+orig+'\n• Convertido: **'+conv+'**\n• Base de conversión: '+tcInfo;
+}
+// explica el código estándar de un material (prefijo de categoría + consecutivo)
+function ansMatCode(mat){
+  var m=(DB.materials||[]).find(function(x){return x.code===mat;});
+  if(!m)return 'No encontré el material '+mat+'.';
+  var pref=catPrefix(m.category);
+  return 'El código **'+m.code+'** es estándar y fijo:\n• Prefijo **'+pref+'** = 3 primeras letras de la categoría \''+(m.category||'')+'\'\n• Número consecutivo de alta dentro de esa categoría.\nNo es editable: se asigna solo al crear el material.';
+}
+// estado/semáforo de un material puntual
+function ansMatStatus(mat){
+  var m=(DB.materials||[]).find(function(x){return x.code===mat;});if(!m)return 'No encontré el material '+mat+'.';
+  var stock=+stockOf(mat)||0;var mt=matMetrics(mat);var rp=reorderPoint(m);var pos=stock+mt.enCamino;
+  var estado,emoji;
+  if(stock<=0){estado='Sin stock';emoji='🔴';}
+  else if(stock<=(+m.minStock||0)){estado='Crítico (bajo mínimo)';emoji='🔴';}
+  else if(pos<=rp){estado='Hay que reponer';emoji='🟠';}
+  else if(stock<=rp*1.25){estado='Atento (cerca del punto de pedido)';emoji='🟡';}
+  else{estado='OK';emoji='🟢';}
+  return emoji+' **'+mat+'** — '+estado+'\n• Stock: '+stock+(m.unit?' '+m.unit:'')+' · En camino: '+mt.enCamino+' · Punto de pedido: '+rp;
+}
+// resumen de alertas de materiales (semáforo global)
+function ansMatAlerts(){
+  var sin=0,crit=0,pedir=0,ok=0,atento=0;
+  (DB.materials||[]).forEach(function(m){
+    var stock=+stockOf(m.code)||0;var mt=matMetrics(m.code);var rp=reorderPoint(m);var pos=stock+mt.enCamino;
+    if(stock<=0)sin++;else if(stock<=(+m.minStock||0))crit++;else if(pos<=rp)pedir++;else if(stock<=rp*1.25)atento++;else ok++;
+  });
+  var total=(DB.materials||[]).length;
+  var urg=sin+crit+pedir;
+  if(!total)return 'No hay materiales cargados todavía.';
+  var t='Semáforo de materiales ('+total+'):\n🟢 OK: '+ok+'\n🟡 Atento: '+atento+'\n🟠 Reponer: '+pedir+'\n🔴 Crítico: '+crit+'\n⚫ Sin stock: '+sin;
+  if(urg)t+='\n\n**'+urg+'** materiales requieren acción. Preguntame «qué materiales tengo que reponer» para el detalle.';
+  return t;
 }
 function ansFX(){
-  if(!FX.loaded)return 'No tengo el tipo de cambio cargado en este momento.';
-  var lines=Object.keys(FX.rates).filter(function(k){return k!==FX.base;}).slice(0,8).map(function(k){return '• 1 '+FX.base+' = '+FX.rates[k].toFixed(4)+' '+k;});
-  return 'Tipo de cambio del día ('+FX.date+'), base '+FX.base+':\n'+lines.join('\n');
+  if(!FX.loaded)return 'No tengo el tipo de cambio cargado en este momento. La base del sistema es USD.';
+  var lines=Object.keys(FX.rates).filter(function(k){return k!=='USD';}).slice(0,8).map(function(k){return '• 1 '+k+' = '+(1/FX.rates[k]).toFixed(4)+' USD';});
+  return 'Tipo de cambio del día ('+FX.date+'), base **USD**:\n'+lines.join('\n')+'\n\nCada OC se convierte a USD con su **TC propio**: el que cargaste a mano (USD por 1 unidad), o el histórico de la fecha de la OC si no cargaste ninguno.';
 }
 function aiAnswer(q){
   var n=norm(q);
@@ -2856,9 +3348,10 @@ function aiAnswer(q){
     reorderpt:['punto','reorden','reorder'],
     demand:['demanda','phi','consumo','rotacion','rotación'],
     leadtime:['lead','plazo','entrega','demora','tiempo'],
-    contract:['contrato','contratos','vencimiento','vence','renovar','renovacion','renovación'],
-    fx:['cambio','tipo de cambio','cotizacion','cotización','divisa','dolar','dólar','euro','tc'],
-    safety:['seguridad','colchon','colchón']
+    contract:['contrato','contratos','vencimiento','vence','renovar','renovacion','renovación','servicio','servicios','contratado','contratados','sla','vigencia','vigente','modalidad'],
+    fx:['cambio','tipo de cambio','cotizacion','cotización','divisa','dolar','dólar','euro','tc','usd','conversion','conversión','moneda','monedas'],
+    safety:['seguridad','colchon','colchón'],
+    convert:['convertir','converti','convertime','pasar','pasame','equivale','equivalente','cuanto es','cuánto es']
   };
   function w(group){var a=W[group]||[];return any.apply(null,a);}
 
@@ -2875,6 +3368,8 @@ function aiAnswer(q){
     if(w('price')&&w('avg')) push(11,function(){return ansAvgPrice(mat);});
     if(w('price')&&!w('trend')) push(8,function(){return ansLastPrice(mat);});
     if(w('count')&&w('order')) push(9,function(){return ansMaterial(mat);});
+    if(phrase('codigo','código','como se forma','que significa el codigo','prefijo')) push(11,function(){return ansMatCode(mat);});
+    if(w('status')||w('reorder')||phrase('semaforo','semáforo','como esta','cómo está','alerta')) push(10,function(){return ansMatStatus(mat);});
     push(3,function(){return ansMaterial(mat);});
   }
   // -- inventory / stock (material-centric) --
@@ -2895,12 +3390,14 @@ function aiAnswer(q){
   // -- OC-centric --
   if(oc){
     if(w('comment')) push(12,function(){return ansComment(oc);});
+    if(w('fx')||detectTargetCur(q)) push(13,function(){return ansConvertOC(oc,detectTargetCur(q));});
     push(9,function(){return ansOC(oc);});
   }
   if(sp){
     push(9,function(){var s=(DB.sps||[]).find(function(x){return x.id===sp;});return s?('**'+s.id+'** — '+(s.matDesc||s.material||'')+'\n• Estado: '+s.status+'\n• Solicitante: '+(s.requester||'—')+'\n• Cantidad: '+s.qty+(s.linkedPO?'\n• OC vinculada: '+s.linkedPO:'')):'No encontré '+sp+'.';});
   }
   // -- inventory global --
+  if((phrase('semaforo','semáforo','alerta','alertas','que materiales','qué materiales')||(w('status')&&w('material')))&&!mat) push(11,function(){return ansMatAlerts();});
   if(w('reorder')&&!mat) push(10,function(){return ansReorder();});
   if(w('stock')&&w('min')&&!mat) push(10,function(){return ansLowStock();});
   if(phrase('bajo minimo','bajo mínimo','falta stock','sin stock','poco stock')) push(10,function(){return ansLowStock();});
@@ -2909,7 +3406,7 @@ function aiAnswer(q){
   if(sup&&w('contract')) push(11,function(){return ansContractSupplier(sup);});
   if(w('contract')&&!sup) push(9,function(){return ansContracts();});
   // -- fx / tipo de cambio --
-  if(w('fx')) push(8,function(){return ansFX();});
+  if(w('fx')||phrase('tipo de cambio','tc del dia','a usd','en usd','en dolares','en dólares')) push(8,function(){return ansFX();});
   // -- counts --
   if(w('count')){
     if(w('material')) push(8,function(){return ansCount('materiales');});
@@ -2921,7 +3418,7 @@ function aiAnswer(q){
     if(w('category')) push(7,function(){return ansCount('categorias');});
     if(w('order')&&!sup&&!range) push(7,function(){return ansCount('ordenes');});
     if(w('reorder')||w('stock')) push(6,function(){return ansReorder();});
-    if(w('contract')) push(7,function(){return (DB.suppliers||[]).filter(function(s){return s.contractEnd;}).length+' proveedores tienen contrato cargado.';});
+    if(w('contract')) push(7,function(){return (DB.services||[]).length+' servicios cargados ('+(DB.services||[]).filter(function(v){return v.end&&v.end>=new Date().toISOString().slice(0,10);}).length+' vigentes).';});
   }
   // -- status counts --
   if(w('count')&&w('approve')) push(9,function(){return ansOCbyStatus('aprob');});

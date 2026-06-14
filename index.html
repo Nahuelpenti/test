@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -212,7 +213,7 @@ body.drawer-open .nav-burger span:nth-child(2){opacity:0}
 body.drawer-open .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .drawer-overlay{position:fixed;inset:0;background:rgba(14,36,21,.45);backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s;z-index:120}
 body.drawer-open .drawer-overlay{opacity:1;visibility:visible}
-.drawer{position:fixed;top:0;left:0;bottom:0;width:min(82vw,320px);background:var(--bg);z-index:130;transform:translateX(-105%);transition:transform .38s cubic-bezier(.4,0,.2,1);box-shadow:8px 0 40px rgba(14,36,21,.18);display:flex;flex-direction:column;padding:1.4rem 1.4rem 2rem}
+.drawer{position:fixed;top:0;left:0;bottom:0;width:min(82vw,320px);background:rgba(248,245,240,.82);backdrop-filter:blur(20px) saturate(1.2);-webkit-backdrop-filter:blur(20px) saturate(1.2);z-index:130;transform:translateX(-105%);transition:transform .38s cubic-bezier(.4,0,.2,1);box-shadow:8px 0 40px rgba(14,36,21,.14);border-right:1px solid rgba(201,160,32,.25);display:flex;flex-direction:column;padding:1.4rem 1.4rem 2rem}
 body.drawer-open .drawer{transform:translateX(0)}
 .drawer-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:1.2rem;border-bottom:1px solid var(--faint);margin-bottom:1.4rem}
 .drawer-logo{display:flex;align-items:center;gap:.5rem}
@@ -471,7 +472,6 @@ section[id]{scroll-margin-top:90px}
     <a href="#servicios" class="drawer-link" onclick="closeDrawer()" data-es="Servicios" data-en="Services">Servicios</a>
     <a href="#industrias" class="drawer-link" onclick="closeDrawer()" data-es="Sectores" data-en="Sectors">Sectores</a>
     <a href="#metodo" class="drawer-link" onclick="closeDrawer()" data-es="Método" data-en="Method">Método</a>
-    <a href="#plataforma" class="drawer-link" onclick="closeDrawer()" data-es="La plataforma" data-en="The platform">La plataforma</a>
     <a href="#fundadores" class="drawer-link" onclick="closeDrawer()" data-es="Fundadores" data-en="Founders">Fundadores</a>
     <a href="#contacto" class="drawer-link" onclick="closeDrawer()" data-es="Contacto" data-en="Contact">Contacto</a>
   </nav>
@@ -1037,7 +1037,7 @@ function handleSubmit(e){
     {es:'Costo del\nproducto',    en:'Product\ncost',             v:-60,type:'decrease',color:'#6B7E6A'},
     {es:'Ganancia del\nproveedor',en:'Supplier\nmargin',          v:-25,type:'decrease',color:'#8A9E8A'},
     {es:'Savings\nposibles',      en:'Possible\nsavings',         v:-5, type:'savings', color:'#C9A020'},
-    {es:'Ineficiencias\noperativas',en:'Operational\ninefficiencies',v:-10,type:'lemalli',color:'#c0392b'},
+    {es:'Ineficiencias\noperativas',en:'Operational\ninefficiencies',v:-10,type:'lemalli',color:'#c0392b',pulse:true},
   ];
   var starts=[],floats=[],colors=[],running=0;
   bars.forEach(function(b){
@@ -1106,6 +1106,45 @@ function handleSubmit(e){
     if(typeof Chart==='undefined')return;
     if(chartRef){chartRef.destroy();}
     var l=getLang();
+    // índice de la barra que debe titilar (la roja de ineficiencias)
+    var pulseIdx=bars.reduce(function(a,b,i){return b.pulse?i:a;},-1);
+    var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // plugin: late suavemente el color de relleno de la barra roja para señalar
+    // que hay ineficiencias por resolver. Si el usuario pide menos movimiento, deja un halo fijo.
+    var redPulsePlugin={
+      id:'redPulse',
+      afterDraw:function(chart){
+        if(pulseIdx<0)return;
+        var meta=chart.getDatasetMeta(1); if(!meta||!meta.data[pulseIdx])return;
+        var bar=meta.data[pulseIdx];
+        var props=bar.getProps(['x','y','base','width'],true);
+        var ctx=chart.ctx;
+        var half=Math.abs(props.width)/2;
+        var x=props.x-half, w=props.width, top=Math.min(props.y,props.base), h=Math.abs(props.base-props.y);
+        var t=reduceMotion?0.5:(Math.sin(Date.now()/520)+1)/2; // 0..1
+        var glow=0.18+0.55*t;        // intensidad del halo
+        ctx.save();
+        ctx.shadowColor='rgba(192,57,43,'+(0.35+0.45*t)+')';
+        ctx.shadowBlur=8+14*t;
+        ctx.fillStyle='rgba(192,57,43,'+(0.85+0.15*t)+')';
+        var r=3;
+        ctx.beginPath();
+        ctx.moveTo(x+r,top);
+        ctx.arcTo(x+w,top,x+w,top+h,r);
+        ctx.arcTo(x+w,top+h,x,top+h,r);
+        ctx.arcTo(x,top+h,x,top,r);
+        ctx.arcTo(x,top,x+w,top,r);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+        // borde-halo extra
+        ctx.save();
+        ctx.strokeStyle='rgba(192,57,43,'+glow+')';
+        ctx.lineWidth=2;
+        ctx.strokeRect(x-1.5,top-1.5,w+3,h+3);
+        ctx.restore();
+      }
+    };
     chartRef=new Chart(canvas,{
       type:'bar',
       data:{
@@ -1116,6 +1155,7 @@ function handleSubmit(e){
            borderWidth:1.5,borderRadius:3,barPercentage:.58,borderSkipped:false}
         ]
       },
+      plugins:[redPulsePlugin],
       options:{
         responsive:true,maintainAspectRatio:false,
         animation:{duration:700,easing:'easeInOutQuart'},
@@ -1137,6 +1177,14 @@ function handleSubmit(e){
         }
       }
     });
+    // latido continuo de la barra roja (un solo rAF activo aunque se reconstruya)
+    if(!reduceMotion){
+      window.__wfBeatId=(window.__wfBeatId||0)+1;
+      var myBeat=window.__wfBeatId;
+      (function beat(){
+        if(chartRef && myBeat===window.__wfBeatId){ chartRef.draw(); requestAnimationFrame(beat); }
+      })();
+    }
   }
   var lastY2=-1;
   (function tick(){

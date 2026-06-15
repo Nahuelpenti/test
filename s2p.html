@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -159,6 +158,7 @@ tbody tr:hover{background:var(--bg)}
 .login-hint code{background:var(--faint);padding:.1rem .4rem;border-radius:4px;font-size:.7rem;color:var(--ink)}
 /* ROLES */
 body:not(.is-admin) .admin-only{display:none!important}
+body:not(.can-buy) .buy-only{display:none!important}
 .user-chip{display:inline-flex;align-items:center;gap:.45rem;background:var(--bg);border:1px solid var(--faint);border-radius:20px;padding:.35rem .9rem .35rem .5rem;font-size:.78rem;font-weight:600;color:var(--slate)}
 .user-avatar{width:24px;height:24px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700}
 .role-badge{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:.12rem .5rem;border-radius:10px}
@@ -224,6 +224,9 @@ table.raw{font-size:.8rem;width:100%}
 table.raw th{font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding:.5rem .6rem;white-space:nowrap}
 table.raw td{padding:.45rem .6rem;border-top:1px solid var(--faint);white-space:nowrap}
 table.raw tbody tr:hover{background:var(--bg)}
+table.pos-table td{vertical-align:middle}
+table.pos-table.raw tbody tr:hover{background:transparent}
+table.pos-table input{box-sizing:border-box}
 .tag-red{background:#fee2e2;color:#b91c1c}
 </style>
 </head>
@@ -272,7 +275,7 @@ table.raw tbody tr:hover{background:var(--bg)}
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
         <span>Panel</span>
       </button>
-      <div class="sb-section">Gasto</div>
+      <div class="sb-section">Pedidos</div>
       <button class="nav-item" data-view="sps">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>
         <span>Solicitudes</span>
@@ -281,17 +284,23 @@ table.raw tbody tr:hover{background:var(--bg)}
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
         <span>Órdenes de compra</span>
       </button>
-      <button class="nav-item" data-view="new-order">
+      <button class="nav-item buy-only" data-view="new-order">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
         <span>Cargar pedido</span>
       </button>
-      <button class="nav-item" data-view="suppliers">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-        <span>Proveedores</span>
+      <div class="sb-section">Producción</div>
+      <button class="nav-item" data-view="materials">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        <span>Materiales</span>
       </button>
       <button class="nav-item" data-view="services">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
         <span>Servicios</span>
+      </button>
+      <div class="sb-section">Proveedor</div>
+      <button class="nav-item" data-view="suppliers">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        <span>Proveedores</span>
       </button>
       <div class="sb-section">Análisis</div>
       <button class="nav-item" data-view="budget">
@@ -301,14 +310,6 @@ table.raw tbody tr:hover{background:var(--bg)}
       <button class="nav-item" data-view="savings">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>
         <span>Savings vs Budget</span>
-      </button>
-      <button class="nav-item" data-view="materials">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
-        <span>Materiales</span>
-      </button>
-      <button class="nav-item" data-view="inventory">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9h18M3 9l2-5h14l2 5M3 9v10a1 1 0 001 1h16a1 1 0 001-1V9M9 13h6"/></svg>
-        <span>Inventario</span>
       </button>
       <button class="nav-item" data-view="prices">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -506,7 +507,22 @@ function resetData(){ toast('Restaurar demo no está disponible en modo online')
 
 // ============ AUTH (Supabase) ============
 var SESSION=null;
-function isAdmin(){return SESSION&&SESSION.role==='admin';}
+// ===== PERFILES Y CAPACIDADES =====
+// Perfiles: 'admin' (Administración), 'comprador_plus' (planner+operaciones+compra),
+//           'comprador' (compra), 'planner' (Planner/Operaciones: ve y crea SP, ve data; no compra ni aprueba)
+// Compatibilidad: el viejo 'buyer' se trata como 'comprador'.
+var ROLE_LABELS={admin:'Administración',comprador_plus:'Comprador Plus',comprador:'Comprador',planner:'Planner / Operaciones',buyer:'Comprador'};
+function roleOf(){var r=(SESSION&&SESSION.role)||'';return r==='buyer'?'comprador':r;}
+// capacidades por rol
+var ROLE_CAPS={
+  admin:        {approve:1,buy:1,editOrder:1,delete:1,manageSP:1,assignBuyer:1,createSP:1,admin:1,seeAll:1},
+  comprador_plus:{approve:0,buy:1,editOrder:1,delete:0,manageSP:1,assignBuyer:1,createSP:1,admin:0,seeAll:1},
+  comprador:    {approve:0,buy:1,editOrder:1,delete:0,manageSP:1,assignBuyer:0,createSP:1,admin:0,seeAll:0},
+  planner:      {approve:0,buy:0,editOrder:0,delete:0,manageSP:0,assignBuyer:0,createSP:1,admin:0,seeAll:0}
+};
+function can(cap){var caps=ROLE_CAPS[roleOf()]||{};return !!caps[cap];}
+function isAdmin(){return roleOf()==='admin';}
+function roleLabel(r){return ROLE_LABELS[r]||r||'—';}
 async function doLogin(e){
   if(e)e.preventDefault();
   var email=document.getElementById('loginUser').value.trim();
@@ -547,11 +563,12 @@ async function doLogout(){
 function enterApp(){
   document.getElementById('loginOverlay').style.display='none';
   document.body.classList.toggle('is-admin',isAdmin());
+  document.body.classList.toggle('can-buy',can('buy'));
   var chip=document.getElementById('userChip');
   if(chip&&SESSION){
     var ini=(SESSION.name||'?').split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
     chip.innerHTML='<span class="user-avatar">'+ini+'</span>'+SESSION.name+
-      ' <span class="role-badge '+(isAdmin()?'role-admin':'role-buyer')+'">'+(isAdmin()?'Admin':'Comprador')+'</span>'+
+      ' <span class="role-badge '+(isAdmin()?'role-admin':'role-buyer')+'">'+roleLabel(roleOf())+'</span>'+
       (SESSION.company_id?' <span style="color:var(--muted);font-size:.7rem">· '+SESSION.company_id+'</span>':'');
   }
   go('dashboard');
@@ -621,17 +638,73 @@ function eurU(n){return n===null?'—':'€'+Number(n).toLocaleString('es-ES',{m
 var DELIV_OPTS=['Pendiente','Parcial','Entregado'];
 var PAID_OPTS=['No pagado','Pagado'];
 function delSel(idx,val){
+  var o=DB.orders[idx]||{};
   var colors={'Entregado':'var(--green)','Parcial':'var(--amber)','Pendiente':'var(--muted)'};
-  return '<select class="mini-sel" style="color:'+(colors[val]||'var(--muted)')+'" onchange="setDelivery('+idx+',this.value)" onclick="event.stopPropagation()">'+
+  var sel='<select class="mini-sel" style="color:'+(colors[val]||'var(--muted)')+'" onchange="setDelivery('+idx+',this.value)" onclick="event.stopPropagation()">'+
     DELIV_OPTS.map(function(v){return '<option'+(v===val?' selected':'')+'>'+v+'</option>';}).join('')+'</select>';
+  // progreso de recepción (recibido / total) y pendiente
+  if(val==='Parcial'||(val==='Entregado'&&o.received&&o.received<totalQtyOf(o))){
+    var tot=totalQtyOf(o);var rec=+o.received||0;var pend=Math.max(tot-rec,0);
+    var pct=tot>0?Math.round(rec/tot*100):0;
+    sel+='<div style="font-size:.62rem;color:var(--amber);font-weight:600;margin-top:2px">recibido '+rec+'/'+tot+' ('+pct+'%) · pend. '+pend+'</div>';
+  }
+  return sel;
 }
 function paySel(idx,val){
   var colors={'Pagado':'var(--green)','No pagado':'var(--red)'};
   return '<select class="mini-sel" style="color:'+(colors[val]||'var(--muted)')+'" onchange="setPaid('+idx+',this.value)" onclick="event.stopPropagation()">'+
     PAID_OPTS.map(function(v){return '<option'+(v===val?' selected':'')+'>'+v+'</option>';}).join('')+'</select>';
 }
-function setDelivery(idx,v){if(DB.orders[idx]){DB.orders[idx].delivery=v;save();toast('Entrega: '+v);}}
+function setDelivery(idx,v){
+  var o=DB.orders[idx];if(!o)return;
+  if(v==='Parcial'){
+    // OC multi-material: pedir recepción por ítem. OC simple: una cantidad.
+    if(o.items&&o.items.length){openPartialModal(idx);return;}
+    var tot=totalQtyOf(o);
+    var actual=+o.received||0;
+    var inp=prompt('Recepción parcial de '+o.id+'\nCantidad total: '+tot+'\n¿Cuánto se recibió hasta ahora?', actual||'');
+    if(inp===null)return; // canceló: no cambia
+    var rec=Math.max(0,Math.min(+inp||0,tot));
+    o.received=rec;
+    o.delivery=(rec>=tot&&tot>0)?'Entregado':(rec>0?'Parcial':'Pendiente');
+    save();toast('Recibido '+rec+'/'+tot+' — pendiente '+(tot-rec));
+    refreshOrdersTable();return;
+  }
+  if(v==='Entregado'){o.received=totalQtyOf(o);}
+  if(v==='Pendiente'){o.received=0;}
+  o.delivery=v;save();toast('Entrega: '+v);refreshOrdersTable();
+}
 function setPaid(idx,v){if(DB.orders[idx]){DB.orders[idx].paid=v;save();toast('Pago: '+v);}}
+// Modal de recepción por ítem para OC multi-material
+function openPartialModal(idx){
+  var o=DB.orders[idx];if(!o||!o.items)return;
+  var rows=o.items.map(function(it,i){
+    var rec=+it.received||0;
+    return '<div class="field"><label>'+(it.code||it.desc||('Ítem '+(i+1)))+' (de '+(+it.qty||0)+')</label>'+
+      '<input type="number" id="pt-'+i+'" min="0" max="'+(+it.qty||0)+'" value="'+rec+'"></div>';
+  }).join('');
+  var el=document.getElementById('modalContent');
+  el.innerHTML=''+
+    '<div class="modal-head"><div class="modal-title">Recepción de '+o.id+'</div>'+
+      '<button class="modal-close" onclick="closeModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
+    '<div class="hint" style="margin-bottom:1rem">Ingresá cuánto se recibió de cada material. El sistema calcula lo pendiente automáticamente.</div>'+
+    '<div class="form-grid">'+rows+'</div>'+
+    '<div class="form-actions"><button class="btn btn-primary" onclick="savePartial('+idx+')">Guardar recepción</button><button class="btn btn-ghost" onclick="closeModal()">Cancelar</button></div>';
+  document.getElementById('modalBg').classList.add('show');
+}
+function savePartial(idx){
+  var o=DB.orders[idx];if(!o||!o.items)return;
+  var totRec=0,tot=0;
+  o.items.forEach(function(it,i){
+    var el=document.getElementById('pt-'+i);
+    var r=Math.max(0,Math.min(+((el||{}).value)||0,+it.qty||0));
+    it.received=r;totRec+=r;tot+=(+it.qty||0);
+  });
+  o.received=totRec;
+  o.delivery=(totRec>=tot&&tot>0)?'Entregado':(totRec>0?'Parcial':'Pendiente');
+  save();closeModal();toast('Recepción guardada: '+totRec+'/'+tot+' (pendiente '+(tot-totRec)+')');
+  refreshOrdersTable();
+}
 function toast(msg){var t=document.getElementById('toast');document.getElementById('toast-msg').textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2200);}
 
 var charts={};
@@ -695,6 +768,22 @@ function refRateForDate(date,cur){
   return null;
 }
 function curOptions(sel){return CURRENCIES.map(function(c){return '<option value="'+c+'"'+(c===sel?' selected':'')+'>'+c+'</option>';}).join('');}
+// ---- Combo de proveedor CON BUSCADOR (input + datalist nativo) ----
+// id: id del input; selName: nombre del proveedor seleccionado; listId: id único del datalist
+function supplierCombo(id,selName,listId){
+  listId=listId||(id+'-list');
+  var opts=(DB.suppliers||[]).slice().sort(function(a,b){return (a.name||'').localeCompare(b.name||'');})
+    .map(function(s){return '<option value="'+(s.name||'').replace(/"/g,'&quot;')+'">'+(s.category||'')+(s.rating?(' · ★'+s.rating):'')+'</option>';}).join('');
+  return '<input type="text" id="'+id+'" list="'+listId+'" value="'+(selName||'').replace(/"/g,'&quot;')+'" '+
+    'placeholder="Escribí para buscar proveedor..." autocomplete="off" '+
+    'style="width:100%;border:1px solid var(--faint);border-radius:8px;padding:.55rem .7rem;font-family:inherit;font-size:.85rem">'+
+    '<datalist id="'+listId+'">'+opts+'</datalist>';
+}
+// categoría del proveedor por nombre (reemplaza el data-cat del viejo select)
+function supplierCat(name,fallback){
+  var s=(DB.suppliers||[]).find(function(x){return x.name===name;});
+  return (s&&s.category)||fallback||'Indirectos';
+}
 function curSymbol(c){return ({EUR:'€',USD:'US$',GBP:'£',ARS:'$',BRL:'R$',MXN:'$',CLP:'$',COP:'$',UYU:'$',PEN:'S/'})[c]||c+' ';}
 // fetch live rates from Frankfurter (ECB), base = display currency
 async function loadFX(base){
@@ -747,6 +836,7 @@ var TITLES={
 
 function go(view){
   if((view==='direccion'||view==='users'||view==='aprobaciones'||view==='config')&&!isAdmin()){toast('Acceso solo para administrador');return;}
+  if(view==='new-order'&&!can('buy')){toast('Tu perfil ('+roleLabel(roleOf())+') no puede crear órdenes de compra. Podés crear solicitudes de pedido.');return;}
   CURRENT=view;
   document.querySelectorAll('.nav-item').forEach(function(b){b.classList.toggle('active',b.dataset.view===view);});
   document.getElementById('page-title').textContent=TITLES[view][0];
@@ -770,7 +860,7 @@ function render(view){
   else if(view==='aprobaciones')c.innerHTML=viewAprobaciones();
   else if(view==='config')c.innerHTML=viewConfig();
   else if(view==='materials')c.innerHTML=viewMaterials();
-  else if(view==='inventory')c.innerHTML=viewInventory();
+  else if(view==='inventory')c.innerHTML=viewMaterials();
   // build charts after DOM
   setTimeout(function(){
     if(view==='dashboard')buildDashCharts();
@@ -778,7 +868,8 @@ function render(view){
     if(view==='savings')buildSavingsChart();
     if(view==='prices')buildPriceChart();
     if(view==='direccion')buildDireccionCharts();
-    if(view==='new-order'){applySPPrefill();onTypeChange();onOrderCurrency();}
+    if(view==='new-order'){renderOCPositions(window._ocPrefillPositions||null);window._ocPrefillPositions=null;applySPPrefill();onTypeChange();onOrderCurrency();}
+    if(view==='sps'){if(typeof renderSPItems==='function'&&document.getElementById('spItems'))renderSPItems(window._spPrefillItems||null);window._spPrefillItems=null;}
   },30);
 }
 
@@ -959,7 +1050,7 @@ function ordersTableHTML(){
     }
     return '<tr>'+
       '<td class="td-strong">'+o.id+(o.sp?'<div style="font-size:.62rem;color:var(--muted);font-weight:500">'+o.sp+'</div>':'')+'</td>'+
-      '<td><span class="tag tag-blue" title="'+(o.matDesc||'')+'">'+(o.material||'—')+'</span></td>'+
+      '<td><span class="tag tag-blue" title="'+(o.matDesc||'')+'">'+(o.items&&o.items.length>1?(o.items.length+' pos.'):(o.material||'—'))+'</span></td>'+
       '<td>'+o.supplier+'</td>'+
       '<td>'+buyerName(o.buyer)+'</td>'+
       '<td><span class="tag tag-gray" title="'+ccLabel(o.cc).replace(/"/g,'&quot;')+'">'+(o.cc||'—')+'</span></td>'+
@@ -992,7 +1083,6 @@ function sendOC(idx){
   var o=DB.orders[idx];if(!o)return;
   if(o.status!=='Aprobada'){toast('La OC debe estar aprobada para enviarse al proveedor');return;}
   var sup=(DB.suppliers||[]).find(function(s){return s.name===o.supplier;})||{};
-  if(!sup.email){toast('El proveedor "'+o.supplier+'" no tiene email. Editalo en Proveedores (lápiz) y agregá su email.');return;}
   var C=DB.config||{};
   var fromName=(SESSION&&SESSION.name)||'';
   var fromEmail=(SESSION&&SESSION.email)||'';
@@ -1011,33 +1101,26 @@ function sendOC(idx){
     'Adjuntamos el PDF de la orden ('+o.id+'.pdf).','',
     'Por favor confirmar recepción y plazo de entrega.','','Saludos cordiales,',
     fromName,(C.name||''),fromEmail||(C.email||'')]).join(nl);
-  // Modal con opciones claras
+  // Modal: descargar PDF + mostrar el mail modelo para copiar. NO abre correo.
   var el=document.getElementById('modalContent');
   el.innerHTML=''+
-    '<div class="modal-head"><div class="modal-title">Enviar OC '+o.id+'</div>'+
+    '<div class="modal-head"><div class="modal-title">OC '+o.id+' — PDF y mail modelo</div>'+
       '<button class="modal-close" onclick="closeModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
-    '<div class="hint" style="margin-bottom:.8rem"><strong>Para:</strong> '+sup.email+'  ·  <strong>CC:</strong> '+(fromEmail||'(tu correo)')+'</div>'+
+    '<div class="hint" style="margin-bottom:.8rem"><strong>Para:</strong> '+(sup.email||'(sin email cargado)')+'  ·  <strong>CC:</strong> '+(fromEmail||'(tu correo)')+'</div>'+
     '<div class="form-grid"><div class="field full"><label>Asunto</label><input type="text" id="oc-subj" value="'+subj.replace(/"/g,'&quot;')+'"></div>'+
-    '<div class="field full"><label>Mensaje</label><textarea id="oc-body" rows="9" style="font-size:.82rem">'+body+'</textarea></div></div>'+
-    '<div class="hint" style="margin:.4rem 0 1rem;background:#fff7ed;border-color:#fed7aa">El PDF se descarga al abrir el correo: <strong>adjuntalo manualmente</strong> antes de enviar (los navegadores no permiten adjuntar archivos automáticamente).</div>'+
+    '<div class="field full"><label>Mensaje (mail modelo)</label><textarea id="oc-body" rows="11" style="font-size:.82rem">'+body+'</textarea></div></div>'+
+    '<div class="hint" style="margin:.4rem 0 1rem">Descargá el PDF y copiá el mensaje para pegarlo en tu correo. El sistema no abre ni envía el correo automáticamente.</div>'+
     '<div class="form-actions">'+
-      '<button class="btn btn-primary" onclick="ocOpenMail('+idx+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:15px;height:15px"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>Descargar PDF y abrir correo</button>'+
+      '<button class="btn btn-primary" onclick="printOrder('+idx+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:15px;height:15px"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>Descargar PDF</button>'+
       '<button class="btn btn-ghost" onclick="ocCopyBody()">Copiar mensaje</button>'+
-      '<button class="btn btn-ghost" onclick="printOrder('+idx+')">Solo descargar PDF</button>'+
+      '<button class="btn btn-ghost" onclick="ocCopySubj()">Copiar asunto</button>'+
     '</div>';
   document.getElementById('modalBg').classList.add('show');
 }
-function ocOpenMail(idx){
-  var o=DB.orders[idx];var sup=(DB.suppliers||[]).find(function(s){return s.name===o.supplier;})||{};
-  var fromEmail=(SESSION&&SESSION.email)||'';
-  var subj=document.getElementById('oc-subj').value;
-  var body=document.getElementById('oc-body').value;
-  printOrder(idx); // descarga el PDF
-  var params='subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
-  if(fromEmail)params='cc='+encodeURIComponent(fromEmail)+'&'+params;
-  var href='mailto:'+encodeURIComponent(sup.email)+'?'+params;
-  setTimeout(function(){window.location.href=href;},500);
-  toast('PDF '+o.id+'.pdf descargado — adjuntalo en el correo que se abrió');
+function ocCopySubj(){
+  var s=document.getElementById('oc-subj');
+  if(navigator.clipboard){navigator.clipboard.writeText(s.value).then(function(){toast('Asunto copiado');});}
+  else{s.select();document.execCommand('copy');toast('Asunto copiado');}
 }
 function ocCopyBody(){
   var b=document.getElementById('oc-body').value;
@@ -1132,13 +1215,11 @@ function printOrder(idx){
   var OCUR=(o.currency||'USD');
   function money(n){return Number(n||0).toLocaleString('es-ES',{maximumFractionDigits:2})+' '+OCUR;}
   d.setFillColor(201,160,32);d.rect(0,0,W,4,'F');
-  d.setDrawColor(26,82,51);d.setLineWidth(2);d.rect(M,36,34,34);
-  d.setDrawColor(201,160,32);d.setLineWidth(2.5);d.line(M+17,53,M+30,53);
   d.setTextColor(15,23,42);d.setFont('helvetica','bold');d.setFontSize(13);
-  d.text(C.name||'Empresa',M+44,50);
+  d.text(C.name||'Empresa',M,50);
   d.setFont('helvetica','normal');d.setFontSize(8);d.setTextColor(100,116,139);
-  d.text((C.cif?('CIF: '+C.cif+'   ·   '):'')+(C.address||''),M+44,62);
-  d.text([C.phone,C.email,C.web].filter(Boolean).join('   ·   '),M+44,73);
+  d.text((C.cif?('CIF: '+C.cif+'   ·   '):'')+(C.address||''),M,62);
+  d.text([C.phone,C.email,C.web].filter(Boolean).join('   ·   '),M,73);
   d.setFont('helvetica','bold');d.setFontSize(17);d.setTextColor(26,82,51);
   d.text('ORDEN DE COMPRA',W-M,48,{align:'right'});
   d.setFontSize(11);d.setTextColor(15,23,42);d.text(o.id,W-M,64,{align:'right'});
@@ -1165,16 +1246,22 @@ function printOrder(idx){
   d.text('CÓDIGO',M+6,y+13);d.text('DESCRIPCIÓN',M+72,y+13);d.text('TIPO',M+252,y+13);
   d.text('CANT.',M+312,y+13);d.text('P. UNITARIO',M+358,y+13);d.text('TOTAL',W-M-6,y+13,{align:'right'});
   y+=20;
-  var up=unitP(o);
-  var desc=d.splitTextToSize(o.matDesc||'—',168);
-  d.setFont('helvetica','bold');d.setFontSize(9);d.setTextColor(15,23,42);
-  d.text(o.material||'—',M+6,y+15);
-  d.setFont('helvetica','normal');d.text(desc,M+72,y+15);
-  d.text(o.type||'—',M+252,y+15);
-  d.text(String((o.qty||0).toLocaleString('es-ES')),M+312,y+15);
-  d.text(up!==null?money(up):'—',M+358,y+15);
-  d.setFont('helvetica','bold');d.text(money(o.amount),W-M-6,y+15,{align:'right'});
-  y+=Math.max(28,desc.length*11+14);
+  var posList=(o.items&&o.items.length)?o.items:[{material:o.material,matDesc:o.matDesc,qty:o.qty,amount:o.amount}];
+  d.setFontSize(9);
+  posList.forEach(function(p){
+    var pu=(+p.qty>0)?((+p.amount||0)/(+p.qty)):null;
+    var desc=d.splitTextToSize(p.matDesc||'—',168);
+    d.setFont('helvetica','bold');d.setTextColor(15,23,42);
+    d.text(p.material||'—',M+6,y+15);
+    d.setFont('helvetica','normal');d.text(desc,M+72,y+15);
+    d.text(o.type||'—',M+252,y+15);
+    d.text(String((+p.qty||0).toLocaleString('es-ES')),M+312,y+15);
+    d.text(pu!==null?money(pu):'—',M+358,y+15);
+    d.setFont('helvetica','bold');d.text(money(+p.amount||0),W-M-6,y+15,{align:'right'});
+    y+=Math.max(24,desc.length*11+12);
+    d.setDrawColor(240,243,247);d.line(M,y,W-M,y);
+  });
+  y+=4;
   d.setDrawColor(226,232,240);d.line(M,y,W-M,y);y+=18;
   d.setFont('helvetica','bold');d.setFontSize(12);d.setTextColor(26,82,51);
   d.text('TOTAL: '+money(o.amount),W-M,y,{align:'right'});y+=30;
@@ -1213,41 +1300,112 @@ function fillMatFromCatalog(code){
   if(d)d.value=m.description||'';
 }
 function viewNewOrder(){
-  var supOpts=DB.suppliers.map(function(s){return '<option value="'+s.name+'" data-cat="'+s.category+'">'+s.name+'</option>';}).join('');
   var budOpts=DB.budgets.map(function(b){return '<option value="'+b.cat+'">'+b.cat+'</option>';}).join('');
-  var mats={};
-  (DB.materials||[]).forEach(function(m){if(m.code)mats[m.code]=m.description||'';});
-  DB.orders.forEach(function(o){if(o.material&&!mats[o.material])mats[o.material]=o.matDesc||'';});
-  var matOpts=Object.keys(mats).sort().map(function(m){return '<option value="'+m+'">'+mats[m]+'</option>';}).join('');
-  var matCatOpts=(DB.materials||[]).slice().sort(function(a,b){return a.code<b.code?-1:1;}).map(function(m){return '<option value="'+m.code+'">'+m.code+' — '+(m.description||'')+'</option>';}).join('');
-  var spOpts=(DB.sps||[]).filter(function(s){return s.status==='Abierta';}).map(function(s){return '<option value="'+s.id+'"'+(PENDING_SP===s.id?' selected':'')+'>'+s.id+' — '+(s.matDesc||s.material||'')+' ('+s.qty+')</option>';}).join('');
-  var spBanner=PENDING_SP?'<div class="hint" style="margin-bottom:1.2rem"><strong>Creando OC desde la solicitud '+PENDING_SP+'.</strong> Los campos se completaron con los datos de la solicitud — revisalos y elegí el proveedor.</div>':'';
+  var spBanner=PENDING_SP?'<div class="hint" style="margin-bottom:1.2rem"><strong>Creando OC desde la solicitud '+PENDING_SP+'.</strong> Se precargó una posición con sus datos — elegí el proveedor y agregá más posiciones si hace falta.</div>':'';
   return '<div class="form-card">'+spBanner+'<div class="card-title" style="margin-bottom:1.4rem">Registrar orden de compra</div>'+
-  '<form id="orderForm" onsubmit="submitOrder(event)"><div class="form-grid">'+
-    '<div class="field"><label>ID de orden</label><input type="text" id="f-id" value="'+nextPO()+'" required></div>'+
-    '<div class="field"><label>Fecha</label><input type="date" id="f-date" value="'+new Date().toISOString().slice(0,10)+'" required></div>'+
-    '<div class="field full"><label>Proveedor</label><select id="f-supplier" required>'+supOpts+'</select></div>'+
-    '<div class="field full"><label>Solicitud de pedido asociada (opcional)</label><select id="f-sp" onchange="spPrefill(this.value)"><option value="">Sin solicitud — compra directa</option>'+spOpts+'</select></div>'+
-    '<div class="field"><label>Tipo</label><select id="f-type" onchange="onTypeChange()"><option>Material</option><option>Servicio</option></select></div>'+'<div class="field" id="matCodeField"><label>Material (del catálogo)</label><select id="f-material" onchange="fillMatFromCatalog(this.value)"><option value="">— elegí un material —</option>'+matCatOpts+'</select></div>'+
-    '<div class="field"><label>Descripción del material</label><input type="text" id="f-matdesc" placeholder="Ej: Acero laminado (ton)"></div>'+
-    '<div class="field"><label>Cantidad</label><input type="number" id="f-qty" min="0" step="1" placeholder="0"></div>'+
+  '<form id="orderForm" onsubmit="submitOrder(event)">'+
+  '<div class="card-sub" style="margin-bottom:.6rem;font-weight:600;color:var(--slate)">Cabecera</div>'+
+  '<div class="form-grid">'+
+    '<div class="field"><label>ID de orden (automático)</label><input type="text" id="f-id" value="'+nextPO()+'" readonly style="background:var(--bg);font-weight:700"></div>'+
+    '<div class="field"><label>Fecha</label><input type="date" id="f-date" value="'+new Date().toISOString().slice(0,10)+'" required onchange="onOrderCurrency()"></div>'+
+    '<div class="field full"><label>Proveedor</label>'+supplierCombo('f-supplier','','f-sup-list')+'</div>'+
+    '<div class="field"><label>Tipo</label><select id="f-type" onchange="onTypeChange()"><option>Material</option><option>Servicio</option></select></div>'+
     '<div class="field"><label>Centro de costo</label><select id="f-cc">'+ccOptions('')+'</select></div>'+
     '<div class="field"><label>Categoría de budget</label><select id="f-budget" required>'+budOpts+'</select></div>'+
-    '<div class="field"><label>Estado inicial</label><input type="text" value="Pendiente de aprobación" disabled></div>'+
-    '<div class="field"><label>Monto</label><input type="number" id="f-amount" min="0" step="100" placeholder="0" required></div>'+
     '<div class="field"><label>Moneda</label><select id="f-currency" onchange="onOrderCurrency()">'+curOptions(DB.config&&DB.config.baseCurrency||'USD')+'</select></div>'+
     '<div class="field" id="fxField" style="display:none"><label>TC original <span id="fxHelp" style="color:var(--muted);font-weight:400"></span></label>'+
       '<div style="display:flex;gap:.4rem;align-items:center"><input type="number" id="f-fx" min="0" step="0.0001" placeholder="0.0000" style="flex:1">'+
       '<button type="button" class="btn btn-ghost" style="padding:.45rem .6rem;white-space:nowrap" onclick="useRefFX()" title="Usar el TC de referencia de la fecha">Ref.</button></div>'+
       '<div id="fxRefLine" style="font-size:.7rem;color:var(--muted);margin-top:.25rem"></div></div>'+
-    '<div class="field"><label>Saving estimado</label><input type="number" id="f-saving" min="0" step="100" placeholder="0" value="0"></div>'+
-    '<div class="field full"><label>Notas (opcional)</label><textarea id="f-notes" rows="2" placeholder="Detalle del pedido, condiciones, plazos..."></textarea></div>'+
-  '</div><div class="form-actions"><button type="submit" class="btn btn-primary">Guardar orden</button><button type="button" class="btn btn-ghost" onclick="go(\'orders\')">Cancelar</button></div></form></div>';
+    '<div class="field"><label>Saving estimado (total)</label><input type="number" id="f-saving" min="0" step="100" placeholder="0" value="0"></div>'+
+  '</div>'+
+  '<div class="card-sub" style="margin:1.2rem 0 .5rem;font-weight:600;color:var(--slate)">Posiciones <span style="font-weight:400;color:var(--muted)">— cada posición es un material; pueden venir de distintas SP</span></div>'+
+  '<div class="table-wrap"><table class="raw pos-table"><thead><tr><th style="width:24%">Material</th><th>Descripción</th><th style="width:80px">Cant.</th><th style="width:60px">Un.</th><th style="width:110px">Monto</th><th style="width:120px">SP (opcional)</th><th style="width:44px"></th></tr></thead><tbody id="ocPos"></tbody></table></div>'+
+  '<button type="button" class="btn btn-ghost" style="margin-top:.6rem" onclick="addOCPos()">+ Agregar posición</button>'+
+  '<div style="text-align:right;margin-top:.8rem;font-weight:700">Total OC: <span id="ocTotal">0</span></div>'+
+  '<div class="form-grid" style="margin-top:1rem"><div class="field full"><label>Notas (opcional)</label><textarea id="f-notes" rows="2" placeholder="Detalle del pedido, condiciones, plazos..."></textarea></div></div>'+
+  '<div class="form-actions"><button type="submit" class="btn btn-primary">Guardar orden</button><button type="button" class="btn btn-ghost" onclick="go(\'orders\')">Cancelar</button></div></form></div>';
+}
+// ---- POSICIONES DE LA OC ----
+function matDatalistOpts(){
+  var mats={};
+  (DB.materials||[]).forEach(function(m){if(m.code)mats[m.code]=m.description||'';});
+  (DB.orders||[]).forEach(function(o){if(o.material&&!mats[o.material])mats[o.material]=o.matDesc||'';});
+  return Object.keys(mats).sort().map(function(c){return '<option value="'+c+'">'+(mats[c]||'')+'</option>';}).join('');
+}
+function spDatalistOpts(){
+  return (DB.sps||[]).filter(function(s){return s.status==='Abierta'||s.status==='Pendiente de gestión';})
+    .map(function(s){return '<option value="'+s.id+'">'+(s.matDesc||s.material||'')+'</option>';}).join('');
+}
+function ocPosRow(idx,p){
+  p=p||{};
+  var inStyle='width:100%;border:1px solid var(--faint);border-radius:6px;padding:.4rem .5rem;font-family:inherit;font-size:.82rem;box-sizing:border-box';
+  return '<tr class="oc-pos-row" data-i="'+idx+'">'+
+    '<td><input type="text" class="oc-mat" list="ocmat-list" value="'+(p.material||'').replace(/"/g,'&quot;')+'" placeholder="Buscar..." autocomplete="off" oninput="onOCPosMat(this)" style="'+inStyle+'"></td>'+
+    '<td><input type="text" class="oc-desc" value="'+(p.matDesc||'').replace(/"/g,'&quot;')+'" placeholder="Descripción" style="'+inStyle+'"></td>'+
+    '<td><input type="number" class="oc-qty" min="0" step="1" value="'+(p.qty||'')+'" placeholder="0" style="'+inStyle+'"></td>'+
+    '<td><span class="oc-unit" style="font-size:.8rem;color:var(--muted)">'+(p.unit||'—')+'</span></td>'+
+    '<td><input type="number" class="oc-amount" min="0" step="100" value="'+(p.amount||'')+'" placeholder="0" oninput="recalcOCTotal()" style="'+inStyle+'"></td>'+
+    '<td><input type="text" class="oc-sp" list="ocsp-list" value="'+(p.sp||'').replace(/"/g,'&quot;')+'" placeholder="SP-…" autocomplete="off" style="'+inStyle+'"></td>'+
+    '<td><button type="button" class="icon-btn del" onclick="removeOCPos(this)" title="Quitar posición"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></td>'+
+  '</tr>';
+}
+function renderOCPositions(positions){
+  var cont=document.getElementById('ocPos');if(!cont)return;
+  positions=positions&&positions.length?positions:[{}];
+  positions=positions.map(function(p){
+    if(p&&p.material&&!p.unit){var m=(DB.materials||[]).find(function(x){return x.code===p.material;});if(m)p.unit=m.unit||'';}
+    return p;
+  });
+  cont.innerHTML=positions.map(function(p,i){return ocPosRow(i,p);}).join('');
+  var oldM=document.getElementById('ocmat-list');if(oldM)oldM.remove();
+  var oldS=document.getElementById('ocsp-list');if(oldS)oldS.remove();
+  cont.insertAdjacentHTML('afterend','<datalist id="ocmat-list">'+matDatalistOpts()+'</datalist><datalist id="ocsp-list">'+spDatalistOpts()+'</datalist>');
+  recalcOCTotal();
+}
+function addOCPos(){
+  var cont=document.getElementById('ocPos');if(!cont)return;
+  var rows=cont.querySelectorAll('.oc-pos-row');
+  cont.insertAdjacentHTML('beforeend',ocPosRow(rows.length,{}));
+}
+function removeOCPos(btn){
+  var cont=document.getElementById('ocPos');
+  if(cont.querySelectorAll('.oc-pos-row').length<=1){toast('La orden necesita al menos una posición');return;}
+  var row=btn.closest('.oc-pos-row');if(row)row.remove();
+  recalcOCTotal();
+}
+// autocompletar descripción al elegir un material conocido
+function onOCPosMat(inp){
+  var code=(inp.value||'').trim().toUpperCase();
+  var m=(DB.materials||[]).find(function(x){return x.code===code;});
+  var row=inp.closest('.oc-pos-row');if(!row)return;
+  var d=row.querySelector('.oc-desc');var u=row.querySelector('.oc-unit');
+  if(m){if(d&&!d.value)d.value=m.description||'';if(u)u.textContent=m.unit||'—';}
+  else if(u)u.textContent='—';
+}
+function recalcOCTotal(){
+  var cont=document.getElementById('ocPos');if(!cont)return;
+  var t=0;cont.querySelectorAll('.oc-pos-row').forEach(function(r){t+=+r.querySelector('.oc-amount').value||0;});
+  var el=document.getElementById('ocTotal');
+  if(el)el.textContent=(curSymbol((document.getElementById('f-currency')||{}).value||'USD'))+t.toLocaleString('es-ES');
+}
+function collectOCPositions(){
+  var cont=document.getElementById('ocPos');if(!cont)return [];
+  var out=[];
+  cont.querySelectorAll('.oc-pos-row').forEach(function(r){
+    var material=(r.querySelector('.oc-mat').value||'').trim().toUpperCase();
+    var matDesc=(r.querySelector('.oc-desc').value||'').trim();
+    var qty=+r.querySelector('.oc-qty').value||0;
+    var amount=+r.querySelector('.oc-amount').value||0;
+    var sp=(r.querySelector('.oc-sp').value||'').trim().toUpperCase();
+    var uEl=r.querySelector('.oc-unit');var unit=uEl?(uEl.textContent==='—'?'':uEl.textContent):'';
+    if(material||matDesc||qty||amount)out.push({material:material,matDesc:matDesc,qty:qty,amount:amount,sp:sp,unit:unit});
+  });
+  return out;
 }
 function onTypeChange(){
-  var t=(document.getElementById('f-type')||{}).value;
   var f=document.getElementById('matCodeField');
-  if(f)f.style.display=(t==='Servicio')?'none':'';
+  if(f){var t=(document.getElementById('f-type')||{}).value;f.style.display=(t==='Servicio')?'none':'';}
 }
 // muestra/oculta el campo de TC según la moneda (USD no necesita TC) y trae la referencia de la fecha
 async function onOrderCurrency(){
@@ -1283,48 +1441,66 @@ function nextPO(){
 function submitOrder(e){
   e.preventDefault();
   var sup=document.getElementById('f-supplier');
-  var cat=sup.options[sup.selectedIndex].getAttribute('data-cat')||'Indirectos';
+  if(!sup.value.trim()){toast('Elegí un proveedor (escribí para buscar).');return;}
+  var cat=supplierCat(sup.value, 'Indirectos');
   var typeVal=(document.getElementById('f-type')||{}).value||'Material';
-  var matCode=(document.getElementById('f-material').value||'').trim().toUpperCase();
+  var positions=collectOCPositions();
+  if(!positions.length){toast('Agregá al menos una posición con material y monto.');return;}
+  // validar materiales del catálogo (solo si es tipo Material)
   if(typeVal==='Material'){
-    if(!matCode){toast('Elegí un material del catálogo. Si no existe, cargalo primero en Materiales.');return;}
-    if(!(DB.materials||[]).some(function(m){return m.code===matCode;})){toast('Ese material no está en el catálogo. Cargalo en la sección Materiales.');return;}
+    for(var i=0;i<positions.length;i++){
+      var p=positions[i];
+      if(!p.material){toast('La posición '+(i+1)+' no tiene material. Elegí uno del catálogo.');return;}
+      if(!(DB.materials||[]).some(function(m){return m.code===p.material;})){toast('El material "'+p.material+'" de la posición '+(i+1)+' no está en el catálogo. Cargalo en Materiales.');return;}
+    }
   }
-  var matDescIn=(document.getElementById('f-matdesc').value||'').trim();
-  if(matCode&&!matDescIn){
-    var prev=DB.orders.filter(function(o){return o.material===matCode&&o.matDesc;});
-    if(prev.length)matDescIn=prev[prev.length-1].matDesc;
-  }
+  // completar descripciones faltantes desde catálogo/histórico
+  positions.forEach(function(p){
+    if(p.material&&!p.matDesc){
+      var m=(DB.materials||[]).find(function(x){return x.code===p.material;});
+      if(m)p.matDesc=m.description||'';
+    }
+  });
+  var totalAmount=positions.reduce(function(a,p){return a+(+p.amount||0);},0);
+  var totalQty=positions.reduce(function(a,p){return a+(+p.qty||0);},0);
+  var first=positions[0];
+  var resumen=positions.length>1?(positions.length+' posiciones'):(first.matDesc||first.material||'');
+  // SPs únicas referenciadas por las posiciones
+  var sps=[];positions.forEach(function(p){if(p.sp&&sps.indexOf(p.sp)<0)sps.push(p.sp);});
   var ord={
     id:document.getElementById('f-id').value,
     supplier:sup.value,
     category:cat,
-    material:matCode,
-    matDesc:matDescIn,
-    qty:+document.getElementById('f-qty').value||0,
-    amount:+document.getElementById('f-amount').value||0,
+    material:positions.length>1?'':(first.material||''),
+    matDesc:positions.length>1?resumen:(first.matDesc||''),
+    qty:totalQty,
+    amount:totalAmount,
+    items:positions, // posiciones de la OC
     currency:(document.getElementById('f-currency')||{}).value||'USD',
     fxToUsd:+((document.getElementById('f-fx')||{}).value)||0,
     saving:+document.getElementById('f-saving').value||0,
     budgetCat:document.getElementById('f-budget').value,
     date:document.getElementById('f-date').value,
     status:'Pendiente',
-    type:document.getElementById('f-type').value,
-    buyer:SESSION?SESSION.name:'',
+    type:typeVal,
+    buyer:SESSION?(SESSION.user||SESSION.name):'',
     cc:document.getElementById('f-cc').value||'',
-    sp:(document.getElementById('f-sp')?document.getElementById('f-sp').value:'')||'',
+    sp:sps.join(', '), // SPs vinculadas (puede ser más de una)
+    sps:sps,
     delivery:'Pendiente',
     paid:'No pagado',
     comment:(document.getElementById('f-notes').value||'').trim()
   };
   DB.orders.push(ord);
-  if(ord.sp){
-    var spObj=(DB.sps||[]).find(function(s){return s.id===ord.sp;});
-    if(spObj){spObj.status='Convertida';spObj.linkedPO=ord.id;}
-  }
+  // marcar como convertidas las SP referenciadas (una SP puede repartirse en varias OC:
+  // si ya estaba parcialmente comprada, igual la dejamos Convertida y se ve en su detalle)
+  sps.forEach(function(spId){
+    var spObj=(DB.sps||[]).find(function(s){return s.id===spId;});
+    if(spObj){spObj.status='Convertida';spObj.linkedPO=(spObj.linkedPO?spObj.linkedPO+', ':'')+ord.id;}
+  });
   PENDING_SP='';
   save();
-  toast('Orden '+ord.id+' guardada'+(ord.sp?' — solicitud '+ord.sp+' convertida':''));
+  toast('Orden '+ord.id+' guardada con '+positions.length+' posición'+(positions.length>1?'es':'')+(sps.length?' — SP '+sps.join(', '):''));
   go('orders');
 }
 
@@ -1490,10 +1666,11 @@ function viewBudget(){
   var isAdmin=SESSION&&SESSION.role==='admin';
   var cards=DB.budgets.map(function(b,i){
     var spent=sum(dashOrders().filter(function(o){return o.budgetCat===b.cat;}),'amount');
-    var pct=b.budget>0?(spent/b.budget*100):0;
+    var bud=toBaseOrder(+b.budget||0,b); // budget en moneda de display (convierte si cambió la moneda)
+    var pct=bud>0?(spent/bud*100):0;
     var color=pct>100?'var(--red)':pct>85?'var(--amber)':'var(--green)';
     var edit=isAdmin?'<div style="display:flex;gap:.3rem;margin-top:.5rem"><button class="icon-btn" title="Editar" onclick="openBudgetModal('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg></button><button class="icon-btn del" title="Eliminar" onclick="deleteBudget('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg></button></div>':'';
-    return '<div class="mini-stat"><div class="l">'+b.cat+'</div><div class="v">'+eurK(spent)+' <span style="font-size:.8rem;color:var(--muted);font-weight:600">/ '+eurK(b.budget)+'</span></div>'+
+    return '<div class="mini-stat"><div class="l">'+b.cat+'</div><div class="v">'+eurK(spent)+' <span style="font-size:.8rem;color:var(--muted);font-weight:600">/ '+eurK(bud)+'</span></div>'+
     '<div class="bar-mini"><div class="bar-mini-fill" style="width:'+Math.min(pct,100)+'%;background:'+color+'"></div></div>'+
     '<div style="font-size:.72rem;color:'+color+';font-weight:600;margin-top:.4rem">'+pct.toFixed(0)+'% ejecutado</div>'+edit+'</div>';
   }).join('');
@@ -1542,7 +1719,7 @@ function deleteBudget(i){
 }
 function buildBudgetChart(){
   var cats=DB.budgets.map(function(b){return b.cat;});
-  var budget=DB.budgets.map(function(b){return b.budget;});
+  var budget=DB.budgets.map(function(b){return toBaseOrder(+b.budget||0,b);});
   var spent=DB.budgets.map(function(b){return sum(dashOrders().filter(function(o){return o.budgetCat===b.cat;}),'amount');});
   charts.budget=new Chart(document.getElementById('ch-budget'),{
     type:'bar',
@@ -1597,18 +1774,20 @@ function spPrefill(spId){
   var s=(DB.sps||[]).find(function(x){return x.id===spId;});
   if(!s)return;
   var f=function(id){return document.getElementById(id);};
-  if(f('f-material'))f('f-material').value=s.material||'';
-  if(f('f-matdesc'))f('f-matdesc').value=s.matDesc||'';
-  if(f('f-qty'))f('f-qty').value=s.qty||0;
+  // cabecera
   if(f('f-type'))f('f-type').value=s.type||'Material';
   if(f('f-cc'))f('f-cc').value=s.cc||'';
-  if(f('f-budget'))f('f-budget').value=s.budgetCat||f('f-budget').value;
-  if(f('f-notes'))f('f-notes').value=s.notes||'';
+  if(f('f-budget')&&s.budgetCat)f('f-budget').value=s.budgetCat;
+  if(f('f-notes')&&!f('f-notes').value)f('f-notes').value=s.notes||'';
+  // posiciones desde los ítems de la SP (cada una referencia esta SP)
+  var items=(s.items&&s.items.length)?s.items:[{code:s.material,desc:s.matDesc,qty:s.qty}];
+  var positions=items.map(function(it){return {material:it.code||'',matDesc:it.desc||'',qty:it.qty||0,amount:'',sp:s.id};});
+  renderOCPositions(positions);
+  onTypeChange();
+  if(items.length>1)setTimeout(function(){toast('Se precargaron '+items.length+' posiciones desde '+s.id+'. Quitá las que compres a otro proveedor.');},300);
 }
 function applySPPrefill(){
   if(!PENDING_SP)return;
-  var sel=document.getElementById('f-sp');
-  if(sel)sel.value=PENDING_SP;
   spPrefill(PENDING_SP);
 }
 function priceCatOf(code){
@@ -1710,16 +1889,40 @@ function buildPriceChart(){
 }
 
 // ---- PANEL DIRECCIÓN (admin) ----
+// Tiempo de gestión de una OC: días entre la fecha de la/las SP que originaron la OC y la fecha de la OC.
+// Si la OC referencia varias SP (varias posiciones), promedia los días de cada SP.
+function ocGestionDias(o){
+  if(!o||!o.date)return null;
+  var spIds=[];
+  if(o.sps&&o.sps.length)spIds=o.sps.slice();
+  else if(o.sp)spIds=String(o.sp).split(',').map(function(x){return x.trim();}).filter(Boolean);
+  if(!spIds.length)return null; // compra directa: no hay SP de origen
+  var ocT=new Date(o.date).getTime();
+  var difs=[];
+  spIds.forEach(function(id){
+    var s=(DB.sps||[]).find(function(x){return x.id===id;});
+    if(s&&s.date){
+      var d=Math.round((ocT-new Date(s.date).getTime())/86400000);
+      if(!isNaN(d)&&d>=0)difs.push(d);
+    }
+  });
+  if(!difs.length)return null;
+  return difs.reduce(function(a,b){return a+b;},0)/difs.length; // promedio en días
+}
 function buyersStats(){
   var orders=dashOrders();
   var by={};
   orders.forEach(function(o){
     var b=o.buyer||'—';
-    if(!by[b])by[b]={spend:0,saving:0,count:0,mat:0,srv:0,approved:0};
+    if(!by[b])by[b]={spend:0,saving:0,count:0,mat:0,srv:0,approved:0,gestSum:0,gestN:0};
     by[b].spend+=amt(o);by[b].saving+=amtOf(o,'saving');by[b].count++;
     if(o.type==='Servicio')by[b].srv+=amt(o);else by[b].mat+=amt(o);
     if(o.status==='Aprobada')by[b].approved++;
+    var g=ocGestionDias(o);
+    if(g!==null){by[b].gestSum+=g;by[b].gestN++;}
   });
+  // promedio de gestión por comprador
+  Object.keys(by).forEach(function(b){by[b].gestAvg=by[b].gestN?(by[b].gestSum/by[b].gestN):null;});
   return by;
 }
 function viewDireccion(){
@@ -1745,20 +1948,25 @@ function viewDireccion(){
       '<td style="color:var(--green);font-weight:600">'+eurK(s.saving)+'</td><td>'+sr.toFixed(1)+'%</td>'+
       '<td>'+eurK(s.mat)+'</td><td>'+eurK(s.srv)+'</td>'+
       '<td>'+(s.count?eurK(s.spend/s.count):'—')+'</td>'+
+      '<td>'+(s.gestAvg!==null?s.gestAvg.toFixed(1)+' d':'—')+'</td>'+
       '<td>'+s.approved+' / '+s.count+'</td></tr>';
   }).join('');
+  // tiempo de gestión global (promedio de todas las OC que vienen de SP)
+  var gAll=[];orders.forEach(function(o){var g=ocGestionDias(o);if(g!==null)gAll.push(g);});
+  var gestGlobal=gAll.length?(gAll.reduce(function(a,b){return a+b;},0)/gAll.length):null;
   return ''+
   '<div class="toolbar" style="margin-bottom:1.2rem">'+
     '<span class="date-lbl">Período: desde</span><input type="date" class="filter-sel" value="'+DFILTER.from+'" onchange="DFILTER.from=this.value;render(\'direccion\')">'+
     '<span class="date-lbl">hasta</span><input type="date" class="filter-sel" value="'+DFILTER.to+'" onchange="DFILTER.to=this.value;render(\'direccion\')">'+
   '</div>'+
-  '<div class="kpi-grid" style="grid-template-columns:repeat(6,1fr)">'+
+  '<div class="kpi-grid" style="grid-template-columns:repeat(7,1fr)">'+
     kpi('Gasto gestionado','',eurK(totalSpend),'neutral',orders.length+' órdenes')+
     kpi('Saving total','',eurK(totalSav),'up',savRate.toFixed(1)+'% rate')+
     kpi('% Aprobadas','',pctApr.toFixed(0)+'%','neutral','workflow de aprobación')+
     kpi('% Entregadas','',pctDel.toFixed(0)+'%',pctDel>70?'up':'neutral','nivel de servicio')+
     kpi('% Pagadas','',pctPay.toFixed(0)+'%','neutral','ciclo de pago')+
     kpi('Ticket promedio','',eurK(ticket),'neutral','por orden')+
+    kpi('Tiempo de gestión','',gestGlobal!==null?(gestGlobal.toFixed(1)+' d'):'—','neutral','SP → OC promedio')+
   '</div>'+
   '<div class="row row-2">'+
     '<div class="card"><div class="card-head"><div><div class="card-title">Gestión por comprador</div><div class="card-sub">Volumen y saving de cada comprador</div></div></div><div class="chart-box"><canvas id="ch-buyer"></canvas></div></div>'+
@@ -1766,7 +1974,7 @@ function viewDireccion(){
   '</div>'+
   '<div class="card" style="margin-bottom:1.2rem"><div class="card-head"><div><div class="card-title">Gasto por centro de costo</div><div class="card-sub">Imputación del gasto por área</div></div></div><div class="chart-box sm"><canvas id="ch-cc"></canvas></div></div>'+
   '<div class="card" style="margin-bottom:1.2rem"><div class="card-head"><div class="card-title">Detalle por comprador</div></div>'+
-  '<div class="table-wrap"><table><thead><tr><th>Comprador</th><th>Órdenes</th><th>Volumen</th><th>Saving</th><th>Saving %</th><th>Materiales</th><th>Servicios</th><th>Ticket prom.</th><th>Aprobadas</th></tr></thead><tbody>'+brows+'</tbody></table></div></div>'+
+  '<div class="table-wrap"><table><thead><tr><th>Comprador</th><th>Órdenes</th><th>Volumen</th><th>Saving</th><th>Saving %</th><th>Materiales</th><th>Servicios</th><th>Ticket prom.</th><th title="Tiempo promedio entre la SP y la OC">Gestión prom.</th><th>Aprobadas</th></tr></thead><tbody>'+brows+'</tbody></table></div></div>'+
   '<div class="section-stats">'+
     '<div class="mini-stat"><div class="l">Concentración top proveedor</div><div class="v" style="color:'+(conc>40?'var(--red)':'var(--ink)')+'">'+conc.toFixed(0)+'%</div><div style="font-size:.72rem;color:var(--muted);margin-top:.3rem">'+topSup+'</div></div>'+
     '<div class="mini-stat"><div class="l">Proveedores activos</div><div class="v">'+Object.keys(supMap).length+'</div></div>'+
@@ -1821,7 +2029,7 @@ function viewUsers(){
     var isSelf=SESSION&&SESSION.name===u.name;
     return '<tr>'+
       '<td class="td-strong">'+u.name+(isSelf?' <span style="color:var(--muted);font-size:.72rem">(vos)</span>':'')+'</td>'+
-      '<td><span class="role-badge '+(u.role==='admin'?'role-admin':'role-buyer')+'">'+(u.role==='admin'?'Admin':'Comprador')+'</span></td>'+
+      '<td><span class="role-badge '+(u.role==='admin'?'role-admin':'role-buyer')+'">'+roleLabel(u.role)+'</span></td>'+
       '<td>'+orders.length+' órdenes · '+eurK(sum(orders,'amount'))+'</td>'+
     '</tr>';
   }).join('');
@@ -1840,33 +2048,47 @@ function viewUsers(){
 var SP_PREFILL=null;
 function prefillSP(code,qty){
   var m=(DB.materials||[]).find(function(x){return x.code===code;})||{};
-  SP_PREFILL={material:code,matDesc:m.description||'',qty:qty,type:'Material'};
+  window._spPrefillItems=[{code:code,desc:m.description||'',qty:qty}];
   go('sps');
   setTimeout(function(){
-    var f=document.getElementById('q-material');if(f)f.value=code;
-    var d=document.getElementById('q-matdesc');if(d)d.value=m.description||'';
-    var q=document.getElementById('q-qty');if(q)q.value=qty;
-    if(f)f.scrollIntoView({behavior:'smooth',block:'center'});
+    var cont=document.getElementById('spItems');
+    if(cont)cont.scrollIntoView({behavior:'smooth',block:'center'});
     toast('Solicitud pre-cargada para '+code);
-  },120);
+  },150);
 }
 function viewSPs(){
   var sps=(DB.sps||[]).slice().reverse();
-  var open=sps.filter(function(s){return s.status==='Abierta';}).length;
-  var conv=sps.filter(function(s){return s.status==='Convertida';}).length;
+  // filtro "mis pendientes": SP asignadas al usuario logueado y aún sin convertir
+  if(typeof SP_MINE==='undefined')window.SP_MINE=false;
+  if(typeof SP_FILTER==='undefined')window.SP_FILTER='';
+  var meUser=(SESSION&&SESSION.user)||'';var meName=(SESSION&&SESSION.name)||'';
+  if(window.SP_MINE){
+    sps=sps.filter(function(s){return (s.assignedTo===meUser||s.assignedTo===meName)&&s.status!=='Convertida'&&s.status!=='Rechazada';});
+  }
+  if(window.SP_FILTER){
+    sps=sps.filter(function(s){return s.status===window.SP_FILTER;});
+  }
+  var open=(DB.sps||[]).filter(function(s){return s.status==='Abierta';}).length;
+  var gestion=(DB.sps||[]).filter(function(s){return s.status==='Pendiente de gestión';}).length;
+  var conv=(DB.sps||[]).filter(function(s){return s.status==='Convertida';}).length;
+  var mias=(DB.sps||[]).filter(function(s){return (s.assignedTo===meUser||s.assignedTo===meName)&&s.status!=='Convertida'&&s.status!=='Rechazada';}).length;
   var rows=sps.map(function(s){
     var i=DB.sps.indexOf(s);
-    var tagCls=s.status==='Abierta'?'tag-amber':s.status==='Convertida'?'tag-green':'tag-red';
+    var tagCls=s.status==='Abierta'?'tag-amber':s.status==='Convertida'?'tag-green':s.status==='Pendiente de gestión'?'tag-blue':'tag-red';
     var acts='';
-    if(s.status==='Abierta'){
-      acts+='<button class="icon-btn ok" title="Convertir en orden de compra" onclick="convertSP('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12h7M12 8.5l3.5 3.5L12 15.5"/></svg></button>';
+    acts+='<button class="icon-btn" title="Ver detalle" onclick="spDetail('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></button>';
+    if(s.status==='Abierta'||s.status==='Pendiente de gestión'){
+      if(can('assignBuyer'))acts+='<button class="icon-btn" title="Asignar comprador" onclick="assignSPModal('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg></button>';
+      if(can('buy'))acts+='<button class="icon-btn ok" title="Convertir en orden de compra" onclick="convertSP('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12h7M12 8.5l3.5 3.5L12 15.5"/></svg></button>';
       if(isAdmin())acts+='<button class="icon-btn del" title="Rechazar solicitud" onclick="rejectSP('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
     }
     if(isAdmin())acts+='<button class="icon-btn del" title="Eliminar" onclick="deleteSP('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>';
-    return '<tr>'+
+    var asignado=s.assignedTo?buyerName(s.assignedTo):'<span style="color:var(--muted)">sin asignar</span>';
+    return '<tr style="cursor:pointer" onclick="spDetail('+i+')">'+
       '<td class="td-strong">'+s.id+'</td>'+
       '<td>'+s.date+'</td>'+
       '<td>'+buyerName(s.requester)+'</td>'+
+      '<td>'+asignado+'</td>'+
       '<td><span class="tag tag-gray">'+(s.type||'—')+'</span></td>'+
       '<td><span class="tag tag-blue" title="'+(s.matDesc||'').replace(/"/g,'&quot;')+'">'+(s.material||'—')+'</span></td>'+
       '<td>'+(s.qty||0).toLocaleString('es-ES')+'</td>'+
@@ -1874,86 +2096,141 @@ function viewSPs(){
       '<td>'+(s.neededBy||'—')+'</td>'+
       '<td><span class="tag '+tagCls+'">'+s.status+'</span></td>'+
       '<td>'+(s.linkedPO?'<span class="td-strong">'+s.linkedPO+'</span>':'—')+'</td>'+
-      '<td><div class="row-actions">'+acts+'</div></td>'+
+      '<td onclick="event.stopPropagation()"><div class="row-actions">'+acts+'</div></td>'+
     '</tr>';
   }).join('');
-  if(!rows)rows='<tr><td colspan="11" class="empty">No hay solicitudes registradas.</td></tr>';
-  // ---- SUGERIDO DE COMPRA (materiales bajo punto de pedido) ----
-  var sugRows=(DB.materials||[]).map(function(m){
-    var stock=+stockOf(m.code)||0;
-    var mt=matMetrics(m.code);
-    var posicion=stock+mt.enCamino;
-    var rp=reorderPoint(m);
-    if(rp>0&&posicion<=rp){
-      var sugerido=Math.max(rp-posicion+Math.round((+m.phi||0)),1); // reponer hasta cubrir demanda
-      return {code:m.code,desc:m.description||'',stock:stock,rp:rp,sug:sugerido,sup:m.prefSupplier||'',unit:m.unit||''};
-    }return null;
-  }).filter(Boolean);
+  if(!rows)rows='<tr><td colspan="12" class="empty">'+(window.SP_MINE?'No tenés solicitudes pendientes de gestión asignadas.':'No hay solicitudes registradas.')+'</td></tr>';
+  // (Quitado) El "sugerido de compra por consumo" se eliminó: este S2P no gestiona
+  // reposición automática por consumo de producción. El ajuste de stock es solo dato.
   var sugHtml='';
-  if(sugRows.length){
-    sugHtml='<div class="card" style="margin-bottom:1.2rem;border-left:3px solid var(--amber)">'+
-      '<div class="card-head"><div><div class="card-title">🛒 Sugerido de compra</div><div class="card-sub">Materiales en o bajo su punto de pedido — conviene reponer</div></div></div>'+
-      '<div class="table-wrap"><table class="raw"><thead><tr><th>Material</th><th>Descripción</th><th>Stock</th><th>P.Pedido</th><th>Sugerido</th><th>Prov. pref.</th><th></th></tr></thead><tbody>'+
-      sugRows.map(function(r){
-        return '<tr><td class="td-strong">'+r.code+'</td><td>'+r.desc+'</td><td style="color:var(--amber);font-weight:700">'+r.stock+'</td><td>'+r.rp+'</td><td class="td-strong">'+r.sug+' '+r.unit+'</td><td>'+(r.sup||'—')+'</td>'+
-          '<td><button class="btn btn-ghost" style="padding:.3rem .6rem;font-size:.75rem" onclick="prefillSP(\''+r.code+'\','+r.sug+')">Crear solicitud</button></td></tr>';
-      }).join('')+'</tbody></table></div></div>';
-  }
-  // ---- CONTRATOS POR VENCER (servicios) ----
-  var today=new Date().toISOString().slice(0,10);
-  var soon=new Date(Date.now()+30*86400000).toISOString().slice(0,10);
-  var expiring=(DB.services||[]).filter(function(v){return v.end&&v.end<=soon;});
   var contractHtml='';
-  if(expiring.length){
-    contractHtml='<div class="card" style="margin-bottom:1.2rem;border-left:3px solid var(--red)">'+
-      '<div class="card-head"><div><div class="card-title">📄 Servicios por vencer</div><div class="card-sub">Servicios cuyo contrato vence en los próximos 30 días — renovación sugerida</div></div></div>'+
-      '<div class="table-wrap"><table class="raw"><thead><tr><th>Servicio</th><th>Proveedor</th><th>Vence</th><th>Estado</th><th>Notas</th></tr></thead><tbody>'+
-      expiring.sort(function(a,b){return a.end<b.end?-1:1;}).map(function(v){
-        var vencido=v.end<today;
-        return '<tr><td class="td-strong">'+v.name+'</td><td>'+(svcSupplierName(v.supplierId)||'—')+'</td><td style="color:var(--red);font-weight:700">'+v.end+'</td><td>'+(vencido?'<span class="tag tag-red">vencido</span>':'<span class="tag tag-amber">renovar</span>')+'</td><td>'+(v.note||'—')+'</td></tr>';
-      }).join('')+'</tbody></table></div></div>';
+  function spChip(label,n,color,key){
+    var active=(window.SP_FILTER===key);
+    return '<button onclick="setSPFilter(\''+(active?'':key)+'\')" class="mini-stat" style="cursor:pointer;text-align:left;border:1.5px solid '+(active?color:'transparent')+';background:'+(active?'rgba(0,0,0,.02)':'')+'"><div class="l">'+label+'</div><div class="v" style="color:'+color+'">'+n+'</div></button>';
   }
+  var filterNote=window.SP_FILTER?'<div class="hint" style="margin-bottom:.8rem">Filtrando por estado: <strong>'+window.SP_FILTER+'</strong> · <a href="#" onclick="setSPFilter(\'\');return false;" style="color:var(--green)">ver todas</a></div>':'';
   return ''+sugHtml+contractHtml+
-  '<div class="section-stats">'+
-    '<div class="mini-stat"><div class="l">Abiertas</div><div class="v" style="color:var(--amber)">'+open+'</div></div>'+
-    '<div class="mini-stat"><div class="l">Convertidas en OC</div><div class="v" style="color:var(--green)">'+conv+'</div></div>'+
-    '<div class="mini-stat"><div class="l">Total solicitudes</div><div class="v">'+sps.length+'</div></div>'+
-  '</div>'+
-  '<div class="card" style="margin-bottom:1.2rem"><div class="card-head"><div><div class="card-title">Solicitudes de pedido</div><div class="card-sub">Cada OC nace de una solicitud — o se registra como compra directa</div></div></div>'+
-  '<div class="table-wrap"><table><thead><tr><th>SP</th><th>Fecha</th><th>Solicitante</th><th>Tipo</th><th>Material</th><th>Cant.</th><th>CC</th><th>Necesidad</th><th>Estado</th><th>OC vinculada</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>'+
-  '<div class="form-card"><div class="card-title" style="margin-bottom:1.2rem">Nueva solicitud de pedido</div>'+
+  '<div class="section-stats" style="grid-template-columns:repeat(4,1fr)">'+
+    spChip('Abiertas',open,'var(--amber)','Abierta')+
+    spChip('Pendiente de gestión',gestion,'var(--primary)','Pendiente de gestión')+
+    spChip('Convertidas en OC',conv,'var(--green)','Convertida')+
+    '<div class="mini-stat"><div class="l">Total solicitudes</div><div class="v">'+(DB.sps||[]).length+'</div></div>'+
+  '</div>'+filterNote+
+  '<div class="card" style="margin-bottom:1.2rem"><div class="card-head"><div><div class="card-title">Solicitudes de pedido</div><div class="card-sub">Cada OC nace de una solicitud — o se registra como compra directa</div></div>'+
+  '<button class="btn '+(window.SP_MINE?'btn-primary':'btn-ghost')+'" onclick="toggleSPMine()">'+(window.SP_MINE?'Ver todas':'Mis pendientes ('+mias+')')+'</button></div>'+
+  '<div class="table-wrap"><table><thead><tr><th>SP</th><th>Fecha</th><th>Solicitante</th><th>Comprador</th><th>Tipo</th><th>Material</th><th>Cant.</th><th>CC</th><th>Necesidad</th><th>Estado</th><th>OC vinculada</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>'+
+  '<div class="form-card"><div class="card-title" style="margin-bottom:.4rem">Nueva solicitud de pedido</div>'+
+  '<div class="card-sub" style="margin-bottom:1.2rem">Una solicitud puede incluir varios materiales, todos del mismo sector (centro de costo).</div>'+
   '<div class="form-grid">'+
     '<div class="field"><label>Tipo</label><select id="q-type"><option>Material</option><option>Servicio</option></select></div>'+
-    '<div class="field"><label>Centro de costo</label><select id="q-cc">'+ccOptions('')+'</select></div>'+
-    '<div class="field"><label>Código de material</label><input type="text" id="q-material" placeholder="MAT-006"></div>'+
-    '<div class="field"><label>Descripción</label><input type="text" id="q-matdesc" placeholder="Qué se necesita"></div>'+
-    '<div class="field"><label>Cantidad</label><input type="number" id="q-qty" min="0" step="1" placeholder="0"></div>'+
-    '<div class="field"><label>Categoría de budget</label><select id="q-budget">'+DB.budgets.map(function(b){return '<option>'+b.cat+'</option>';}).join('')+'</select></div>'+
+    '<div class="field"><label>Sector / Centro de costo</label><select id="q-cc">'+ccOptions('')+'</select></div>'+
+    '<div class="field"><label>Categoría de budget</label><select id="q-budget">'+catList().map(function(c){return '<option>'+c+'</option>';}).join('')+'</select></div>'+
     '<div class="field"><label>Fecha de necesidad</label><input type="date" id="q-needed"></div>'+
-    '<div class="field full"><label>Justificación / notas</label><textarea id="q-notes" rows="2" placeholder="Para qué se necesita..."></textarea></div>'+
-  '</div><div class="form-actions"><button class="btn btn-primary" onclick="addSP()">Crear solicitud</button></div></div>';
+  '</div>'+
+  '<div class="card-sub" style="margin:1rem 0 .5rem;font-weight:600;color:var(--slate)">Materiales solicitados</div>'+
+  '<div class="table-wrap"><table class="raw pos-table"><thead><tr><th style="width:34%">Material (del catálogo)</th><th>Descripción</th><th style="width:90px">Cantidad</th><th style="width:70px">Unidad</th><th style="width:44px"></th></tr></thead><tbody id="spItems"></tbody></table></div>'+
+  '<button type="button" class="btn btn-ghost" style="margin-top:.6rem" onclick="addSPItem()">+ Agregar material</button>'+
+  '<div class="form-grid" style="margin-top:1rem"><div class="field full"><label>Justificación / notas</label><textarea id="q-notes" rows="2" placeholder="Para qué se necesita..."></textarea></div></div>'+
+  '<div class="form-actions"><button class="btn btn-primary" onclick="addSP()">Crear solicitud</button></div></div>';
+}
+// ítems dinámicos de la SP en construcción
+var SP_ITEMS_INIT=false;
+function spItemRow(idx,it){
+  it=it||{};
+  var inStyle='width:100%;border:1px solid var(--faint);border-radius:6px;padding:.4rem .5rem;font-family:inherit;font-size:.82rem';
+  return '<tr class="sp-item-row" data-i="'+idx+'">'+
+    '<td><input type="text" class="sp-it-code" list="sp-mat-list" value="'+(it.code||'').replace(/"/g,'&quot;')+'" placeholder="Buscar material..." autocomplete="off" oninput="onSPItemMat(this)" style="'+inStyle+'"></td>'+
+    '<td><input type="text" class="sp-it-desc" value="'+(it.desc||'').replace(/"/g,'&quot;')+'" placeholder="—" readonly style="'+inStyle+';background:var(--bg)"></td>'+
+    '<td><input type="number" class="sp-it-qty" min="0" step="1" value="'+(it.qty||'')+'" placeholder="0" style="'+inStyle+'"></td>'+
+    '<td><span class="sp-it-unit" style="font-size:.82rem;color:var(--muted)">'+(it.unit||'—')+'</span></td>'+
+    '<td><button type="button" class="icon-btn del" onclick="removeSPItem(this)" title="Quitar"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></td>'+
+  '</tr>';
+}
+// datalist de materiales del catálogo (código — descripción)
+function spMatDatalist(){
+  return '<datalist id="sp-mat-list">'+(DB.materials||[]).slice().sort(function(a,b){return (a.code||'')<(b.code||'')?-1:1;})
+    .map(function(m){return '<option value="'+(m.code||'')+'">'+(m.description||'')+(m.unit?(' ('+m.unit+')'):'')+'</option>';}).join('')+'</datalist>';
+}
+// al tipear/elegir un material, completar descripción y unidad si existe en el catálogo
+function onSPItemMat(inp){
+  var code=(inp.value||'').trim().toUpperCase();
+  var m=(DB.materials||[]).find(function(x){return x.code===code;});
+  var row=inp.closest('.sp-item-row');if(!row)return;
+  var d=row.querySelector('.sp-it-desc');
+  var u=row.querySelector('.sp-it-unit');
+  if(d)d.value=m?(m.description||''):'';
+  if(u)u.textContent=m?(m.unit||'—'):'—';
+}
+function renderSPItems(items){
+  var cont=document.getElementById('spItems');if(!cont)return;
+  items=items&&items.length?items:[{}];
+  // resolver unidad desde catálogo para precargas
+  items=items.map(function(it){
+    if(it&&it.code&&!it.unit){var m=(DB.materials||[]).find(function(x){return x.code===it.code;});if(m)it.unit=m.unit||'';}
+    return it;
+  });
+  cont.innerHTML=items.map(function(it,i){return spItemRow(i,it);}).join('');
+  // datalist va fuera del tbody
+  var old=document.getElementById('sp-mat-list');if(old)old.remove();
+  cont.insertAdjacentHTML('afterend',spMatDatalist());
+}
+function addSPItem(){
+  var cont=document.getElementById('spItems');if(!cont)return;
+  var rows=cont.querySelectorAll('.sp-item-row');
+  cont.insertAdjacentHTML('beforeend',spItemRow(rows.length,{}));
+}
+function removeSPItem(btn){
+  var row=btn.closest('.sp-item-row');if(!row)return;
+  var cont=document.getElementById('spItems');
+  if(cont.querySelectorAll('.sp-item-row').length<=1){toast('La solicitud necesita al menos un material');return;}
+  row.remove();
+}
+function collectSPItems(){
+  var cont=document.getElementById('spItems');if(!cont)return [];
+  var out=[];
+  cont.querySelectorAll('.sp-item-row').forEach(function(r){
+    var code=(r.querySelector('.sp-it-code').value||'').trim().toUpperCase();
+    var desc=(r.querySelector('.sp-it-desc').value||'').trim();
+    var qty=+r.querySelector('.sp-it-qty').value||0;
+    var unitEl=r.querySelector('.sp-it-unit');var unit=unitEl?(unitEl.textContent==='—'?'':unitEl.textContent):'';
+    if(code&&qty>0)out.push({code:code,desc:desc,qty:qty,unit:unit});
+  });
+  return out;
 }
 function addSP(){
-  var mat=(document.getElementById('q-material').value||'').trim().toUpperCase();
-  var desc=(document.getElementById('q-matdesc').value||'').trim();
-  var qty=+document.getElementById('q-qty').value||0;
-  if(!desc&&!mat){toast('Indicá al menos el material o la descripción');return;}
-  if(qty<=0){toast('Indicá la cantidad');return;}
+  var items=collectSPItems();
+  if(!items.length){toast('Agregá al menos un material del catálogo con cantidad');return;}
+  // El material debe existir en el catálogo (salvo que la solicitud sea de tipo Servicio)
+  var tipo=document.getElementById('q-type').value;
+  if(tipo!=='Servicio'){
+    for(var i=0;i<items.length;i++){
+      if(!(DB.materials||[]).some(function(m){return m.code===items[i].code;})){
+        toast('El material "'+items[i].code+'" no está en el catálogo. Crealo primero en la sección Materiales.');return;
+      }
+    }
+  }
+  var cc=document.getElementById('q-cc').value||'';
+  var first=items[0];
+  var resumen=items.length>1?(items.length+' materiales'):(first.desc||first.code||'');
   DB.sps.push({
     id:nextSP(),date:new Date().toISOString().slice(0,10),
-    requester:SESSION?SESSION.name:'',
-    type:document.getElementById('q-type').value,
-    material:mat,matDesc:desc,qty:qty,
-    cc:document.getElementById('q-cc').value||'',
+    requester:SESSION?(SESSION.user||SESSION.name):'',
+    type:tipo,
+    // compat: primer ítem en los campos simples + lista completa en items[]
+    material:first.code||'',matDesc:items.length>1?resumen:(first.desc||''),
+    qty:items.reduce(function(a,it){return a+it.qty;},0),
+    items:items,
+    cc:cc,
     budgetCat:document.getElementById('q-budget').value,
     neededBy:document.getElementById('q-needed').value||'',
     notes:(document.getElementById('q-notes').value||'').trim(),
-    status:'Abierta',linkedPO:''
+    status:'Abierta',linkedPO:'',assignedTo:''
   });
-  save();toast('Solicitud creada');render('sps');
+  save();toast('Solicitud creada con '+items.length+' material'+(items.length>1?'es':''));render('sps');
 }
 function convertSP(i){
-  var s=DB.sps[i];if(!s||s.status!=='Abierta')return;
+  var s=DB.sps[i];if(!s||(s.status!=='Abierta'&&s.status!=='Pendiente de gestión'))return;
+  if(!can('buy')){toast('Tu perfil no puede convertir solicitudes en OC.');return;}
   PENDING_SP=s.id;
   go('new-order');
   toast('Completá la OC — datos precargados desde '+s.id);
@@ -1967,6 +2244,68 @@ function deleteSP(i){
   if(!isAdmin())return;
   var s=DB.sps[i];if(!s)return;
   if(confirm('¿Eliminar la solicitud '+s.id+'?')){_deleted.sps.push(s.id);DB.sps.splice(i,1);save();toast('Solicitud eliminada');render('sps');}
+}
+var SP_MINE=false;var SP_FILTER='';
+function toggleSPMine(){window.SP_MINE=!window.SP_MINE;render('sps');}
+function setSPFilter(k){window.SP_FILTER=k;render('sps');}
+// asignar comprador a una SP -> queda "Pendiente de gestión" para ese comprador
+function assignSPModal(i){
+  if(!can('assignBuyer')){toast('Tu perfil no puede asignar compradores.');return;}
+  var s=DB.sps[i];if(!s)return;
+  // compradores disponibles: usuarios con rol que puede comprar
+  var buyers=(DB.users||[]).filter(function(u){var caps=ROLE_CAPS[u.role==='buyer'?'comprador':u.role]||{};return caps.buy;});
+  if(!buyers.length)buyers=(DB.users||[]);
+  var opts='<option value="">— sin asignar —</option>'+buyers.map(function(u){return '<option value="'+u.user+'"'+(s.assignedTo===u.user?' selected':'')+'>'+u.name+' ('+roleLabel(u.role)+')</option>';}).join('');
+  var el=document.getElementById('modalContent');
+  el.innerHTML=''+
+    '<div class="modal-head"><div class="modal-title">Asignar comprador — '+s.id+'</div>'+
+      '<button class="modal-close" onclick="closeModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
+    '<div class="hint" style="margin-bottom:1rem">'+(s.matDesc||s.material||'')+' · '+(s.qty||0)+'. Al asignar, la solicitud queda <strong>Pendiente de gestión</strong> en la bandeja del comprador.</div>'+
+    '<div class="form-grid"><div class="field full"><label>Comprador responsable</label><select id="sp-assign">'+opts+'</select></div></div>'+
+    '<div class="form-actions"><button class="btn btn-primary" onclick="assignSPBuyer('+i+')">Asignar</button><button class="btn btn-ghost" onclick="closeModal()">Cancelar</button></div>';
+  document.getElementById('modalBg').classList.add('show');
+}
+function assignSPBuyer(i){
+  var s=DB.sps[i];if(!s)return;
+  var v=(document.getElementById('sp-assign')||{}).value||'';
+  s.assignedTo=v;
+  if(v){ if(s.status==='Abierta')s.status='Pendiente de gestión'; }
+  else { if(s.status==='Pendiente de gestión')s.status='Abierta'; }
+  save();closeModal();toast(v?('Asignada a '+buyerName(v)+' — pendiente de gestión'):'Asignación quitada');render('sps');
+}
+// ver detalle completo de la SP
+function spDetail(i){
+  var s=DB.sps[i];if(!s)return;
+  var el=document.getElementById('modalContent');
+  function row(l,v){return '<div style="display:flex;justify-content:space-between;gap:1rem;padding:.45rem 0;border-bottom:1px solid var(--faint)"><span style="color:var(--muted)">'+l+'</span><span style="font-weight:600;text-align:right">'+(v||'—')+'</span></div>';}
+  var canConv=(s.status==='Abierta'||s.status==='Pendiente de gestión')&&can('buy');
+  el.innerHTML=''+
+    '<div class="modal-head"><div class="modal-title">Solicitud '+s.id+'</div>'+
+      '<button class="modal-close" onclick="closeModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
+    '<div style="font-size:.85rem">'+
+      row('Estado','<span class="tag '+(s.status==='Convertida'?'tag-green':s.status==='Rechazada'?'tag-red':s.status==='Pendiente de gestión'?'tag-blue':'tag-amber')+'">'+s.status+'</span>')+
+      row('Fecha de solicitud',s.date)+
+      row('Solicitante',buyerName(s.requester))+
+      row('Comprador asignado',s.assignedTo?buyerName(s.assignedTo):'sin asignar')+
+      row('Tipo',s.type)+
+      (s.items&&s.items.length>1?
+        ('<div style="padding:.6rem 0"><div style="color:var(--muted);margin-bottom:.3rem">Materiales ('+s.items.length+')</div>'+
+         '<table class="raw" style="width:100%"><thead><tr><th>Código</th><th>Descripción</th><th>Cant.</th></tr></thead><tbody>'+
+         s.items.map(function(it){return '<tr><td class="td-strong">'+(it.code||'—')+'</td><td>'+(it.desc||'—')+'</td><td>'+(it.qty||0)+'</td></tr>';}).join('')+
+         '</tbody></table></div>')
+        :(row('Material',(s.material||'')+(s.matDesc?(' — '+s.matDesc):''))+row('Cantidad',(s.qty||0).toLocaleString('es-ES'))))+
+      row('Sector / Centro de costo',ccLabel(s.cc))+
+      row('Categoría budget',s.budgetCat)+
+      row('Fecha de necesidad',s.neededBy)+
+      row('OC vinculada',s.linkedPO)+
+      (s.notes?('<div style="padding:.6rem 0"><div style="color:var(--muted);margin-bottom:.3rem">Justificación / notas</div><div style="background:var(--bg);border-radius:8px;padding:.6rem .7rem">'+s.notes+'</div></div>'):'')+
+    '</div>'+
+    '<div class="form-actions" style="margin-top:1rem">'+
+      (canConv?'<button class="btn btn-primary" onclick="closeModal();convertSP('+i+')">Convertir en OC</button>':'')+
+      (can('assignBuyer')&&s.status!=='Convertida'&&s.status!=='Rechazada'?'<button class="btn btn-ghost" onclick="closeModal();assignSPModal('+i+')">Asignar comprador</button>':'')+
+      '<button class="btn btn-ghost" onclick="closeModal()">Cerrar</button>'+
+    '</div>';
+  document.getElementById('modalBg').classList.add('show');
 }
 
 // ---- APROBACIONES (admin) ----
@@ -2080,118 +2419,81 @@ function invRec(code){var r=(DB.inventory||[]).find(function(x){return x.code===
 // Stock disponible real = stock base de inventario + lo entregado por OC.
 // Así no importa por qué camino se marque "Entregado" (dropdown rápido o modal):
 // si una OC está Entregada, su cantidad cuenta como stock automáticamente.
+// cantidad de un material dentro de una OC (soporta posiciones múltiples)
+function qtyOfMatInOrder(o,code){
+  if(o&&o.items&&o.items.length){
+    return o.items.filter(function(p){return p.material===code;}).reduce(function(a,p){return a+(+p.qty||0);},0);
+  }
+  return (o&&o.material===code)?(+o.qty||0):0;
+}
 function stockOf(code){
   var base=+invRec(code).stock||0;
-  var entregado=(DB.orders||[]).filter(function(o){return o.material===code&&o.delivery==='Entregado';})
-    .reduce(function(a,o){return a+(+o.qty||0);},0);
+  var entregado=(DB.orders||[]).filter(function(o){return o.delivery==='Entregado';})
+    .reduce(function(a,o){return a+qtyOfMatInOrder(o,code);},0);
   return base+entregado;
 }
 function matMetrics(code){
   var solicitado=(DB.sps||[]).filter(function(s){return s.material===code&&s.status!=='Rechazada'&&s.status!=='Convertida';}).reduce(function(a,s){return a+(+s.qty||0);},0);
-  var enCamino=(DB.orders||[]).filter(function(o){return o.material===code&&o.status==='Aprobada'&&o.delivery!=='Entregado';}).reduce(function(a,o){return a+(+o.qty||0);},0);
-  var entregado=(DB.orders||[]).filter(function(o){return o.material===code&&o.delivery==='Entregado';}).reduce(function(a,o){return a+(+o.qty||0);},0);
+  var enCamino=(DB.orders||[]).filter(function(o){return o.status==='Aprobada'&&o.delivery!=='Entregado';}).reduce(function(a,o){return a+qtyOfMatInOrder(o,code);},0);
+  var entregado=(DB.orders||[]).filter(function(o){return o.delivery==='Entregado';}).reduce(function(a,o){return a+qtyOfMatInOrder(o,code);},0);
   return {solicitado:solicitado,enCamino:enCamino,entregado:entregado};
 }
 
 function viewMaterials(){
   var isAdmin=SESSION&&SESSION.role==='admin';
-  var mats=(DB.materials||[]).slice();
-  // estado de cada material según stock vs punto de pedido / mínimo
-  function matState(m){
-    var rp=reorderPoint(m);
-    var mt=invMetrics(m.code);
-    var stock=mt.stock;
-    var disponible=stock+mt.enCamino; // lo que ya está + lo que viene
-    if(stock<=0)return {key:'sin',label:'Sin stock',color:'#c0392b',dot:'🔴',rp:rp,stock:stock,mt:mt,rank:0};
-    if(stock<=(+m.minStock||0))return {key:'critico',label:'Crítico',color:'#c0392b',dot:'🔴',rp:rp,stock:stock,mt:mt,rank:1};
-    if(disponible<=rp)return {key:'pedir',label:'Reponer',color:'#e08a1e',dot:'🟠',rp:rp,stock:stock,mt:mt,rank:2};
-    if(stock<=rp*1.25)return {key:'atento',label:'Atento',color:'#caa21a',dot:'🟡',rp:rp,stock:stock,mt:mt,rank:3};
-    return {key:'ok',label:'OK',color:'#1f9d57',dot:'🟢',rp:rp,stock:stock,mt:mt,rank:4};
-  }
-  // contar por estado
-  var counts={sin:0,critico:0,pedir:0,atento:0,ok:0};
-  mats.forEach(function(m){counts[matState(m).key]++;});
-  var alertCount=counts.sin+counts.critico+counts.pedir;
-  // filtro por estado (chips)
-  if(typeof MAT_FILTER==='undefined')window.MAT_FILTER='';
-  var fkey=window.MAT_FILTER||'';
-  // ordenar: primero los más urgentes
-  mats.sort(function(a,b){var sa=matState(a),sb=matState(b);if(sa.rank!==sb.rank)return sa.rank-sb.rank;return a.code<b.code?-1:1;});
-  var shown=fkey?mats.filter(function(m){return matState(m).key===fkey;}):mats;
+  var mats=(DB.materials||[]).slice().sort(function(a,b){return (a.code||'')<(b.code||'')?-1:1;});
+  // incluir códigos huérfanos usados en OC/SP (para que la compra acumulada aparezca igual)
+  var seen={};mats.forEach(function(m){seen[m.code]=1;});
+  (DB.orders||[]).concat(DB.sps||[]).forEach(function(x){if(x.material&&!seen[x.material]){seen[x.material]=1;mats.push({code:x.material,description:x.matDesc||'',_orphan:true});}});
+  if(typeof MAT_SEARCH==='undefined')window.MAT_SEARCH='';
+  var sq=norm(window.MAT_SEARCH||'');
+  var shown=mats;
+  if(sq)shown=shown.filter(function(m){return norm((m.code||'')+' '+(m.description||'')+' '+(m.category||'')+' '+(m.prefSupplier||'')).indexOf(sq)>=0;});
 
-  // ----- ALERTA de reposición -----
-  var alertHtml='';
-  var urgentes=mats.filter(function(m){var k=matState(m).key;return k==='sin'||k==='critico'||k==='pedir';});
-  if(urgentes.length){
-    alertHtml='<div class="card" style="margin-bottom:1.2rem;border-left:3px solid var(--red)">'+
-      '<div class="card-head"><div><div class="card-title">⚠ Materiales que requieren acción</div><div class="card-sub">Stock por debajo del punto de pedido o del mínimo operativo</div></div></div>'+
-      '<div class="table-wrap"><table class="raw"><thead><tr><th>Estado</th><th>Código</th><th>Material</th><th>Stock</th><th>P. pedido</th><th>Sugerido</th>'+(isAdmin?'<th></th>':'')+'</tr></thead><tbody>'+
-      urgentes.map(function(m){
-        var st=matState(m);
-        var sugerido=Math.max(st.rp+ (+m.safety||0) - st.stock - st.mt.enCamino, Math.ceil((+m.phi||0)));
-        return '<tr>'+
-          '<td><span style="display:inline-flex;align-items:center;gap:.35rem;font-weight:700;color:'+st.color+'">'+st.dot+' '+st.label+'</span></td>'+
-          '<td class="td-strong">'+m.code+'</td>'+
-          '<td>'+(m.description||'—')+'</td>'+
-          '<td style="font-weight:700;color:'+st.color+'">'+st.stock+' '+(m.unit||'')+'</td>'+
-          '<td>'+st.rp+'</td>'+
-          '<td class="td-strong">'+(sugerido>0?sugerido+' '+(m.unit||''):'—')+'</td>'+
-          (isAdmin?'<td><button class="btn btn-ghost" style="padding:.3rem .6rem;font-size:.75rem" onclick="prefillSP(\''+m.code+'\','+(sugerido>0?sugerido:0)+')">Crear solicitud</button></td>':'')+
-        '</tr>';
-      }).join('')+'</tbody></table></div></div>';
-  }
-
-  // ----- SEMÁFORO resumen (tarjetas clicables) -----
-  function chip(key,label,n,color){
-    var active=(fkey===key);
-    return '<button onclick="setMatFilter(\''+(active?'':key)+'\')" class="mini-stat" style="cursor:pointer;text-align:left;border:1.5px solid '+(active?color:'transparent')+';background:'+(active?'rgba(0,0,0,.02)':'')+'">'+
-      '<div class="l" style="display:flex;align-items:center;gap:.3rem">'+label+'</div>'+
-      '<div class="v" style="color:'+color+'">'+n+'</div></button>';
-  }
-  var semaforo='<div class="section-stats" style="grid-template-columns:repeat(5,1fr)">'+
-    chip('ok','🟢 OK',counts.ok,'#1f9d57')+
-    chip('atento','🟡 Atento',counts.atento,'#caa21a')+
-    chip('pedir','🟠 Reponer',counts.pedir,'#e08a1e')+
-    chip('critico','🔴 Crítico',counts.critico,'#c0392b')+
-    chip('sin','⚫ Sin stock',counts.sin,'#c0392b')+
-  '</div>';
-
-  // ----- TABLA principal con columna de estado -----
   var rows=shown.map(function(m){
-    var st=matState(m);
+    var idx=DB.materials.indexOf(m);
+    var acum=stockOf(m.code);
     return '<tr>'+
-      '<td><span title="'+st.label+'" style="display:inline-flex;align-items:center;gap:.35rem;font-weight:700;color:'+st.color+'">'+st.dot+'<span style="font-size:.78rem">'+st.label+'</span></span></td>'+
       '<td class="td-strong">'+(m.code||'—')+'</td>'+
       '<td>'+(m.description||'—')+'</td>'+
       '<td><span class="tag tag-blue">'+(m.category||'—')+'</span></td>'+
       '<td>'+(m.unit||'—')+'</td>'+
-      '<td style="font-weight:700;color:'+st.color+'">'+st.stock+'</td>'+
+      '<td style="font-weight:700" title="Compra acumulada: stock base + recibido por OC entregadas">'+acum+'</td>'+
       '<td>'+(+m.phi||0)+'</td>'+
       '<td>'+(+m.leadTime||0)+'d</td>'+
+      '<td>'+(+m.safety||0)+'</td>'+
       '<td>'+(+m.minStock||0)+'</td>'+
-      '<td class="td-strong">'+st.rp+'</td>'+
       '<td>'+(m.prefSupplier||'—')+'</td>'+
-      (isAdmin?'<td><div class="row-actions"><button class="icon-btn" onclick="openMatModal('+DB.materials.indexOf(m)+')" title="Editar"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg></button><button class="icon-btn del" onclick="deleteMat('+DB.materials.indexOf(m)+')" title="Eliminar"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg></button></div></td>':'')+
+      (isAdmin?'<td><div class="row-actions">'+
+        '<button class="icon-btn" onclick="openInvModal(\''+(m.code||'')+'\')" title="Ajustar stock base"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12h6M12 9v6"/></svg></button>'+
+        (idx>=0?'<button class="icon-btn" onclick="openMatModal('+idx+')" title="Editar"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg></button><button class="icon-btn del" onclick="deleteMat('+idx+')" title="Eliminar"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg></button>':'')+
+      '</div></td>':'')+
     '</tr>';
   }).join('');
-  if(!rows)rows='<tr><td colspan="'+(isAdmin?12:11)+'" class="empty">'+(fkey?'No hay materiales en este estado.':'No hay materiales. Importá un Excel o agregá manualmente.')+'</td></tr>';
+  if(!rows)rows='<tr><td colspan="'+(isAdmin?11:10)+'" class="empty">'+(sq?'No hay materiales que coincidan con la búsqueda.':'No hay materiales. Importá un Excel o agregá manualmente.')+'</td></tr>';
   var adminBtns=isAdmin?(
     '<button class="btn btn-ghost" onclick="manageCats()">Categorías</button>'+
     '<button class="btn btn-ghost" onclick="manageUnits()">Unidades</button>'+
     '<button class="btn btn-ghost" onclick="downloadMatTemplate()">Plantilla</button>'+
     '<label class="btn btn-ghost" style="cursor:pointer">Importar Excel<input type="file" accept=".xlsx,.xls,.csv" style="display:none" onchange="importMaterials(event)"></label>'+
-    '<button class="btn btn-primary" onclick="openMatModal(-1)">+ Nuevo</button>'):'';
-  var filterNote=fkey?'<div class="hint" style="margin-bottom:.8rem">Mostrando solo: <strong>'+fkey+'</strong> · <a href="#" onclick="setMatFilter(\'\');return false;" style="color:var(--green)">ver todos</a></div>':'';
-  return ''+alertHtml+semaforo+
-  '<div class="toolbar" style="margin:1rem 0;justify-content:flex-end;gap:.5rem;flex-wrap:wrap">'+adminBtns+'</div>'+
-  filterNote+
-  '<div class="card"><div class="card-head"><div><div class="card-title">Catálogo de materiales</div><div class="card-sub">'+mats.length+' materiales · '+alertCount+' requieren atención</div></div></div>'+
+    '<button class="btn btn-ghost" onclick="exportInventory()">Exportar</button>'+
+    '<button class="btn btn-primary" onclick="openMatModal(-1)">+ Nuevo</button>'):
+    '<button class="btn btn-ghost" onclick="exportInventory()">Exportar</button>';
+  var searchBox='<div style="position:relative;flex:1;min-width:220px"><input type="text" id="matSearch" value="'+(window.MAT_SEARCH||'').replace(/"/g,'&quot;')+'" oninput="setMatSearch(this.value)" placeholder="Buscar material por código, descripción, categoría o proveedor..." style="width:100%;border:1px solid var(--faint);border-radius:8px;padding:.55rem .7rem .55rem 2rem;font-family:inherit;font-size:.85rem"><svg style="position:absolute;left:.6rem;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--muted)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>';
+  return ''+
+  '<div class="toolbar" style="margin:0 0 1rem;gap:.5rem;flex-wrap:wrap;align-items:center">'+searchBox+'<div style="display:flex;gap:.5rem;flex-wrap:wrap">'+adminBtns+'</div></div>'+
+  '<div class="card"><div class="card-head"><div><div class="card-title">Materiales</div><div class="card-sub">'+shown.length+' de '+mats.length+' materiales · compra acumulada contabilizada por OC recibidas</div></div></div>'+
   '<div class="table-wrap"><table class="raw"><thead><tr>'+
-    '<th>Estado</th><th>Código</th><th>Descripción</th><th>Categoría</th><th>Un.</th><th>Stock</th><th title="Demanda mensual">ϕ/mes</th><th>Lead</th><th>S.Mín</th><th title="Punto de pedido">P.Pedido</th><th>Prov. pref.</th>'+(isAdmin?'<th></th>':'')+
+    '<th>Código</th><th>Descripción</th><th>Categoría</th><th>Un.</th><th title="Compra acumulada: base + recibido por OC">Compra acumulada</th><th title="Demanda mensual (informativo)">ϕ/mes</th><th title="Lead time (informativo)">Lead</th><th title="Stock seguridad (informativo)">Seg.</th><th title="Stock mínimo (informativo)">Mín.</th><th>Prov. pref.</th>'+(isAdmin?'<th></th>':'')+
   '</tr></thead><tbody>'+rows+'</tbody></table></div></div>';
 }
-var MAT_FILTER='';
-function setMatFilter(k){window.MAT_FILTER=k;render('materials');}
+var MAT_SEARCH='';
+function setMatSearch(v){
+  window.MAT_SEARCH=v;
+  render('materials');
+  var inp=document.getElementById('matSearch');
+  if(inp){inp.focus();var val=inp.value;inp.value='';inp.value=val;}
+}
 
 function unitOpts(sel){return '<option value="">—</option>'+unitList().map(function(u){return '<option value="'+u+'"'+(u===sel?' selected':'')+'>'+u+'</option>';}).join('');}
 function manageUnits(){
@@ -2222,16 +2524,16 @@ function openMatModal(i){
       '<div class="field"><label>Código '+(isNew?'(automático)':'')+'</label><input type="text" id="mt-code" value="'+(m.code||'')+'" placeholder="se genera al elegir categoría" readonly style="background:var(--bg);font-weight:700;letter-spacing:.5px"></div>'+
       '<div class="field"><label>Unidad</label><div style="display:flex;gap:.4rem"><select id="mt-unit" style="flex:1">'+unitOpts(m.unit)+'</select><button type="button" class="btn btn-ghost" style="padding:.4rem .6rem" onclick="manageUnits()" title="Gestionar unidades">+</button></div></div>'+
       '<div class="field full"><label>Descripción</label><input type="text" id="mt-desc" value="'+(m.description||'').replace(/"/g,'&quot;')+'" placeholder="Descripción del material"></div>'+
+      '<div class="field full"><label>Proveedor preferido</label>'+supplierCombo('mt-sup',m.prefSupplier,'mt-sup-list')+'</div>'+
     '</div>'+
-    '<div class="card-sub" style="margin:1.2rem 0 .8rem;font-weight:600;color:var(--slate)">Gestión de inventario</div>'+
+    '<div class="card-sub" style="margin:1.2rem 0 .5rem;font-weight:600;color:var(--slate)">Datos informativos (no afectan el cálculo de stock)</div>'+
     '<div class="form-grid">'+
-      '<div class="field"><label title="Demanda promedio por período">ϕ Demanda (por mes)</label><input type="number" id="mt-phi" value="'+(+m.phi||0)+'" min="0" step="1" placeholder="0"></div>'+
+      '<div class="field"><label title="Demanda promedio por mes">ϕ Demanda (por mes)</label><input type="number" id="mt-phi" value="'+(+m.phi||0)+'" min="0" step="1" placeholder="0"></div>'+
       '<div class="field"><label title="Días que tarda el proveedor en entregar">Lead time (días)</label><input type="number" id="mt-lead" value="'+(+m.leadTime||0)+'" min="0" step="1" placeholder="0"></div>'+
       '<div class="field"><label title="Stock de seguridad (colchón)">Stock seguridad</label><input type="number" id="mt-safety" value="'+(+m.safety||0)+'" min="0" step="1" placeholder="0"></div>'+
       '<div class="field"><label title="Stock mínimo operativo">Stock mínimo</label><input type="number" id="mt-min" value="'+(+m.minStock||0)+'" min="0" step="1" placeholder="0"></div>'+
-      '<div class="field full"><label>Proveedor preferido</label><select id="mt-sup">'+supOpts+'</select></div>'+
     '</div>'+
-    '<div class="hint" style="margin-top:.8rem">Punto de pedido = (demanda diaria × lead time) + stock seguridad. La demanda diaria se estima como ϕ mensual ÷ 30. Cuando el stock baja del punto de pedido, el material aparece en el sugerido de compra.</div>'+
+    '<div class="hint" style="margin-top:.8rem">La compra acumulada se contabiliza automáticamente con las compras recibidas (OC marcadas como entregadas). Los datos informativos (demanda, lead time, seguridad, mínimo) son solo de referencia: este sistema no gestiona reposición ni consumo de producción.</div>'+
     '<div class="form-actions"><button class="btn btn-primary" onclick="saveMat('+i+')">'+(isNew?'Crear':'Guardar')+'</button>'+
     '<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button></div>';
   document.getElementById('modalBg').classList.add('show');
@@ -2255,11 +2557,11 @@ function saveMat(i){
     description:(document.getElementById('mt-desc').value||'').trim(),
     category:category,
     unit:(document.getElementById('mt-unit').value||'').trim(),
-    phi:+document.getElementById('mt-phi').value||0,
-    leadTime:+document.getElementById('mt-lead').value||0,
-    safety:+document.getElementById('mt-safety').value||0,
-    minStock:+document.getElementById('mt-min').value||0,
-    prefSupplier:(document.getElementById('mt-sup').value||'')};
+    prefSupplier:(document.getElementById('mt-sup').value||''),
+    phi:+((document.getElementById('mt-phi')||{}).value)||0,
+    leadTime:+((document.getElementById('mt-lead')||{}).value)||0,
+    safety:+((document.getElementById('mt-safety')||{}).value)||0,
+    minStock:+((document.getElementById('mt-min')||{}).value)||0};
   if(i===-1){
     if((DB.materials||[]).some(function(x){return x.code===code;})){toast('Ese código ya existe');return;}
     if(!DB.materials)DB.materials=[];
@@ -2309,13 +2611,35 @@ function catList(){
   (DB.materials||[]).forEach(function(m){if(m.category)cats[m.category]=1;});
   (DB.budgets||[]).forEach(function(b){if(b.cat)cats[b.cat]=1;});
   (DB.orders||[]).forEach(function(o){if(o.category)cats[o.category]=1;});
+  // quitar las ocultadas (eliminadas a mano) que no tengan material asociado
+  var hidden=(DB.config&&DB.config.hiddenCats)||[];
+  hidden.forEach(function(h){
+    var enUso=(DB.materials||[]).some(function(m){return (m.category||'')===h;});
+    if(!enUso)delete cats[h];
+  });
   var arr=Object.keys(cats);
   return arr.length?arr:STD_CATS.slice();
 }
 function catOptsList(sel){return '<option value="">— elegí categoría —</option>'+catList().map(function(c){return '<option value="'+c.replace(/"/g,'&quot;')+'"'+(c===sel?' selected':'')+'>'+c+'</option>';}).join('');}
 // gestión de categorías (mismo patrón que unidades)
-function addCat(c){c=(c||'').trim();if(!c)return false;if(!DB.config)DB.config={};if(!DB.config.cats)DB.config.cats=catList();if(DB.config.cats.indexOf(c)<0){DB.config.cats.push(c);save();}return true;}
-function removeCat(c){if(DB.config&&DB.config.cats){var i=DB.config.cats.indexOf(c);if(i>=0){DB.config.cats.splice(i,1);save();}}}
+function addCat(c){c=(c||'').trim();if(!c)return false;if(!DB.config)DB.config={};if(!DB.config.cats)DB.config.cats=catList();if(DB.config.hiddenCats){var hi=DB.config.hiddenCats.indexOf(c);if(hi>=0)DB.config.hiddenCats.splice(hi,1);}if(DB.config.cats.indexOf(c)<0){DB.config.cats.push(c);}save();return true;}
+function removeCat(c){
+  // Solo se bloquea si hay MATERIALES usando la categoría. Si no, se elimina.
+  var enUso=(DB.materials||[]).filter(function(m){return (m.category||'')===c;});
+  if(enUso.length){
+    var ej=enUso.slice(0,3).map(function(m){return m.code;}).join(', ');
+    alert('No se puede eliminar la categoría "'+c+'": hay '+enUso.length+' material'+(enUso.length>1?'es':'')+' asociado'+(enUso.length>1?'s':'')+(ej?' ('+ej+(enUso.length>3?'…':'')+')':'')+'.\n\nReasigná esos materiales a otra categoría primero.');
+    return false;
+  }
+  if(!DB.config)DB.config={};
+  // quitar de la lista gestionada
+  if(DB.config.cats){var i=DB.config.cats.indexOf(c);if(i>=0)DB.config.cats.splice(i,1);}
+  // marcar como oculta para que catList no la regenere desde OC/budgets históricos
+  if(!DB.config.hiddenCats)DB.config.hiddenCats=[];
+  if(DB.config.hiddenCats.indexOf(c)<0)DB.config.hiddenCats.push(c);
+  save();
+  return true;
+}
 function manageCats(){
   var el=document.getElementById('modalContent');
   var chips=catList().map(function(c){return '<span style="display:inline-flex;align-items:center;gap:.3rem;background:var(--bg);border:1px solid var(--faint);border-radius:14px;padding:.3rem .6rem;font-size:.8rem">'+c+' <button onclick="removeCat(\''+c.replace(/'/g,"\\'")+'\');manageCats()" style="border:none;background:none;cursor:pointer;color:var(--red);font-weight:700">×</button></span>';}).join(' ');
@@ -2409,67 +2733,74 @@ function invFor(code){
   return rec||{code:code,stock:0,minStock:0};
 }
 function invMetrics(code){
-  // solicitado: SPs abiertas de ese material
   var solicitado=(DB.sps||[]).filter(function(s){return s.material===code&&s.status!=='Rechazada'&&s.status!=='Convertida';})
     .reduce(function(a,s){return a+(+s.qty||0);},0);
-  // en camino (pendiente de entregar): OC aprobadas no entregadas
-  var enCamino=(DB.orders||[]).filter(function(o){return o.material===code&&o.status==='Aprobada'&&o.delivery!=='Entregado';})
-    .reduce(function(a,o){return a+(+o.qty||0);},0);
-  // entregado histórico
-  var entregado=(DB.orders||[]).filter(function(o){return o.material===code&&o.delivery==='Entregado';})
-    .reduce(function(a,o){return a+(+o.qty||0);},0);
+  var enCamino=(DB.orders||[]).filter(function(o){return o.status==='Aprobada'&&o.delivery!=='Entregado';})
+    .reduce(function(a,o){return a+qtyOfMatInOrder(o,code);},0);
+  var entregado=(DB.orders||[]).filter(function(o){return o.delivery==='Entregado';})
+    .reduce(function(a,o){return a+qtyOfMatInOrder(o,code);},0);
   var rec=invFor(code);
   return {stock:stockOf(code),min:+rec.minStock||0,solicitado:solicitado,enCamino:enCamino,entregado:entregado};
 }
+// estado del material según stock vs punto de pedido / mínimo (compartido por Materiales e Inventario)
+function matState(m){
+  var rp=reorderPoint(m);
+  var mt=invMetrics(m.code);
+  var stock=mt.stock;
+  var disponible=stock+mt.enCamino; // lo que ya está + lo que viene
+  if(stock<=0)return {key:'sin',label:'Sin stock',color:'#c0392b',dot:'⚫',rp:rp,stock:stock,mt:mt,rank:0};
+  if(stock<=(+m.minStock||0))return {key:'critico',label:'Crítico',color:'#c0392b',dot:'🔴',rp:rp,stock:stock,mt:mt,rank:1};
+  if(disponible<=rp)return {key:'pedir',label:'Reponer',color:'#e08a1e',dot:'🟠',rp:rp,stock:stock,mt:mt,rank:2};
+  if(stock<=rp*1.25)return {key:'atento',label:'Atento',color:'#caa21a',dot:'🟡',rp:rp,stock:stock,mt:mt,rank:3};
+  return {key:'ok',label:'OK',color:'#1f9d57',dot:'🟢',rp:rp,stock:stock,mt:mt,rank:4};
+}
 function viewInventory(){
   var isAdmin=SESSION&&SESSION.role==='admin';
-  var mats=(DB.materials||[]).slice().sort(function(a,b){return a.code<b.code?-1:1;});
-  // include orphan codes used in orders/sps
+  var mats=(DB.materials||[]).slice().sort(function(a,b){return (a.code||'')<(b.code||'')?-1:1;});
+  // incluir códigos huérfanos usados en OC/SP
   var seen={};mats.forEach(function(m){seen[m.code]=1;});
-  var orphans=[];
-  (DB.orders||[]).concat(DB.sps||[]).forEach(function(x){if(x.material&&!seen[x.material]){seen[x.material]=1;orphans.push({code:x.material,description:x.matDesc||'',phi:0,leadTime:0,safety:0,minStock:0});}});
-  var all=mats.concat(orphans);
-  var lowCount=0,reorderCount=0;
-  var rows=all.map(function(m){
-    var stock=+stockOf(m.code)||0;
+  (DB.orders||[]).concat(DB.sps||[]).forEach(function(x){if(x.material&&!seen[x.material]){seen[x.material]=1;mats.push({code:x.material,description:x.matDesc||''});}});
+  var all=mats;
+  if(typeof INV_SEARCH==='undefined')window.INV_SEARCH='';
+  var sq=norm(window.INV_SEARCH||'');
+  var shown=sq?all.filter(function(m){return norm((m.code||'')+' '+(m.description||'')+' '+(m.category||'')).indexOf(sq)>=0;}):all;
+  var rows=shown.map(function(m){
+    var base=+invRec(m.code).stock||0;
+    var total=stockOf(m.code);
+    var recibidoOC=total-base;
     var mt=matMetrics(m.code);
-    var rp=reorderPoint(m);
-    var posicion=stock+mt.enCamino; // stock + en camino
-    var low=(+m.minStock||0)>0&&stock<=(+m.minStock||0);
-    var needReorder=rp>0&&posicion<=rp;
-    if(low)lowCount++;
-    if(needReorder)reorderCount++;
-    var stockColor=low?'var(--red)':(needReorder?'var(--amber)':'var(--ink)');
-    var flag=needReorder?'<span class="tag tag-amber" title="Bajo punto de pedido">reponer</span>':(low?'<span class="tag tag-red">bajo mín</span>':'<span class="tag tag-green">ok</span>');
     return '<tr>'+
       '<td class="td-strong">'+m.code+'</td>'+
       '<td>'+(m.description||'—')+'</td>'+
-      '<td style="color:'+stockColor+';font-weight:700">'+stock+'</td>'+
-      '<td>'+mt.solicitado+'</td>'+
-      '<td>'+mt.enCamino+'</td>'+
-      '<td>'+posicion+'</td>'+
-      '<td>'+rp+'</td>'+
+      '<td><span class="tag tag-blue">'+(m.category||'—')+'</span></td>'+
+      '<td>'+(m.unit||'—')+'</td>'+
+      '<td>'+base+'</td>'+
+      '<td>'+recibidoOC+'</td>'+
+      '<td style="font-weight:700">'+total+'</td>'+
       '<td>'+mt.entregado+'</td>'+
-      '<td>'+flag+'</td>'+
-      (isAdmin?'<td><button class="icon-btn" onclick="openInvModal(\''+m.code+'\')" title="Ajustar stock"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg></button></td>':'')+
+      (isAdmin?'<td><button class="icon-btn" onclick="openInvModal(\''+m.code+'\')" title="Ajustar stock base"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg></button></td>':'')+
     '</tr>';
   }).join('');
-  if(!rows)rows='<tr><td colspan="10" class="empty">No hay materiales. Cargá el catálogo en Materiales.</td></tr>';
+  if(!rows)rows='<tr><td colspan="'+(isAdmin?9:8)+'" class="empty">'+(sq?'No hay materiales que coincidan.':'No hay materiales. Cargá el catálogo en Materiales.')+'</td></tr>';
   var adminBtns=isAdmin?(
     '<button class="btn btn-ghost" onclick="downloadInvTemplate()">Plantilla</button>'+
     '<label class="btn btn-ghost" style="cursor:pointer">Carga inicial (Excel)<input type="file" accept=".xlsx,.xls,.csv" style="display:none" onchange="importInventory(event)"></label>'+
-    (reorderCount?'<button class="btn btn-primary" onclick="go(\'sps\')">Ver sugerido de compra ('+reorderCount+')</button>':'')):'';
+    '<button class="btn btn-primary" onclick="exportInventory()">Exportar inventario</button>'):
+    '<button class="btn btn-ghost" onclick="exportInventory()">Exportar inventario</button>';
+  var searchBox='<div style="position:relative;flex:1;min-width:220px"><input type="text" id="invSearch" value="'+(window.INV_SEARCH||'').replace(/"/g,'&quot;')+'" oninput="setInvSearch(this.value)" placeholder="Buscar por código, descripción o categoría..." style="width:100%;border:1px solid var(--faint);border-radius:8px;padding:.55rem .7rem .55rem 2rem;font-family:inherit;font-size:.85rem"><svg style="position:absolute;left:.6rem;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--muted)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>';
   return ''+
-  '<div class="section-stats" style="grid-template-columns:repeat(4,1fr)">'+
-    '<div class="mini-stat"><div class="l">Materiales</div><div class="v">'+all.length+'</div></div>'+
-    '<div class="mini-stat"><div class="l">Bajo mínimo</div><div class="v" style="color:'+(lowCount?'var(--red)':'var(--ink)')+'">'+lowCount+'</div></div>'+
-    '<div class="mini-stat"><div class="l">A reponer</div><div class="v" style="color:'+(reorderCount?'var(--amber)':'var(--ink)')+'">'+reorderCount+'</div></div>'+
-    '<div class="mini-stat"><div class="l">En camino (OC)</div><div class="v">'+all.reduce(function(a,m){return a+matMetrics(m.code).enCamino;},0)+'</div></div>'+
-  '</div>'+
-  '<div class="toolbar" style="margin-bottom:1rem;justify-content:flex-end;gap:.5rem;flex-wrap:wrap">'+adminBtns+'</div>'+
-  '<div class="card"><div class="table-wrap"><table class="raw"><thead><tr>'+
-    '<th>Código</th><th>Descripción</th><th>Stock</th><th title="Solicitudes abiertas">Solic.</th><th title="OC aprobadas sin entregar">En camino</th><th title="Stock + en camino">Posición</th><th title="Punto de pedido">P.Pedido</th><th>Entregado</th><th>Estado</th>'+(isAdmin?'<th></th>':'')+
+  '<div class="toolbar" style="margin:0 0 1rem;gap:.5rem;flex-wrap:wrap;align-items:center">'+searchBox+'<div style="display:flex;gap:.5rem;flex-wrap:wrap">'+adminBtns+'</div></div>'+
+  '<div class="card"><div class="card-head"><div><div class="card-title">Inventario</div><div class="card-sub">'+shown.length+' de '+all.length+' materiales · stock contabilizado por compras recibidas</div></div></div>'+
+  '<div class="table-wrap"><table class="raw"><thead><tr>'+
+    '<th>Código</th><th>Descripción</th><th>Categoría</th><th>Un.</th><th title="Stock cargado manualmente">Stock base</th><th title="Recibido por OC entregadas">Recibido OC</th><th title="Stock total contabilizado">Stock total</th><th title="Total histórico entregado por OC">Entregado</th>'+(isAdmin?'<th></th>':'')+
   '</tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+var INV_SEARCH='';
+function setInvSearch(v){
+  window.INV_SEARCH=v;
+  render('inventory');
+  var inp=document.getElementById('invSearch');
+  if(inp){inp.focus();var val=inp.value;inp.value='';inp.value=val;}
 }
 
 function openInvModal(code){
@@ -2477,10 +2808,10 @@ function openInvModal(code){
   var rec=invRec(code);
   var el=document.getElementById('modalContent');
   el.innerHTML=''+
-    '<div class="modal-head"><div class="modal-title">Ajustar stock — '+code+'</div>'+
+    '<div class="modal-head"><div class="modal-title">Ajustar compra acumulada — '+code+'</div>'+
       '<button class="modal-close" onclick="closeModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
-    '<div class="hint" style="margin-bottom:1rem">'+(m.description||'')+(m.unit?' · '+m.unit:'')+'. Los parámetros (mínimo, seguridad, demanda, lead time) se editan en la ficha del material.</div>'+
-    '<div class="form-grid"><div class="field full"><label>Stock actual</label><input type="number" id="iv-stock" value="'+(+rec.stock||0)+'"></div></div>'+
+    '<div class="hint" style="margin-bottom:1rem">'+(m.description||'')+(m.unit?' · '+m.unit:'')+'. Este es el <strong>stock base</strong> cargado manualmente. La compra acumulada suma además lo recibido por OC entregadas.</div>'+
+    '<div class="form-grid"><div class="field full"><label>Stock base</label><input type="number" id="iv-stock" value="'+(+rec.stock||0)+'"></div></div>'+
     '<div class="form-actions"><button class="btn btn-primary" onclick="saveInv(\''+code+'\')">Guardar</button>'+
     '<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button></div>';
   document.getElementById('modalBg').classList.add('show');
@@ -2492,7 +2823,7 @@ function saveInv(code){
   var rec=DB.inventory.find(function(x){return x.code===code;});
   if(rec)rec.stock=stock;
   else DB.inventory.push({id:code,code:code,stock:stock});
-  save();closeModal();toast('Stock actualizado');render('inventory');
+  save();closeModal();toast('Compra acumulada actualizada');render('materials');
 }
 
 function downloadInvTemplate(){
@@ -2502,6 +2833,34 @@ function downloadInvTemplate(){
   ws['!cols']=[{wch:14},{wch:34},{wch:14},{wch:14}];
   var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Inventario');
   XLSX.writeFile(wb,'plantilla_inventario.xlsx');
+}
+// Exporta el inventario / ajuste de material como DATO (sin sugerir compra ni tocar producción)
+function exportInventory(){
+  var mats=(DB.materials||[]).slice();
+  var seen={};mats.forEach(function(m){seen[m.code]=1;});
+  (DB.orders||[]).concat(DB.sps||[]).forEach(function(x){if(x.material&&!seen[x.material]){seen[x.material]=1;mats.push({code:x.material,description:x.matDesc||'',minStock:0});}});
+  var rows=mats.map(function(m){
+    var base=+invRec(m.code).stock||0;
+    var total=stockOf(m.code);
+    var recibidoOC=total-base;
+    var mt=matMetrics(m.code);
+    return {
+      'Codigo':m.code,
+      'Descripcion':m.description||'',
+      'Categoria':m.category||'',
+      'Unidad':m.unit||'',
+      'StockBase':base,
+      'RecibidoOC':recibidoOC,
+      'StockTotal':total,
+      'Entregado':mt.entregado
+    };
+  });
+  if(!rows.length){toast('No hay materiales para exportar');return;}
+  var ws=XLSX.utils.json_to_sheet(rows);
+  ws['!cols']=[{wch:12},{wch:34},{wch:14},{wch:8},{wch:11},{wch:11},{wch:11},{wch:11}];
+  var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Inventario');
+  XLSX.writeFile(wb,'lemalli_inventario_'+new Date().toISOString().slice(0,10)+'.xlsx');
+  toast('Inventario exportado');
 }
 function importInventory(ev){
   var f=ev.target.files[0];if(!f)return;
@@ -2545,27 +2904,37 @@ function openOrderModal(order,idx){
   var budOpts=DB.budgets.map(function(b){return '<option value="'+b.cat+'"'+(order.budgetCat===b.cat?' selected':'')+'>'+b.cat+'</option>';}).join('');
   var statuses=['Pendiente','En revisión','Aprobada','Rechazada'];
   var statOpts=statuses.map(function(s){return '<option'+(order.status===s?' selected':'')+'>'+s+'</option>';}).join('');
+  // Una OC Aprobada NO es editable (salvo el admin, que puede revertir estado).
+  // Tras aprobar solo se gestionan entrega/recepción y pago, no los datos comerciales.
+  var locked=(order.status==='Aprobada')&&!isAdmin();
+  var dis=locked?' disabled':'';
+  var supField=locked?('<input type="text" value="'+(order.supplier||'').replace(/"/g,'&quot;')+'" disabled>'):supplierCombo('e-supplier',order.supplier,'e-sup-list');
+  var multi=(order.items&&order.items.length>1);
+  var posInfo=multi?('<div class="field full"><label>Posiciones ('+order.items.length+')</label><div style="border:1px solid var(--faint);border-radius:8px;overflow:hidden"><table class="raw" style="width:100%"><thead><tr><th>Material</th><th>Descripción</th><th>Cant.</th><th>Monto</th><th>SP</th></tr></thead><tbody>'+order.items.map(function(p){return '<tr><td class="td-strong">'+(p.material||'—')+'</td><td>'+(p.matDesc||'—')+'</td><td>'+(p.qty||0)+'</td><td>'+(p.amount||0)+'</td><td>'+(p.sp||'—')+'</td></tr>';}).join('')+'</tbody></table></div><div class="hint" style="margin-top:.4rem">Las posiciones no se editan acá. Para cambiarlas, anulá la OC y creá una nueva.</div></div>'):'';
   var m=document.getElementById('modalContent');
   m.innerHTML=''+
-    '<div class="modal-head"><div class="modal-title">Editar orden '+order.id+'</div>'+
+    '<div class="modal-head"><div class="modal-title">'+(locked?'Orden ':'Editar orden ')+order.id+'</div>'+
       '<button class="modal-close" onclick="closeModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
+    (locked?'<div class="hint" style="margin-bottom:1rem">Esta OC está <strong>Aprobada</strong>: los datos comerciales no se pueden modificar. Solo podés gestionar <strong>recepción</strong> y <strong>pago</strong>.</div>':'')+
     '<form onsubmit="saveEdit(event,'+idx+')"><div class="form-grid">'+
-      '<div class="field"><label>ID de orden</label><input type="text" id="e-id" value="'+order.id+'" required></div>'+
-      '<div class="field"><label>Fecha</label><input type="date" id="e-date" value="'+order.date+'" required></div>'+
-      '<div class="field full"><label>Proveedor</label><select id="e-supplier" required>'+supOpts+'</select></div>'+
-      '<div class="field"><label>Código de material</label><input type="text" id="e-material" value="'+(order.material||'')+'"></div>'+
-      '<div class="field"><label>Descripción material</label><input type="text" id="e-matdesc" value="'+(order.matDesc||'').replace(/"/g,'&quot;')+'"></div>'+
-      '<div class="field"><label>Cantidad</label><input type="number" id="e-qty" min="0" step="1" value="'+(order.qty||0)+'"></div>'+
-      '<div class="field"><label>Tipo</label><select id="e-type"><option'+((order.type||'Material')==='Material'?' selected':'')+'>Material</option><option'+(order.type==='Servicio'?' selected':'')+'>Servicio</option></select></div>'+
-      '<div class="field"><label>Centro de costo</label><select id="e-cc">'+ccOptions(order.cc||'')+'</select></div>'+
+      '<div class="field"><label>ID de orden</label><input type="text" id="e-id" value="'+order.id+'" disabled></div>'+
+      '<div class="field"><label>Fecha</label><input type="date" id="e-date" value="'+order.date+'" required'+dis+'></div>'+
+      '<div class="field full"><label>Proveedor</label>'+supField+'</div>'+
+      posInfo+
+      (multi?'<input type="hidden" id="e-material" value="'+(order.material||'')+'"><input type="hidden" id="e-matdesc" value="'+(order.matDesc||'').replace(/"/g,'&quot;')+'"><input type="hidden" id="e-qty" value="'+(order.qty||0)+'">':
+        ('<div class="field"><label>Código de material</label><input type="text" id="e-material" value="'+(order.material||'')+'"'+dis+'></div>'+
+         '<div class="field"><label>Descripción material</label><input type="text" id="e-matdesc" value="'+(order.matDesc||'').replace(/"/g,'&quot;')+'"'+dis+'></div>'+
+         '<div class="field"><label>Cantidad</label><input type="number" id="e-qty" min="0" step="1" value="'+(order.qty||0)+'"'+dis+'></div>'))+
+      '<div class="field"><label>Tipo</label><select id="e-type"'+dis+'><option'+((order.type||'Material')==='Material'?' selected':'')+'>Material</option><option'+(order.type==='Servicio'?' selected':'')+'>Servicio</option></select></div>'+
+      '<div class="field"><label>Centro de costo</label><select id="e-cc"'+dis+'>'+ccOptions(order.cc||'')+'</select></div>'+
       (order.sp?'<div class="field"><label>Solicitud asociada</label><input type="text" value="'+order.sp+'" disabled></div>':'')+
-      '<div class="field"><label>Categoría de budget</label><select id="e-budget" required>'+budOpts+'</select></div>'+
+      '<div class="field"><label>Categoría de budget</label><select id="e-budget" required'+dis+'>'+budOpts+'</select></div>'+
       (isAdmin()?'<div class="field"><label>Estado</label><select id="e-status">'+statOpts+'</select></div>':'<div class="field"><label>Estado</label><input type="text" value="'+order.status+'" disabled><select id="e-status" style="display:none"><option selected>'+order.status+'</option></select></div>')+
-      '<div class="field"><label>Monto</label><input type="number" id="e-amount" min="0" step="100" value="'+order.amount+'" required></div>'+
-      '<div class="field"><label>Moneda</label><select id="e-currency">'+curOptions(order.currency||'USD')+'</select></div>'+
-      '<div class="field"><label>TC original (USD por 1 unidad · 0=usar histórico)</label><input type="number" id="e-fx" min="0" step="0.0001" value="'+(order.fxToUsd||0)+'"></div>'+
-      '<div class="field"><label>Saving estimado</label><input type="number" id="e-saving" min="0" step="100" value="'+order.saving+'"></div>'+
-      '<div class="field"><label>Entrega</label><select id="e-delivery">'+DELIV_OPTS.map(function(v){return '<option'+(v===(order.delivery||'Pendiente')?' selected':'')+'>'+v+'</option>';}).join('')+'</select></div>'+
+      '<div class="field"><label>Monto'+(multi?' (suma de posiciones)':'')+'</label><input type="number" id="e-amount" min="0" step="100" value="'+order.amount+'" required'+(multi?' readonly style="background:var(--bg)"':dis)+'></div>'+
+      '<div class="field"><label>Moneda</label><select id="e-currency"'+dis+'>'+curOptions(order.currency||'USD')+'</select></div>'+
+      '<div class="field"><label>TC original (USD por 1 unidad · 0=usar histórico)</label><input type="number" id="e-fx" min="0" step="0.0001" value="'+(order.fxToUsd||0)+'"'+dis+'></div>'+
+      '<div class="field"><label>Saving estimado</label><input type="number" id="e-saving" min="0" step="100" value="'+order.saving+'"'+dis+'></div>'+
+      '<div class="field"><label>Entrega / recepción</label><select id="e-delivery">'+DELIV_OPTS.map(function(v){return '<option'+(v===(order.delivery||'Pendiente')?' selected':'')+'>'+v+'</option>';}).join('')+'</select></div>'+
       '<div class="field"><label>Pago</label><select id="e-paid">'+PAID_OPTS.map(function(v){return '<option'+(v===(order.paid||'No pagado')?' selected':'')+'>'+v+'</option>';}).join('')+'</select></div>'+
       '<div class="field full"><label>Comentario</label><textarea id="e-comment" rows="2">'+(order.comment||'')+'</textarea></div>'+
     '</div><div class="form-actions"><button type="submit" class="btn btn-primary">Guardar cambios</button><button type="button" class="btn btn-ghost" onclick="closeModal()">Cancelar</button></div></form>';
@@ -2573,34 +2942,63 @@ function openOrderModal(order,idx){
 }
 function saveEdit(e,idx){
   e.preventDefault();
-  var prevDeliv=(DB.orders[idx]||{}).delivery;
+  var prev=DB.orders[idx]||{};
+  var prevDeliv=prev.delivery;
+  var locked=(prev.status==='Aprobada')&&!isAdmin();
+  function val(id,fallback){var el=document.getElementById(id);return el?el.value:fallback;}
+  if(locked){
+    // OC aprobada: solo se actualizan recepción, pago y comentario; el resto queda intacto.
+    DB.orders[idx]=Object.assign({},prev,{
+      delivery:val('e-delivery',prev.delivery),
+      received:applyPartial(idx, val('e-delivery',prev.delivery)),
+      paid:val('e-paid',prev.paid),
+      comment:(val('e-comment',prev.comment)||'').trim()
+    });
+    save();closeModal();render('orders');return;
+  }
   var sup=document.getElementById('e-supplier');
-  var cat=sup.options[sup.selectedIndex].getAttribute('data-cat')||DB.orders[idx].category;
+  var cat=supplierCat(sup?sup.value:prev.supplier, prev.category);
+  var newDeliv=val('e-delivery',prev.delivery);
+  var multi=(prev.items&&prev.items.length>1);
   DB.orders[idx]={
-    id:document.getElementById('e-id').value,
-    supplier:sup.value,
+    id:prev.id, // el nº de PO NUNCA cambia
+    supplier:sup?sup.value:prev.supplier,
     category:cat,
-    material:(document.getElementById('e-material').value||'').trim().toUpperCase(),
-    matDesc:(document.getElementById('e-matdesc').value||'').trim(),
-    qty:+document.getElementById('e-qty').value||0,
-    type:document.getElementById('e-type').value,
-    cc:document.getElementById('e-cc').value||'',
-    sp:DB.orders[idx].sp||'',
-    buyer:DB.orders[idx].buyer||'',
-    amount:+document.getElementById('e-amount').value||0,
-    currency:(document.getElementById('e-currency')||{}).value||'USD',
-    fxToUsd:+((document.getElementById('e-fx')||{}).value)||0,
-    saving:+document.getElementById('e-saving').value||0,
-    budgetCat:document.getElementById('e-budget').value,
-    date:document.getElementById('e-date').value,
-    status:document.getElementById('e-status').value,
-    delivery:document.getElementById('e-delivery').value,
-    paid:document.getElementById('e-paid').value,
-    comment:(document.getElementById('e-comment').value||'').trim()
+    material:multi?prev.material:(val('e-material','')||'').trim().toUpperCase(),
+    matDesc:multi?prev.matDesc:(val('e-matdesc','')||'').trim(),
+    qty:multi?prev.qty:(+val('e-qty',0)||0),
+    type:val('e-type','Material'),
+    cc:val('e-cc','')||'',
+    sp:prev.sp||'',
+    sps:prev.sps||null,
+    buyer:prev.buyer||'',
+    amount:multi?prev.amount:(+val('e-amount',0)||0),
+    currency:val('e-currency','USD')||'USD',
+    fxToUsd:+(val('e-fx',0))||0,
+    saving:+val('e-saving',0)||0,
+    budgetCat:val('e-budget',prev.budgetCat),
+    date:val('e-date',prev.date),
+    status:val('e-status',prev.status),
+    delivery:newDeliv,
+    received:applyPartial(idx,newDeliv),
+    paid:val('e-paid','No pagado'),
+    comment:(val('e-comment','')||'').trim(),
+    items:prev.items||null
   };
-  // si pasó a Entregado, el stock disponible ya lo cuenta stockOf() dinámicamente.
-  // No sumamos manualmente al inventario para no contar dos veces.
   save();closeModal();render('orders');
+}
+// Devuelve la cantidad recibida coherente con el estado de entrega elegido.
+// Si es "Parcial", abre el detalle de recepción; si "Entregado", todo; si no, lo recibido previo o 0.
+function applyPartial(idx,deliv){
+  var o=DB.orders[idx]||{};
+  if(deliv==='Entregado'){return totalQtyOf(o);}
+  if(deliv==='Parcial'){return (o.received&&o.received>0)?o.received:o.received||0;}
+  return 0;
+}
+// cantidad total de la OC (suma de items si es multi-material, o qty simple)
+function totalQtyOf(o){
+  if(o&&o.items&&o.items.length)return o.items.reduce(function(a,it){return a+(+it.qty||0);},0);
+  return +((o&&o.qty))||0;
 }
 function closeModal(){document.getElementById('modalBg').classList.remove('show');}
 async function openDocsModal(idx){
@@ -2816,11 +3214,11 @@ function aiAddMsg(text,who){
   b.appendChild(d);b.scrollTop=b.scrollHeight;return d;
 }
 function aiWelcome(){
-  aiAddMsg('¡Hola'+(SESSION&&SESSION.name?' '+SESSION.name.split(' ')[0]:'')+'! Soy tu asistente. Puedo responder sobre órdenes, proveedores, materiales, savings, plazos de pago, centros de costo y más. Probá una de estas o escribí tu pregunta:','bot');
+  aiAddMsg('¡Hola'+(SESSION&&SESSION.name?' '+SESSION.name.split(' ')[0]:'')+'! Soy tu asistente de compras. Puedo decirte el stock de un material, cuánto debés pagar, cómo vienen las entregas, evaluar proveedores, y responder sobre órdenes, savings y centros de costo. Probá una de estas o escribí lo que quieras:','bot');
   aiRefreshChips();
 }
 function aiRefreshChips(){
-  var ex=['Cuántos proveedores tengo','Último precio de MAT-002','OC pendientes','Resumen de gasto','Top proveedores','Plazos de pago'];
+  var ex=['¿Cómo venimos?','¿Cuánto debo pagar?','¿Qué falta entregar?','Comparar proveedores','Resumen de gasto','Stock de un material'];
   var c=document.getElementById('aiSuggests');
   c.innerHTML='<div class="ai-sug-row">'+ex.map(function(q){return '<button class="ai-chip" onclick="aiChip(this)">'+q+'</button>';}).join('')+'</div>';
 }
@@ -3170,45 +3568,22 @@ function ansDelivery(){
 // ---- intent router ----
 // ---- NUEVAS: inventario, stock, reposición, contratos, demanda ----
 function ansStock(mat){
-  var stock=+stockOf(mat)||0;
+  var base=+invRec(mat).stock||0;
+  var total=stockOf(mat);
   var m=(DB.materials||[]).find(function(x){return x.code===mat;})||{};
   var mt=matMetrics(mat);
-  var rp=reorderPoint(m);
-  var pos=stock+mt.enCamino;
-  var txt='**'+mat+'**'+(m.description?' — '+m.description:'')+'\n';
-  txt+='• Stock actual: **'+stock+'**'+(m.unit?' '+m.unit:'')+'\n';
-  txt+='• En camino (OC aprobadas): '+mt.enCamino+'\n';
-  txt+='• Solicitado (SP abiertas): '+mt.solicitado+'\n';
-  txt+='• Posición (stock+en camino): '+pos+'\n';
-  if(rp>0){txt+='• Punto de pedido: '+rp+(pos<=rp?' → **conviene reponer** ⚠':' → ok')+'\n';}
-  if(m.minStock)txt+='• Stock mínimo: '+m.minStock+(stock<=m.minStock?' → **bajo mínimo** ⚠':'');
-  return txt.replace(/\n$/,'');
+  var txt='**'+mat+'**'+(m.description?' \u2014 '+m.description:'')+'\n';
+  txt+='\u2022 Stock total contabilizado: **'+total+'**'+(m.unit?' '+m.unit:'')+'\n';
+  txt+='\u2022 Stock base (manual): '+base+'\n';
+  txt+='\u2022 Recibido por OC entregadas: '+(total-base)+'\n';
+  txt+='\u2022 En camino (OC aprobadas sin entregar): '+mt.enCamino;
+  return txt;
 }
-function ansReorder(){
-  var list=(DB.materials||[]).map(function(m){
-    var stock=+stockOf(m.code)||0;var mt=matMetrics(m.code);var pos=stock+mt.enCamino;var rp=reorderPoint(m);
-    if(rp>0&&pos<=rp)return {code:m.code,desc:m.description||'',stock:stock,rp:rp,sug:Math.max(rp-pos+Math.round(+m.phi||0),1),unit:m.unit||'',sup:m.prefSupplier||''};
-    return null;
-  }).filter(Boolean);
-  if(!list.length)return 'No hay materiales bajo su punto de pedido. El inventario está en niveles ok. ✅';
-  return 'Materiales sugeridos para reponer ('+list.length+'):\n'+list.map(function(r){return '• **'+r.code+'** ('+r.desc+'): stock '+r.stock+', pedir ~'+r.sug+' '+r.unit+(r.sup?' a '+r.sup:'');}).join('\n');
-}
-function ansReorderPoint(mat){
-  var m=(DB.materials||[]).find(function(x){return x.code===mat;});
-  if(!m)return 'No encontré el material **'+mat+'**.';
-  var rp=reorderPoint(m);var daily=((+m.phi||0)/30).toFixed(1);
-  return 'Punto de pedido de **'+mat+'**: **'+rp+'**\n• Demanda diaria: '+daily+' (ϕ '+(+m.phi||0)+'/mes ÷ 30)\n• Lead time: '+(+m.leadTime||0)+' días\n• Stock seguridad: '+(+m.safety||0)+'\n→ ('+daily+' × '+(+m.leadTime||0)+') + '+(+m.safety||0)+' = '+rp;
-}
-function ansDemand(mat){
-  var m=(DB.materials||[]).find(function(x){return x.code===mat;});
-  if(!m)return 'No encontré el material **'+mat+'**.';
-  return 'Demanda (ϕ) de **'+mat+'**: **'+(+m.phi||0)+'** por mes ('+((+m.phi||0)/30).toFixed(1)+'/día). Lead time '+(+m.leadTime||0)+' días.';
-}
-function ansLowStock(){
-  var list=(DB.materials||[]).filter(function(m){var s=+stockOf(m.code)||0;return (+m.minStock||0)>0&&s<=(+m.minStock||0);});
-  if(!list.length)return 'Ningún material está bajo su stock mínimo. ✅';
-  return 'Materiales bajo stock mínimo ('+list.length+'):\n'+list.map(function(m){return '• **'+m.code+'** ('+(m.description||'')+'): stock '+(+stockOf(m.code)||0)+' / mín '+(+m.minStock||0);}).join('\n');
-}
+var _noReorderMsg='Este sistema no gestiona reposici\u00f3n ni stock m\u00ednimo (no est\u00e1 conectado con producci\u00f3n). Solo contabiliza las compras y su stock. Puedo darte el stock de un material o exportar el inventario.';
+function ansReorder(){return _noReorderMsg;}
+function ansReorderPoint(mat){return _noReorderMsg;}
+function ansDemand(mat){return _noReorderMsg;}
+function ansLowStock(){return _noReorderMsg;}
 function ansContracts(){
   var c=(DB.services||[]).filter(function(v){return v.end;});
   if(!c.length)return 'No hay contratos cargados en los proveedores.';
@@ -3260,35 +3635,129 @@ function ansMatCode(mat){
 }
 // estado/semáforo de un material puntual
 function ansMatStatus(mat){
-  var m=(DB.materials||[]).find(function(x){return x.code===mat;});if(!m)return 'No encontré el material '+mat+'.';
-  var stock=+stockOf(mat)||0;var mt=matMetrics(mat);var rp=reorderPoint(m);var pos=stock+mt.enCamino;
-  var estado,emoji;
-  if(stock<=0){estado='Sin stock';emoji='🔴';}
-  else if(stock<=(+m.minStock||0)){estado='Crítico (bajo mínimo)';emoji='🔴';}
-  else if(pos<=rp){estado='Hay que reponer';emoji='🟠';}
-  else if(stock<=rp*1.25){estado='Atento (cerca del punto de pedido)';emoji='🟡';}
-  else{estado='OK';emoji='🟢';}
-  return emoji+' **'+mat+'** — '+estado+'\n• Stock: '+stock+(m.unit?' '+m.unit:'')+' · En camino: '+mt.enCamino+' · Punto de pedido: '+rp;
+  return ansStock(mat);
 }
-// resumen de alertas de materiales (semáforo global)
+// Resumen de inventario (sin reposici\u00f3n: solo conteo de stock)
 function ansMatAlerts(){
-  var sin=0,crit=0,pedir=0,ok=0,atento=0;
-  (DB.materials||[]).forEach(function(m){
-    var stock=+stockOf(m.code)||0;var mt=matMetrics(m.code);var rp=reorderPoint(m);var pos=stock+mt.enCamino;
-    if(stock<=0)sin++;else if(stock<=(+m.minStock||0))crit++;else if(pos<=rp)pedir++;else if(stock<=rp*1.25)atento++;else ok++;
-  });
   var total=(DB.materials||[]).length;
-  var urg=sin+crit+pedir;
-  if(!total)return 'No hay materiales cargados todavía.';
-  var t='Semáforo de materiales ('+total+'):\n🟢 OK: '+ok+'\n🟡 Atento: '+atento+'\n🟠 Reponer: '+pedir+'\n🔴 Crítico: '+crit+'\n⚫ Sin stock: '+sin;
-  if(urg)t+='\n\n**'+urg+'** materiales requieren acción. Preguntame «qué materiales tengo que reponer» para el detalle.';
-  return t;
+  if(!total)return 'No hay materiales cargados todav\u00eda.';
+  var conStock=(DB.materials||[]).filter(function(m){return stockOf(m.code)>0;}).length;
+  return 'Inventario: **'+total+'** materiales en el cat\u00e1logo, '+conStock+' con stock contabilizado. Este sistema no gestiona reposici\u00f3n ni stock m\u00ednimo. Pregunt\u00e1 por el stock de un material puntual o export\u00e1 el inventario.';
 }
 function ansFX(){
   if(!FX.loaded)return 'No tengo el tipo de cambio cargado en este momento. La base del sistema es USD.';
   var lines=Object.keys(FX.rates).filter(function(k){return k!=='USD';}).slice(0,8).map(function(k){return '• 1 '+k+' = '+(1/FX.rates[k]).toFixed(4)+' USD';});
   return 'Tipo de cambio del día ('+FX.date+'), base **USD**:\n'+lines.join('\n')+'\n\nCada OC se convierte a USD con su **TC propio**: el que cargaste a mano (USD por 1 unidad), o el histórico de la fecha de la OC si no cargaste ninguno.';
 }
+// ====== "CEREBRO COMPRADOR": respuestas razonadas tipo analista de compras ======
+// Devuelven texto accionable cruzando stock, OC, proveedores, pagos y entregas.
+
+// Qué comprar ahora: prioriza por criticidad y arma una lista de acción
+function ansBuyNow(){
+  return 'Este sistema no sugiere qu\u00e9 comprar por consumo (no est\u00e1 conectado con producci\u00f3n). Puedo ayudarte con: el stock de un material, las \u00f3rdenes pendientes de aprobar, las entregas en curso, o un diagn\u00f3stico de compras. \u00bfQu\u00e9 necesit\u00e1s?';
+}
+
+// Salud financiera de pagos: cuánto se debe, a quién, y qué vence
+function ansPayablesHealth(){
+  var unpaid=(DB.orders||[]).filter(function(o){return o.paid&&o.paid!=='Pagado'&&o.status!=='Rechazada';});
+  if(!unpaid.length)return '✅ No hay órdenes pendientes de pago.';
+  var total=unpaid.reduce(function(a,o){return a+amt(o);},0);
+  var bySup={};unpaid.forEach(function(o){bySup[o.supplier]=(bySup[o.supplier]||0)+amt(o);});
+  var top=Object.keys(bySup).map(function(k){return {n:k,v:bySup[k]};}).sort(function(a,b){return b.v-a.v;}).slice(0,5);
+  var t='💸 **Cuentas por pagar**: '+unpaid.length+' órdenes, **'+eur2(total)+'** pendientes.\n';
+  t+='Por proveedor:\n'+top.map(function(x){return '• '+x.n+': '+eur2(x.v);}).join('\n');
+  var conNota=unpaid.filter(function(o){return o.comment&&/dias|días|factura|vencim/i.test(o.comment);});
+  if(conNota.length){t+='\n\nCon condición de pago anotada:\n'+conNota.slice(0,4).map(function(o){return '• '+o.id+' ('+o.supplier+'): '+o.comment;}).join('\n');}
+  return t;
+}
+
+// Estado de entregas: qué falta llegar, parciales y atrasos potenciales
+function ansDeliveryRisk(){
+  var pend=(DB.orders||[]).filter(function(o){return o.status==='Aprobada'&&o.delivery!=='Entregado';});
+  if(!pend.length)return '✅ Todas las órdenes aprobadas figuran entregadas.';
+  var parc=pend.filter(function(o){return o.delivery==='Parcial';});
+  var t='🚚 **Entregas en curso**: '+pend.length+' OC aprobadas sin completar';
+  t+=parc.length?(' ('+parc.length+' parciales).\n'):'.\n';
+  t+=pend.slice(0,10).map(function(o){return '• '+o.id+' — '+o.supplier+' · '+(o.matDesc||o.material||'')+' · '+(o.delivery||'Pendiente')+(o.comment?(' — '+o.comment):'');}).join('\n');
+  return t;
+}
+
+// Evaluación de un proveedor como lo haría un comprador (360°)
+function ansSupplier360(s){
+  var ocs=(DB.orders||[]).filter(function(o){return o.supplier===s.name;});
+  var gasto=ocs.reduce(function(a,o){return a+amt(o);},0);
+  var sav=ocs.reduce(function(a,o){return a+amtOf(o,'saving');},0);
+  var entreg=ocs.filter(function(o){return o.delivery==='Entregado';}).length;
+  var deuda=ocs.filter(function(o){return o.paid&&o.paid!=='Pagado';}).reduce(function(a,o){return a+amt(o);},0);
+  var onTimeRate=ocs.length?(entreg/ocs.length*100):0;
+  var t='🏢 **'+s.name+'** — evaluación 360°\n';
+  t+='• Rating: '+(s.rating||'—')+' / 5 · Categoría: '+(s.category||'—')+'\n';
+  t+='• OC: '+ocs.length+' · Gasto: '+eur2(gasto)+' · Savings: '+eur2(sav)+(gasto+sav>0?(' ('+(sav/(gasto+sav)*100).toFixed(1)+'% rate)'):'')+'\n';
+  t+='• Entregas completas: '+entreg+'/'+ocs.length+' ('+onTimeRate.toFixed(0)+'%)\n';
+  if(deuda>0)t+='• ⚠ Saldo pendiente de pago: '+eur2(deuda)+'\n';
+  t+='• Contacto: '+(s.contact||'—')+(s.email?(' · '+s.email):'');
+  // recomendación simple
+  var reco=[];
+  if((s.rating||0)>=4.5&&onTimeRate>=80)reco.push('proveedor confiable, candidato a más volumen');
+  if(onTimeRate<60&&ocs.length>=2)reco.push('cumplimiento de entrega bajo — seguir de cerca');
+  if(deuda>0)reco.push('regularizar pagos pendientes');
+  if(reco.length)t+='\n\n💡 Lectura: '+reco.join('; ')+'.';
+  return t;
+}
+
+// Comparar proveedores de una misma categoría / material
+function ansCompareSuppliers(cat){
+  var ocs=(DB.orders||[]).filter(function(o){return !cat||norm(o.category)===norm(cat)||norm(o.budgetCat)===norm(cat);});
+  if(!ocs.length)return 'No tengo órdenes'+(cat?(' en '+cat):'')+' para comparar proveedores.';
+  var map={};
+  ocs.forEach(function(o){var k=o.supplier;if(!map[k])map[k]={g:0,s:0,c:0};map[k].g+=amt(o);map[k].s+=amtOf(o,'saving');map[k].c++;});
+  var rows=Object.keys(map).map(function(k){
+    var sup=(DB.suppliers||[]).find(function(x){return x.name===k;})||{};
+    var savRate=(map[k].g+map[k].s)>0?(map[k].s/(map[k].g+map[k].s)*100):0;
+    return {n:k,g:map[k].g,c:map[k].c,sav:savRate,rating:sup.rating||0};
+  }).sort(function(a,b){return b.sav-a.sav;});
+  var t='⚖️ **Comparativa de proveedores'+(cat?(' — '+cat):'')+'**:\n';
+  t+=rows.map(function(r){return '• **'+r.n+'**: '+r.c+' OC · '+eur2(r.g)+' · '+r.sav.toFixed(1)+'% savings · rating '+(r.rating||'—');}).join('\n');
+  if(rows.length>1)t+='\n\n💡 Mejor savings: **'+rows[0].n+'**. Mejor rating: **'+rows.slice().sort(function(a,b){return b.rating-a.rating;})[0].n+'**.';
+  return t;
+}
+
+// "¿Cómo venimos?" — diagnóstico ejecutivo del estado de compras
+function ansHealthCheck(range){
+  var o=ordersIn(range);
+  var gasto=o.reduce(function(a,x){return a+amt(x);},0);
+  var sav=o.reduce(function(a,x){return a+amtOf(x,'saving');},0);
+  var rate=(gasto+sav)>0?(sav/(gasto+sav)*100):0;
+  var pend=o.filter(function(x){return x.status==='Pendiente'||x.status==='En revisión';}).length;
+  var deuda=o.filter(function(x){return x.paid&&x.paid!=='Pagado';}).reduce(function(a,x){return a+amt(x);},0);
+  var entregaPend=o.filter(function(x){return x.status==='Aprobada'&&x.delivery!=='Entregado';}).length;
+  var t='📊 **Diagnóstico de compras'+(range?(' — '+range.label):'')+'**\n';
+  t+='• Gasto: **'+eur2(gasto)+'** · Savings: **'+eur2(sav)+'** ('+rate.toFixed(1)+'% rate)\n';
+  t+='• OC pendientes de aprobar: '+pend+'\n';
+  t+='• Entregas sin completar: '+entregaPend+'\n';
+  t+='• Por pagar: '+eur2(deuda)+'\n';
+  var flags=[];
+  if(rate<5&&(gasto+sav)>0)flags.push('rate de savings bajo — revisar negociación');
+  if(deuda>0)flags.push('hay saldos por pagar');
+  if(pend>0)flags.push(pend+' OC esperando aprobación');
+  t+=flags.length?('\n⚠ Atención: '+flags.join('; ')+'.'):'\n✅ Todo en orden.';
+  return t;
+}
+
+// Sugerencia: a qué proveedor pedir un material (mejor histórico)
+function ansWhereToBuy(mat){
+  var ocs=(DB.orders||[]).filter(function(o){return o.material===mat&&o.qty>0;});
+  var m=(DB.materials||[]).find(function(x){return x.code===mat;})||{};
+  if(!ocs.length)return 'No tengo historial de compra para **'+mat+'**'+(m.prefSupplier?('. Proveedor preferido en ficha: **'+m.prefSupplier+'**.'):'. Cargá una OC o definí proveedor preferido en la ficha del material.');
+  var map={};
+  ocs.forEach(function(o){var pu=amt(o)/(+o.qty||1);var k=o.supplier;if(!map[k])map[k]={sum:0,n:0,last:o.date};map[k].sum+=pu;map[k].n++;if(o.date>map[k].last)map[k].last=o.date;});
+  var rows=Object.keys(map).map(function(k){return {n:k,avg:map[k].sum/map[k].n,c:map[k].n,last:map[k].last};}).sort(function(a,b){return a.avg-b.avg;});
+  var t='🛒 **Dónde comprar '+mat+'**'+(m.description?(' ('+m.description+')'):'')+' — por precio unitario histórico:\n';
+  t+=rows.map(function(r,i){return (i+1)+'. **'+r.n+'**: '+eur2(r.avg)+'/u · '+r.c+' compras · última '+r.last;}).join('\n');
+  t+='\n\n💡 Más barato histórico: **'+rows[0].n+'**'+(m.prefSupplier&&m.prefSupplier!==rows[0].n?(' (preferido en ficha: '+m.prefSupplier+')'):'')+'.';
+  return t;
+}
+
 function aiAnswer(q){
   var n=norm(q);
   var toks=n.split(/[^a-z0-9-]+/).filter(Boolean);
@@ -3351,7 +3820,13 @@ function aiAnswer(q){
     contract:['contrato','contratos','vencimiento','vence','renovar','renovacion','renovación','servicio','servicios','contratado','contratados','sla','vigencia','vigente','modalidad'],
     fx:['cambio','tipo de cambio','cotizacion','cotización','divisa','dolar','dólar','euro','tc','usd','conversion','conversión','moneda','monedas'],
     safety:['seguridad','colchon','colchón'],
-    convert:['convertir','converti','convertime','pasar','pasame','equivale','equivalente','cuanto es','cuánto es']
+    convert:['convertir','converti','convertime','pasar','pasame','equivale','equivalente','cuanto es','cuánto es'],
+    buynow:['comprar','compro','reponer','repongo','necesito','urgente','urgentes','accion','acción','prioridad','prioridades','que pido','qué pido','que falta comprar','quecomprar'],
+    payables:['deber','debo','debemos','adeudo','deuda','deudas','pagar','pendiente de pago','por pagar','cuentas','vencimiento','vencimientos','impago','impagos'],
+    risk:['riesgo','riesgos','atraso','atrasos','demora','demoras','retraso','retrasos','llegar','pendiente de entrega','en curso'],
+    health:['como venimos','cómo venimos','como vamos','cómo vamos','diagnostico','diagnóstico','panorama','salud','estado general','resumen ejecutivo','como esta todo','cómo está todo'],
+    compare:['comparar','compara','comparativa','versus','vs','mejor proveedor','que proveedor conviene','qué proveedor conviene','quien conviene','quién conviene'],
+    where:['donde compro','dónde compro','a quien le compro','a quién le compro','quien me vende','quién me vende','donde conviene','dónde conviene','mejor precio de']
   };
   function w(group){var a=W[group]||[];return any.apply(null,a);}
 
@@ -3359,6 +3834,15 @@ function aiAnswer(q){
   // Each rule returns a score; highest wins. This makes it order-independent and flexible.
   var cands=[];
   function push(score,fn){cands.push({s:score,fn:fn});}
+
+  // -- CEREBRO COMPRADOR (alta prioridad: razonamiento accionable) --
+  if(phrase('que comprar','qué comprar','que tengo que comprar','qué tengo que comprar','que pedir','qué pedir','que repongo','qué repongo','que necesito comprar','lista de compra')||(w('buynow')&&!mat&&!sup)) push(16,function(){return ansBuyNow();});
+  if(phrase('cuanto debo','cuánto debo','cuanto debemos','cuánto debemos','que debo pagar','qué debo pagar','cuentas por pagar','por pagar','pendiente de pago','que vence','qué vence')||(w('payables')&&!sup&&!oc)) push(15,function(){return ansPayablesHealth();});
+  if(phrase('que falta entregar','qué falta entregar','entregas pendientes','que esta por llegar','qué está por llegar','riesgo de entrega','entregas en curso')||(w('risk')&&w('deliver'))) push(15,function(){return ansDeliveryRisk();});
+  if(phrase('como venimos','cómo venimos','como vamos','cómo vamos','diagnostico','diagnóstico','resumen ejecutivo','salud de compras','como esta todo','cómo está todo')||w('health')) push(14,function(){return ansHealthCheck(range);});
+  if(mat&&(w('where')||phrase('donde compro','dónde compro','a quien le compro','a quién le compro','quien me vende','quién me vende','mejor precio'))) push(15,function(){return ansWhereToBuy(mat);});
+  if(sup&&phrase('360','evaluacion','evaluación','como es','cómo es','que tal es','qué tal es','me conviene','confiable','desempeno','desempeño','performance')) push(13,function(){return ansSupplier360(sup);});
+  if(w('compare')||phrase('comparar proveedores','comparativa de proveedores','que proveedor conviene','qué proveedor conviene','mejor proveedor')) push(13,function(){return ansCompareSuppliers(cc?cc.name:(sup?sup.category:null));});
 
   // -- material-centric --
   if(mat){

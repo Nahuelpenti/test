@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -28,22 +29,37 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);font-s
 .app{display:flex;min-height:100vh}
 
 /* SIDEBAR */
-.sidebar{width:248px;background:var(--sidebar);color:#cbd5e1;display:flex;flex-direction:column;position:fixed;height:100vh;left:0;top:0;z-index:50}
-.sb-head{padding:1.5rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:.6rem}
+.sidebar{width:248px;background:var(--sidebar);color:#cbd5e1;display:flex;flex-direction:column;position:fixed;height:100vh;left:0;top:0;z-index:50;transition:width .2s ease}
+.sb-head{padding:1.5rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:.6rem;position:relative}
 .sb-mark{width:34px;height:34px;flex-shrink:0}
-.sb-brand{font-weight:800;font-size:1.05rem;letter-spacing:.04em;color:#fff}
+.sb-brand{font-weight:800;font-size:1.05rem;letter-spacing:.04em;color:#fff;white-space:nowrap}
 .sb-brand span{color:#60a5fa}
-.sb-sub{font-size:.62rem;letter-spacing:.18em;color:#64748b;text-transform:uppercase;margin-top:2px}
-.sb-nav{padding:1rem .8rem;flex:1;overflow-y:auto}
-.sb-section{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#475569;padding:.6rem .7rem .4rem;margin-top:.5rem}
-.nav-item{display:flex;align-items:center;gap:.7rem;padding:.62rem .7rem;border-radius:8px;cursor:pointer;color:#cbd5e1;font-weight:500;transition:background .15s,color .15s;font-size:.85rem;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.sb-sub{font-size:.62rem;letter-spacing:.18em;color:#64748b;text-transform:uppercase;margin-top:2px;white-space:nowrap}
+/* botón colapsar */
+.sb-toggle{position:absolute;right:-13px;top:1.6rem;width:26px;height:26px;border-radius:50%;background:var(--primary);border:2px solid var(--sidebar);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;z-index:60;transition:background .15s}
+.sb-toggle:hover{background:var(--primary-dark)}
+.sb-toggle svg{width:13px;height:13px;stroke-width:2.6;transition:transform .2s}
+.sb-nav{padding:1rem .8rem;flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#334155 transparent}
+.sb-nav::-webkit-scrollbar{width:8px}
+.sb-nav::-webkit-scrollbar-track{background:transparent}
+.sb-nav::-webkit-scrollbar-thumb{background:#334155;border-radius:8px;border:2px solid var(--sidebar)}
+.sb-nav::-webkit-scrollbar-thumb:hover{background:#475569}
+.sb-section{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#475569;padding:.6rem .7rem .4rem;margin-top:.5rem;white-space:nowrap;overflow:hidden}
+.nav-item{display:flex;align-items:center;gap:.7rem;padding:.62rem .7rem;border-radius:8px;cursor:pointer;color:#cbd5e1;font-weight:500;transition:background .15s,color .15s;font-size:.85rem;border:none;background:none;width:100%;text-align:left;font-family:inherit;white-space:nowrap;overflow:hidden}
 .nav-item:hover{background:var(--sidebar-hover);color:#fff}
 .nav-item.active{background:var(--primary);color:#fff}
 .nav-item svg{width:17px;height:17px;flex-shrink:0;stroke-width:2}
-.sb-foot{padding:1rem 1.4rem;border-top:1px solid rgba(255,255,255,.08);font-size:.7rem;color:#475569}
+.sb-foot{padding:1rem 1.4rem;border-top:1px solid rgba(255,255,255,.08);font-size:.7rem;color:#475569;white-space:nowrap;overflow:hidden}
+/* estado colapsado */
+.app.sb-collapsed .sidebar{width:64px}
+.app.sb-collapsed .sb-brand,.app.sb-collapsed .sb-sub,.app.sb-collapsed .sb-section,.app.sb-collapsed .nav-item span,.app.sb-collapsed .sb-foot{opacity:0;pointer-events:none}
+.app.sb-collapsed .sb-head{padding:1.5rem 0;justify-content:center}
+.app.sb-collapsed .nav-item{justify-content:center;padding:.62rem 0}
+.app.sb-collapsed .sb-toggle svg{transform:rotate(180deg)}
+.app.sb-collapsed .main{margin-left:64px}
 
 /* MAIN */
-.main{margin-left:248px;flex:1;min-height:100vh;display:flex;flex-direction:column}
+.main{margin-left:248px;flex:1;min-height:100vh;display:flex;flex-direction:column;transition:margin-left .2s ease}
 .topbar{background:var(--card);border-bottom:1px solid var(--faint);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
 .tb-title{font-size:1.25rem;font-weight:700;color:var(--ink)}
 .tb-sub{font-size:.78rem;color:var(--muted);margin-top:1px}
@@ -259,6 +275,9 @@ table.pos-table input{box-sizing:border-box}
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
+    <button class="sb-toggle" onclick="toggleSidebar()" title="Contraer / expandir menú" aria-label="Contraer menú">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
     <div class="sb-head">
       <svg class="sb-mark" viewBox="0 0 42 42" fill="none">
         <rect x="2" y="2" width="38" height="38" stroke="#60a5fa" stroke-width="2.5"/>
@@ -278,15 +297,11 @@ table.pos-table input{box-sizing:border-box}
       <div class="sb-section">Pedidos</div>
       <button class="nav-item" data-view="sps">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>
-        <span>Solicitudes</span>
+        <span>Solicitudes de pedido</span>
       </button>
       <button class="nav-item" data-view="orders">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
         <span>Órdenes de compra</span>
-      </button>
-      <button class="nav-item buy-only" data-view="new-order">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
-        <span>Cargar pedido</span>
       </button>
       <div class="sb-section">Producción</div>
       <button class="nav-item" data-view="materials">
@@ -349,11 +364,6 @@ table.pos-table input{box-sizing:border-box}
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           Salir
         </button>
-
-        <button class="btn btn-primary" onclick="go('new-order')">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Cargar pedido
-        </button>
       </div>
     </div>
     <div class="content" id="content"><!-- views injected --></div>
@@ -399,10 +409,10 @@ var SEED={
     {user:'maria',pass:'1234',name:'María G.',role:'buyer'}
   ],
   ccs:[
-    {code:'CC-100',name:'Operaciones'},
-    {code:'CC-200',name:'Producción'},
-    {code:'CC-300',name:'Tecnología'},
-    {code:'CC-400',name:'Administración'}
+    {code:'CC-100',name:'Operaciones',budget:600000},
+    {code:'CC-200',name:'Producción',budget:680000},
+    {code:'CC-300',name:'Tecnología',budget:260000},
+    {code:'CC-400',name:'Administración',budget:140000}
   ],
   sps:[
     {id:'SP-1001',date:'2026-03-28',requester:'maria',type:'Material',material:'MAT-002',matDesc:'Acero laminado S275 (ton)',qty:540,cc:'CC-200',budgetCat:'Producción',neededBy:'2026-04-20',notes:'Reposición stock línea 2',status:'Convertida',linkedPO:'PO-2047'},
@@ -834,6 +844,12 @@ var TITLES={
   config:['Configuración','Datos del emisor de la OC y centros de costo']
 };
 
+function toggleSidebar(){
+  var app=document.querySelector('.app');
+  if(!app)return;
+  app.classList.toggle('sb-collapsed');
+  try{localStorage.setItem('sbCollapsed',app.classList.contains('sb-collapsed')?'1':'0');}catch(e){}
+}
 function go(view){
   if((view==='direccion'||view==='users'||view==='aprobaciones'||view==='config')&&!isAdmin()){toast('Acceso solo para administrador');return;}
   if(view==='new-order'&&!can('buy')){toast('Tu perfil ('+roleLabel(roleOf())+') no puede crear órdenes de compra. Podés crear solicitudes de pedido.');return;}
@@ -868,7 +884,7 @@ function render(view){
     if(view==='savings')buildSavingsChart();
     if(view==='prices')buildPriceChart();
     if(view==='direccion')buildDireccionCharts();
-    if(view==='new-order'){renderOCPositions(window._ocPrefillPositions||null);window._ocPrefillPositions=null;applySPPrefill();onTypeChange();onOrderCurrency();}
+    if(view==='new-order'){renderOCPositions(null);initOCSPSelection();onTypeChange();onOrderCurrency();}
     if(view==='sps'){if(typeof renderSPItems==='function'&&document.getElementById('spItems'))renderSPItems(window._spPrefillItems||null);window._spPrefillItems=null;}
   },30);
 }
@@ -970,7 +986,7 @@ function buildDashCharts(){
 }
 
 // ---- ORDERS ----
-var FILTER={q:'',cat:'',sup:'',status:'',from:'',to:'',cc:''};
+var FILTER={q:'',cat:'',sup:'',status:'',from:'',to:'',cc:'',sp:''};
 function viewOrders(){
   var totalSpend=sum(DB.orders,'amount');var totalSav=sum(DB.orders,'saving');
   var cats=[...new Set(DB.orders.map(function(o){return o.category;}))].sort();
@@ -980,6 +996,14 @@ function viewOrders(){
   var allStatuses=['Pendiente','En revisión','Aprobada','Rechazada','Entregado','Parcial','Pagado','No pagado'];
   var ccFilterOpts='<option value="">Todos los CC</option>'+(DB.ccs||[]).map(function(c){return '<option value="'+c.code+'"'+(FILTER.cc===c.code?' selected':'')+'>'+c.code+' · '+c.name+'</option>';}).join('');
   var statusFilterOpts='<option value="">Todos los estados</option>'+allStatuses.map(function(s){return '<option value="'+s+'"'+(FILTER.status===s?' selected':'')+'>'+s+'</option>';}).join('');
+  // SPs presentes en las órdenes (las que están vinculadas a alguna OC)
+  var spSet={};
+  DB.orders.forEach(function(o){
+    if(o.sps&&o.sps.length)o.sps.forEach(function(x){if(x)spSet[x]=1;});
+    else if(o.sp)String(o.sp).split(',').map(function(x){return x.trim();}).forEach(function(x){if(x)spSet[x]=1;});
+  });
+  var spList=Object.keys(spSet).sort();
+  var spFilterOpts='<option value="">Todas las SP</option>'+spList.map(function(s){return '<option value="'+s+'"'+(FILTER.sp===s?' selected':'')+'>'+s+'</option>';}).join('');
   return ''+
   '<div class="section-stats">'+
     '<div class="mini-stat"><div class="l">Órdenes registradas</div><div class="v">'+DB.orders.length+'</div></div>'+
@@ -991,24 +1015,31 @@ function viewOrders(){
       '<div style="display:flex;gap:.6rem">'+
         '<button class="btn btn-ghost" onclick="openImport()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importar Excel</button>'+
         '<button class="btn btn-ghost" onclick="exportOrders()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar Excel</button>'+
-        '<button class="btn btn-primary" onclick="go(\'new-order\')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Nueva orden</button>'+
+        '<button class="btn btn-primary" onclick="go(\'new-order\')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Cargar pedido</button>'+
       '</div>'+
     '</div>'+
     '<div class="toolbar">'+
       '<div class="search-box"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'+
-        '<input type="text" id="searchInput" placeholder="Buscar por orden, material, proveedor..." value="'+FILTER.q.replace(/"/g,'&quot;')+'" oninput="onSearch(this.value)"></div>'+
+        '<input type="text" id="searchInput" placeholder="Buscar por orden, material, proveedor, SP..." value="'+FILTER.q.replace(/"/g,'&quot;')+'" oninput="onSearch(this.value)"></div>'+
       '<select class="filter-sel" onchange="onFilterCat(this.value)">'+catOpts+'</select>'+
       '<select class="filter-sel" onchange="onFilterSup(this.value)">'+supOpts+'</select>'+
       '<select class="filter-sel" onchange="onFilterStatus(this.value)">'+statusFilterOpts+'</select>'+
       '<select class="filter-sel" onchange="onFilterCC(this.value)">'+ccFilterOpts+'</select>'+
+      '<select class="filter-sel" onchange="onFilterSP(this.value)" title="Filtrar por solicitud de pedido">'+spFilterOpts+'</select>'+
     '</div>'+
     '<div class="toolbar" style="margin-top:-.4rem">'+
       '<span class="date-lbl">Desde</span><input type="date" class="filter-sel" value="'+FILTER.from+'" onchange="onFilterFrom(this.value)">'+
       '<span class="date-lbl">Hasta</span><input type="date" class="filter-sel" value="'+FILTER.to+'" onchange="onFilterTo(this.value)">'+
-      '<button class="btn btn-ghost" onclick="FILTER={q:\'\',cat:\'\',sup:\'\',status:\'\',from:\'\',to:\'\',cc:\'\'};render(\'orders\')">Limpiar filtros</button>'+
+      '<button class="btn btn-ghost" onclick="FILTER={q:\'\',cat:\'\',sup:\'\',status:\'\',from:\'\',to:\'\',cc:\'\',sp:\'\'};render(\'orders\')">Limpiar filtros</button>'+
     '</div>'+
     '<div id="ordersTable">'+ordersTableHTML()+'</div>'+
   '</div>';
+}
+function orderHasSP(o,spId){
+  if(!spId)return true;
+  if(o.sps&&o.sps.length)return o.sps.indexOf(spId)>=0;
+  if(o.sp)return String(o.sp).split(',').map(function(x){return x.trim();}).indexOf(spId)>=0;
+  return false;
 }
 function getFilteredOrders(){
   var q=FILTER.q.toLowerCase();
@@ -1017,10 +1048,12 @@ function getFilteredOrders(){
     if(FILTER.sup&&o.supplier!==FILTER.sup)return false;
     if(FILTER.status&&o.status!==FILTER.status&&o.delivery!==FILTER.status&&o.paid!==FILTER.status)return false;
     if(FILTER.cc&&o.cc!==FILTER.cc)return false;
+    if(FILTER.sp&&!orderHasSP(o,FILTER.sp))return false;
     if(FILTER.from&&o.date<FILTER.from)return false;
     if(FILTER.to&&o.date>FILTER.to)return false;
     if(q){
-      var hay=(o.id+' '+(o.material||'')+' '+(o.matDesc||'')+' '+o.supplier+' '+o.category+' '+o.status+' '+(o.delivery||'')+' '+(o.paid||'')+' '+o.date+' '+(o.comment||'')).toLowerCase();
+      var spText=(o.sps&&o.sps.length?o.sps.join(' '):(o.sp||''));
+      var hay=(o.id+' '+(o.material||'')+' '+(o.matDesc||'')+' '+o.supplier+' '+o.category+' '+o.status+' '+(o.delivery||'')+' '+(o.paid||'')+' '+o.date+' '+(o.comment||'')+' '+spText).toLowerCase();
       if(hay.indexOf(q)<0)return false;
     }
     return true;
@@ -1078,6 +1111,7 @@ function onFilterStatus(v){FILTER.status=v;refreshOrdersTable();}
 function onFilterFrom(v){FILTER.from=v;refreshOrdersTable();}
 function onFilterTo(v){FILTER.to=v;refreshOrdersTable();}
 function onFilterCC(v){FILTER.cc=v;refreshOrdersTable();}
+function onFilterSP(v){FILTER.sp=v;refreshOrdersTable();}
 
 function sendOC(idx){
   var o=DB.orders[idx];if(!o)return;
@@ -1300,9 +1334,7 @@ function fillMatFromCatalog(code){
   if(d)d.value=m.description||'';
 }
 function viewNewOrder(){
-  var budOpts=DB.budgets.map(function(b){return '<option value="'+b.cat+'">'+b.cat+'</option>';}).join('');
-  var spBanner=PENDING_SP?'<div class="hint" style="margin-bottom:1.2rem"><strong>Creando OC desde la solicitud '+PENDING_SP+'.</strong> Se precargó una posición con sus datos — elegí el proveedor y agregá más posiciones si hace falta.</div>':'';
-  return '<div class="form-card">'+spBanner+'<div class="card-title" style="margin-bottom:1.4rem">Registrar orden de compra</div>'+
+  return '<div class="form-card"><div class="card-title" style="margin-bottom:1.4rem">Registrar orden de compra</div>'+
   '<form id="orderForm" onsubmit="submitOrder(event)">'+
   '<div class="card-sub" style="margin-bottom:.6rem;font-weight:600;color:var(--slate)">Cabecera</div>'+
   '<div class="form-grid">'+
@@ -1310,8 +1342,7 @@ function viewNewOrder(){
     '<div class="field"><label>Fecha</label><input type="date" id="f-date" value="'+new Date().toISOString().slice(0,10)+'" required onchange="onOrderCurrency()"></div>'+
     '<div class="field full"><label>Proveedor</label>'+supplierCombo('f-supplier','','f-sup-list')+'</div>'+
     '<div class="field"><label>Tipo</label><select id="f-type" onchange="onTypeChange()"><option>Material</option><option>Servicio</option></select></div>'+
-    '<div class="field"><label>Centro de costo</label><select id="f-cc">'+ccOptions('')+'</select></div>'+
-    '<div class="field"><label>Categoría de budget</label><select id="f-budget" required>'+budOpts+'</select></div>'+
+    '<div class="field"><label>Centro de costo (imputa el presupuesto)</label><select id="f-cc">'+ccOptions('')+'</select></div>'+
     '<div class="field"><label>Moneda</label><select id="f-currency" onchange="onOrderCurrency()">'+curOptions(DB.config&&DB.config.baseCurrency||'USD')+'</select></div>'+
     '<div class="field" id="fxField" style="display:none"><label>TC original <span id="fxHelp" style="color:var(--muted);font-weight:400"></span></label>'+
       '<div style="display:flex;gap:.4rem;align-items:center"><input type="number" id="f-fx" min="0" step="0.0001" placeholder="0.0000" style="flex:1">'+
@@ -1319,12 +1350,140 @@ function viewNewOrder(){
       '<div id="fxRefLine" style="font-size:.7rem;color:var(--muted);margin-top:.25rem"></div></div>'+
     '<div class="field"><label>Saving estimado (total)</label><input type="number" id="f-saving" min="0" step="100" placeholder="0" value="0"></div>'+
   '</div>'+
-  '<div class="card-sub" style="margin:1.2rem 0 .5rem;font-weight:600;color:var(--slate)">Posiciones <span style="font-weight:400;color:var(--muted)">— cada posición es un material; pueden venir de distintas SP</span></div>'+
-  '<div class="table-wrap"><table class="raw pos-table"><thead><tr><th style="width:24%">Material</th><th>Descripción</th><th style="width:80px">Cant.</th><th style="width:60px">Un.</th><th style="width:110px">Monto</th><th style="width:120px">SP (opcional)</th><th style="width:44px"></th></tr></thead><tbody id="ocPos"></tbody></table></div>'+
-  '<button type="button" class="btn btn-ghost" style="margin-top:.6rem" onclick="addOCPos()">+ Agregar posición</button>'+
+  // ---- SOLICITUDES DE ORIGEN ----
+  '<div class="card-sub" style="margin:1.4rem 0 .5rem;font-weight:600;color:var(--slate)">Solicitudes de origen <span style="font-weight:400;color:var(--muted)">— elegí una SP pendiente y qué posiciones traer; podés sumar más de una SP</span></div>'+
+  '<div style="display:flex;gap:.6rem;align-items:flex-end;flex-wrap:wrap;margin-bottom:.4rem">'+
+    '<div style="flex:1;min-width:260px"><label class="date-lbl" style="display:block;margin-bottom:.25rem">Solicitud de pedido pendiente</label>'+
+      '<select class="filter-sel" id="oc-sp-picker" style="width:100%">'+pendingSPPickerOpts()+'</select></div>'+
+    '<button type="button" class="btn btn-ghost" onclick="ocAddSPFromPicker()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Agregar SP a esta OC</button>'+
+  '</div>'+
+  '<div id="ocSPCards"></div>'+
+  // ---- POSICIONES ----
+  '<div class="card-sub" style="margin:1.2rem 0 .5rem;font-weight:600;color:var(--slate)">Posiciones <span style="font-weight:400;color:var(--muted)">— se llenan con lo que elijas de las SP; también podés agregar posiciones libres</span></div>'+
+  '<div class="table-wrap"><table class="raw pos-table"><thead><tr><th style="width:24%">Material</th><th>Descripción</th><th style="width:80px">Cant.</th><th style="width:60px">Un.</th><th style="width:110px">Monto</th><th style="width:120px">SP origen</th><th style="width:44px"></th></tr></thead><tbody id="ocPos"></tbody></table></div>'+
+  '<button type="button" class="btn btn-ghost" style="margin-top:.6rem" onclick="addOCPos()">+ Agregar posición libre</button>'+
   '<div style="text-align:right;margin-top:.8rem;font-weight:700">Total OC: <span id="ocTotal">0</span></div>'+
   '<div class="form-grid" style="margin-top:1rem"><div class="field full"><label>Notas (opcional)</label><textarea id="f-notes" rows="2" placeholder="Detalle del pedido, condiciones, plazos..."></textarea></div></div>'+
   '<div class="form-actions"><button type="submit" class="btn btn-primary">Guardar orden</button><button type="button" class="btn btn-ghost" onclick="go(\'orders\')">Cancelar</button></div></form></div>';
+}
+// opciones del picker: SPs abiertas o pendientes de gestión, indicando comprador asignado
+function pendingSPPickerOpts(){
+  var sps=(DB.sps||[]).filter(function(s){return s.status==='Abierta'||s.status==='Pendiente de gestión';});
+  if(!sps.length)return '<option value="">No hay solicitudes pendientes</option>';
+  return '<option value="">Elegí una solicitud…</option>'+sps.map(function(s){
+    var who=s.assignedTo?('asignada a '+buyerName(s.assignedTo)):'sin asignar';
+    var n=(s.items&&s.items.length)?s.items.length:1;
+    var partial=s.partial?' · SALDO PENDIENTE':'';
+    return '<option value="'+s.id+'">'+s.id+' · '+(s.matDesc||s.material||'')+' · '+n+' pos. · '+who+partial+'</option>';
+  }).join('');
+}
+// estado de SPs incorporadas a la OC en construcción: {spId: {checked posiciones}}
+var OC_SP_ADDED=[]; // lista de spId en orden de incorporación
+function ocAddSPFromPicker(){
+  var sel=document.getElementById('oc-sp-picker');if(!sel||!sel.value)return;
+  var spId=sel.value;
+  if(OC_SP_ADDED.indexOf(spId)>=0){toast(spId+' ya está agregada');return;}
+  OC_SP_ADDED.push(spId);
+  // precargar el CC de la primera SP si está vacío
+  var s=(DB.sps||[]).find(function(x){return x.id===spId;});
+  var ccEl=document.getElementById('f-cc');
+  if(s&&ccEl&&!ccEl.value)ccEl.value=s.cc||'';
+  if(s&&OC_SP_ADDED.length===1){var tEl=document.getElementById('f-type');if(tEl&&s.type)tEl.value=s.type;onTypeChange();}
+  renderOCSPCards();
+  sel.value='';
+}
+function ocRemoveSP(spId){
+  OC_SP_ADDED=OC_SP_ADDED.filter(function(x){return x!==spId;});
+  renderOCSPCards();
+}
+// items de una SP (normaliza a [{code,desc,qty,unit,pending}])
+// pending = cantidad aún por comprar; si nunca se compró, igual a qty
+function spItemsOf(s){
+  if(s.items&&s.items.length)return s.items.map(function(it){
+    var qty=it.qty||0;
+    var pending=(it.pending!=null)?it.pending:qty;
+    return {code:it.code||'',desc:it.desc||'',qty:qty,unit:it.unit||'',pending:pending};
+  });
+  var q=s.qty||0;
+  return [{code:s.material||'',desc:s.matDesc||'',qty:q,unit:'',pending:(s.pending!=null?s.pending:q)}];
+}
+function renderOCSPCards(){
+  var cont=document.getElementById('ocSPCards');if(!cont)return;
+  // capturar estado actual (checkbox + cantidad) para NO pisar lo ya editado al re-render
+  var state={};
+  document.querySelectorAll('.ocsp-chk').forEach(function(chk){
+    var k=chk.getAttribute('data-sp')+'|'+chk.getAttribute('data-j');
+    state[k]={checked:chk.checked};
+  });
+  document.querySelectorAll('.ocsp-qty').forEach(function(q){
+    var k=q.getAttribute('data-sp')+'|'+q.getAttribute('data-j');
+    state[k]=state[k]||{};state[k].qty=q.value;
+  });
+  if(!OC_SP_ADDED.length){cont.innerHTML='<div class="hint" style="margin-bottom:.4rem">Todavía no agregaste solicitudes. Podés crear la OC con posiciones libres o sumar una SP arriba.</div>';ocVolcar();return;}
+  cont.innerHTML=OC_SP_ADDED.map(function(spId){
+    var s=(DB.sps||[]).find(function(x){return x.id===spId;});
+    if(!s)return '';
+    var items=spItemsOf(s);
+    var rows=items.map(function(it,j){
+      var k=spId+'|'+j;
+      var st=state[k]||{};
+      // por defecto tildado; si el usuario lo había destildado, respetarlo
+      var checked=(st.checked===false)?'':' checked';
+      // cantidad: la editada por el usuario, o el pendiente de la SP
+      var qVal=(st.qty!==undefined&&st.qty!=='')?st.qty:(it.pending!=null?it.pending:it.qty||0);
+      var pendInfo=(it.pending!=null&&it.pending!==it.qty)?(' <span style="color:var(--amber);font-size:.7rem">(pendiente '+it.pending+' de '+it.qty+')</span>'):'';
+      return '<tr>'+
+        '<td style="width:40px;text-align:center"><input type="checkbox" class="ocsp-chk" data-sp="'+spId+'" data-j="'+j+'"'+checked+' onchange="ocVolcar()"></td>'+
+        '<td class="td-strong">'+(it.code||'—')+'</td>'+
+        '<td>'+(it.desc||'—')+pendInfo+'</td>'+
+        '<td style="width:130px"><input type="number" class="ocsp-qty" data-sp="'+spId+'" data-j="'+j+'" min="0" step="1" max="'+(it.pending!=null?it.pending:it.qty||0)+'" value="'+qVal+'" oninput="ocClampQty(this);ocVolcar()" style="width:90px;border:1px solid var(--faint);border-radius:6px;padding:.3rem .4rem;font-family:inherit"></td>'+
+        '<td style="color:var(--muted)">'+(it.unit||'—')+'</td>'+
+      '</tr>';
+    }).join('');
+    var who=s.assignedTo?('Asignada a '+buyerName(s.assignedTo)):'Sin comprador asignado';
+    return '<div style="border:1px solid var(--faint);border-radius:10px;padding:.8rem .9rem;margin-bottom:.7rem;background:#fff">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">'+
+        '<div><span class="td-strong">'+s.id+'</span> <span style="color:var(--muted);font-size:.8rem">· '+who+' · CC '+(s.cc||'—')+'</span></div>'+
+        '<button type="button" class="icon-btn del" title="Quitar esta SP de la orden" onclick="ocRemoveSP(\''+spId+'\')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>'+
+      '</div>'+
+      '<div style="font-size:.75rem;color:var(--muted);margin-bottom:.3rem">Tildá las posiciones a comprar y ajustá la cantidad si comprás parcial. Si comprás menos de lo pedido, el resto queda pendiente en la solicitud.</div>'+
+      '<table class="raw" style="width:100%"><thead><tr><th style="width:40px"></th><th>Material</th><th>Descripción</th><th>Cantidad a comprar</th><th>Un.</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+    '</div>';
+  }).join('');
+  ocVolcar();
+}
+// limita la cantidad a comprar al pendiente (no se puede comprar más de lo que falta)
+function ocClampQty(inp){
+  var max=parseFloat(inp.getAttribute('max'));
+  if(!isNaN(max)&&(+inp.value)>max){inp.value=max;}
+  if((+inp.value)<0)inp.value=0;
+}
+// vuelca las posiciones tildadas de todas las SP a la tabla de posiciones de la OC,
+// preservando los montos ya escritos y las posiciones libres (sin SP)
+function ocVolcar(){
+  var cont=document.getElementById('ocPos');if(!cont)return;
+  // 1) capturar montos previos por clave sp|code para no perderlos al re-render
+  var prevAmt={};
+  collectOCPositions().forEach(function(p){
+    if(p.sp)prevAmt[p.sp+'|'+p.material]=p.amount;
+  });
+  // 2) posiciones libres existentes (sin SP) se conservan tal cual
+  var libres=collectOCPositions().filter(function(p){return !p.sp;});
+  // 3) construir posiciones desde las SP tildadas
+  var fromSP=[];
+  document.querySelectorAll('.ocsp-chk').forEach(function(chk){
+    if(!chk.checked)return;
+    var spId=chk.getAttribute('data-sp'), j=+chk.getAttribute('data-j');
+    var s=(DB.sps||[]).find(function(x){return x.id===spId;});if(!s)return;
+    var it=spItemsOf(s)[j];if(!it)return;
+    var qEl=document.querySelector('.ocsp-qty[data-sp="'+spId+'"][data-j="'+j+'"]');
+    var qty=qEl?(+qEl.value||0):(it.pending!=null?it.pending:it.qty||0);
+    var m=(DB.materials||[]).find(function(x){return x.code===it.code;});
+    fromSP.push({material:it.code||'',matDesc:it.desc||'',qty:qty,unit:it.unit||(m?m.unit||'':''),amount:prevAmt[spId+'|'+(it.code||'')]||'',sp:spId,spItemIdx:j});
+  });
+  var all=fromSP.concat(libres);
+  if(!all.length)all=[{}];
+  renderOCPositions(all);
 }
 // ---- POSICIONES DE LA OC ----
 function matDatalistOpts(){
@@ -1340,14 +1499,18 @@ function spDatalistOpts(){
 function ocPosRow(idx,p){
   p=p||{};
   var inStyle='width:100%;border:1px solid var(--faint);border-radius:6px;padding:.4rem .5rem;font-family:inherit;font-size:.82rem;box-sizing:border-box';
+  var fromSP=!!p.sp;
+  var spCell=fromSP
+    ? '<td><input type="text" class="oc-sp" value="'+(p.sp||'')+'" readonly title="Posición tomada de la solicitud '+(p.sp||'')+'" style="'+inStyle+';background:var(--bg);font-weight:600"></td>'
+    : '<td><input type="text" class="oc-sp" list="ocsp-list" value="'+(p.sp||'').replace(/"/g,'&quot;')+'" placeholder="—" autocomplete="off" style="'+inStyle+'"></td>';
   return '<tr class="oc-pos-row" data-i="'+idx+'">'+
     '<td><input type="text" class="oc-mat" list="ocmat-list" value="'+(p.material||'').replace(/"/g,'&quot;')+'" placeholder="Buscar..." autocomplete="off" oninput="onOCPosMat(this)" style="'+inStyle+'"></td>'+
     '<td><input type="text" class="oc-desc" value="'+(p.matDesc||'').replace(/"/g,'&quot;')+'" placeholder="Descripción" style="'+inStyle+'"></td>'+
     '<td><input type="number" class="oc-qty" min="0" step="1" value="'+(p.qty||'')+'" placeholder="0" style="'+inStyle+'"></td>'+
     '<td><span class="oc-unit" style="font-size:.8rem;color:var(--muted)">'+(p.unit||'—')+'</span></td>'+
     '<td><input type="number" class="oc-amount" min="0" step="100" value="'+(p.amount||'')+'" placeholder="0" oninput="recalcOCTotal()" style="'+inStyle+'"></td>'+
-    '<td><input type="text" class="oc-sp" list="ocsp-list" value="'+(p.sp||'').replace(/"/g,'&quot;')+'" placeholder="SP-…" autocomplete="off" style="'+inStyle+'"></td>'+
-    '<td><button type="button" class="icon-btn del" onclick="removeOCPos(this)" title="Quitar posición"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></td>'+
+    spCell+
+    '<td>'+(fromSP?'':'<button type="button" class="icon-btn del" onclick="removeOCPos(this)" title="Quitar posición"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>')+'</td>'+
   '</tr>';
 }
 function renderOCPositions(positions){
@@ -1479,7 +1642,7 @@ function submitOrder(e){
     currency:(document.getElementById('f-currency')||{}).value||'USD',
     fxToUsd:+((document.getElementById('f-fx')||{}).value)||0,
     saving:+document.getElementById('f-saving').value||0,
-    budgetCat:document.getElementById('f-budget').value,
+    budgetCat:(document.getElementById('f-cc').value||''),
     date:document.getElementById('f-date').value,
     status:'Pendiente',
     type:typeVal,
@@ -1492,15 +1655,42 @@ function submitOrder(e){
     comment:(document.getElementById('f-notes').value||'').trim()
   };
   DB.orders.push(ord);
-  // marcar como convertidas las SP referenciadas (una SP puede repartirse en varias OC:
-  // si ya estaba parcialmente comprada, igual la dejamos Convertida y se ve en su detalle)
+  // descontar de cada SP la cantidad efectivamente comprada en esta OC.
+  // Si queda pendiente, la SP sigue abierta por el resto; solo se marca Convertida
+  // cuando todas sus posiciones quedan en cero pendiente.
   sps.forEach(function(spId){
     var spObj=(DB.sps||[]).find(function(s){return s.id===spId;});
-    if(spObj){spObj.status='Convertida';spObj.linkedPO=(spObj.linkedPO?spObj.linkedPO+', ':'')+ord.id;}
+    if(!spObj)return;
+    // posiciones de esta OC que vienen de esta SP
+    var bought={}; // code -> cantidad comprada
+    positions.forEach(function(p){
+      if(p.sp===spId){bought[p.material||'']=(bought[p.material||'']||0)+(+p.qty||0);}
+    });
+    // aplicar el descuento al/los item(s) de la SP
+    var items=(spObj.items&&spObj.items.length)?spObj.items:[{code:spObj.material,desc:spObj.matDesc,qty:spObj.qty,unit:''}];
+    items.forEach(function(it){
+      var cur=(it.pending!=null)?it.pending:(it.qty||0);
+      var buy=bought[it.code||'']||0;
+      it.pending=Math.max(0,cur-buy);
+    });
+    // si la SP era de item único legacy (sin items[]), reflejar el pendiente en s.pending
+    if(!(spObj.items&&spObj.items.length)){
+      spObj.items=items; // normalizar a items[] para conservar el pendiente
+    }
+    spObj.linkedPO=(spObj.linkedPO?spObj.linkedPO+', ':'')+ord.id;
+    var totalPending=items.reduce(function(a,it){return a+((it.pending!=null)?it.pending:(it.qty||0));},0);
+    if(totalPending<=0){
+      spObj.status='Convertida';
+    }else{
+      // queda saldo pendiente: la solicitud sigue gestionable por el resto
+      spObj.status='Pendiente de gestión';
+      spObj.partial=true;
+    }
   });
   PENDING_SP='';
   save();
-  toast('Orden '+ord.id+' guardada con '+positions.length+' posición'+(positions.length>1?'es':'')+(sps.length?' — SP '+sps.join(', '):''));
+  var parcialMsg=sps.filter(function(spId){var s=(DB.sps||[]).find(function(x){return x.id===spId;});return s&&s.status!=='Convertida';});
+  toast('Orden '+ord.id+' guardada con '+positions.length+' posición'+(positions.length>1?'es':'')+(sps.length?' — SP '+sps.join(', '):'')+(parcialMsg.length?' (queda saldo pendiente en '+parcialMsg.join(', ')+')':''));
   go('orders');
 }
 
@@ -1661,28 +1851,29 @@ function deleteService(i){
   DB.services.splice(i,1); save(); toast('Servicio eliminado'); render('services');
 }
 
-// ---- BUDGET ----
+// ---- BUDGET (por centro de costo) ----
 function viewBudget(){
   var isAdmin=SESSION&&SESSION.role==='admin';
-  var cards=DB.budgets.map(function(b,i){
-    var spent=sum(dashOrders().filter(function(o){return o.budgetCat===b.cat;}),'amount');
-    var bud=toBaseOrder(+b.budget||0,b); // budget en moneda de display (convierte si cambió la moneda)
+  var ccs=(DB.ccs||[]);
+  var cards=ccs.map(function(c,i){
+    var spent=sum(dashOrders().filter(function(o){return o.cc===c.code;}),'amount');
+    var bud=+c.budget||0;
     var pct=bud>0?(spent/bud*100):0;
     var color=pct>100?'var(--red)':pct>85?'var(--amber)':'var(--green)';
-    var edit=isAdmin?'<div style="display:flex;gap:.3rem;margin-top:.5rem"><button class="icon-btn" title="Editar" onclick="openBudgetModal('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg></button><button class="icon-btn del" title="Eliminar" onclick="deleteBudget('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg></button></div>':'';
-    return '<div class="mini-stat"><div class="l">'+b.cat+'</div><div class="v">'+eurK(spent)+' <span style="font-size:.8rem;color:var(--muted);font-weight:600">/ '+eurK(bud)+'</span></div>'+
+    var edit=isAdmin?'<div style="display:flex;gap:.3rem;margin-top:.5rem"><button class="icon-btn" title="Editar presupuesto" onclick="editCC('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg></button></div>':'';
+    return '<div class="mini-stat"><div class="l">'+c.code+' · '+c.name+'</div><div class="v">'+eurK(spent)+' <span style="font-size:.8rem;color:var(--muted);font-weight:600">/ '+(bud?eurK(bud):'sin asignar')+'</span></div>'+
     '<div class="bar-mini"><div class="bar-mini-fill" style="width:'+Math.min(pct,100)+'%;background:'+color+'"></div></div>'+
-    '<div style="font-size:.72rem;color:'+color+';font-weight:600;margin-top:.4rem">'+pct.toFixed(0)+'% ejecutado</div>'+edit+'</div>';
+    '<div style="font-size:.72rem;color:'+color+';font-weight:600;margin-top:.4rem">'+(bud?pct.toFixed(0)+'% ejecutado':'definí el presupuesto en Configuración')+'</div>'+edit+'</div>';
   }).join('');
-  var addBtn=isAdmin?'<button class="btn btn-primary" onclick="openBudgetModal(-1)"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Nueva categoría</button>':'';
+  var manageBtn=isAdmin?'<button class="btn btn-ghost" onclick="go(\'config\')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.2 4.2l2.8 2.8M17 17l2.8 2.8M1 12h4M19 12h4M4.2 19.8L7 17M17 7l2.8-2.8"/></svg>Gestionar centros de costo</button>':'';
   return '<div class="toolbar" style="margin-bottom:1.2rem;justify-content:space-between">'+
     '<div style="display:flex;align-items:center;gap:.6rem">'+
     '<span class="date-lbl">Período: desde</span><input type="date" class="filter-sel" value="'+DFILTER.from+'" onchange="DFILTER.from=this.value;render(\'budget\')">'+
     '<span class="date-lbl">hasta</span><input type="date" class="filter-sel" value="'+DFILTER.to+'" onchange="DFILTER.to=this.value;render(\'budget\')">'+
-    '</div>'+addBtn+
+    '</div>'+manageBtn+
   '</div>'+
-  (DB.budgets.length?'<div class="section-stats" style="grid-template-columns:repeat(4,1fr)">'+cards+'</div>':'<div class="hint">No hay categorías de budget. '+(isAdmin?'Agregá la primera con el botón de arriba.':'')+'</div>')+
-  '<div class="card"><div class="card-head"><div><div class="card-title">Budget vs Gasto por categoría</div><div class="card-sub">Comparación de presupuesto asignado contra gasto comprometido</div></div></div><div class="chart-box"><canvas id="ch-budget"></canvas></div></div>';
+  (ccs.length?'<div class="section-stats" style="grid-template-columns:repeat(4,1fr)">'+cards+'</div>':'<div class="hint">No hay centros de costo. '+(isAdmin?'Agregalos en Configuración y asigná su presupuesto.':'')+'</div>')+
+  '<div class="card"><div class="card-head"><div><div class="card-title">Budget vs Gasto por centro de costo</div><div class="card-sub">Presupuesto asignado a cada centro de costo contra el gasto comprometido</div></div></div><div class="chart-box"><canvas id="ch-budget"></canvas></div></div>';
 }
 function openBudgetModal(i){
   var isNew=(i===-1);
@@ -1718,12 +1909,13 @@ function deleteBudget(i){
   }
 }
 function buildBudgetChart(){
-  var cats=DB.budgets.map(function(b){return b.cat;});
-  var budget=DB.budgets.map(function(b){return toBaseOrder(+b.budget||0,b);});
-  var spent=DB.budgets.map(function(b){return sum(dashOrders().filter(function(o){return o.budgetCat===b.cat;}),'amount');});
+  var ccs=(DB.ccs||[]);
+  var labels=ccs.map(function(c){return c.code;});
+  var budget=ccs.map(function(c){return +c.budget||0;});
+  var spent=ccs.map(function(c){return sum(dashOrders().filter(function(o){return o.cc===c.code;}),'amount');});
   charts.budget=new Chart(document.getElementById('ch-budget'),{
     type:'bar',
-    data:{labels:cats,datasets:[
+    data:{labels:labels,datasets:[
       {label:'Budget',data:budget,backgroundColor:'#cbd5e1',borderRadius:6,barPercentage:.7},
       {label:'Gasto',data:spent,backgroundColor:'#2563eb',borderRadius:6,barPercentage:.7}
     ]},
@@ -1770,25 +1962,18 @@ var PRICE_MAT='';
 var PRICE_CAT='';
 var PRICE_Q='';
 var PENDING_SP='';
-function spPrefill(spId){
-  var s=(DB.sps||[]).find(function(x){return x.id===spId;});
-  if(!s)return;
-  var f=function(id){return document.getElementById(id);};
-  // cabecera
-  if(f('f-type'))f('f-type').value=s.type||'Material';
-  if(f('f-cc'))f('f-cc').value=s.cc||'';
-  if(f('f-budget')&&s.budgetCat)f('f-budget').value=s.budgetCat;
-  if(f('f-notes')&&!f('f-notes').value)f('f-notes').value=s.notes||'';
-  // posiciones desde los ítems de la SP (cada una referencia esta SP)
-  var items=(s.items&&s.items.length)?s.items:[{code:s.material,desc:s.matDesc,qty:s.qty}];
-  var positions=items.map(function(it){return {material:it.code||'',matDesc:it.desc||'',qty:it.qty||0,amount:'',sp:s.id};});
-  renderOCPositions(positions);
-  onTypeChange();
-  if(items.length>1)setTimeout(function(){toast('Se precargaron '+items.length+' posiciones desde '+s.id+'. Quitá las que compres a otro proveedor.');},300);
-}
-function applySPPrefill(){
-  if(!PENDING_SP)return;
-  spPrefill(PENDING_SP);
+// inicializa la selección de SP al abrir el formulario de OC.
+// Si venimos de "Convertir en OC" (PENDING_SP), pre-agrega esa SP.
+function initOCSPSelection(){
+  OC_SP_ADDED=[];
+  if(PENDING_SP&&(DB.sps||[]).some(function(s){return s.id===PENDING_SP&&(s.status==='Abierta'||s.status==='Pendiente de gestión');})){
+    OC_SP_ADDED=[PENDING_SP];
+    var s=(DB.sps||[]).find(function(x){return x.id===PENDING_SP;});
+    var ccEl=document.getElementById('f-cc');if(s&&ccEl&&!ccEl.value)ccEl.value=s.cc||'';
+    var tEl=document.getElementById('f-type');if(s&&tEl&&s.type)tEl.value=s.type;
+  }
+  PENDING_SP='';
+  renderOCSPCards();
 }
 function priceCatOf(code){
   var m=(DB.materials||[]).find(function(x){return x.code===code;});
@@ -1798,10 +1983,13 @@ function priceCatOf(code){
 }
 function viewPrices(){
   var mats={};
+  // 1) materiales con compras (de las órdenes)
   DB.orders.forEach(function(o){if(o.material&&o.qty>0)mats[o.material]=o.matDesc||'';});
+  // 2) materiales del catálogo aunque todavía no tengan órdenes — así un material recién creado figura
+  (DB.materials||[]).forEach(function(m){if(m.code&&!(m.code in mats))mats[m.code]=m.description||'';});
   var codes=Object.keys(mats).sort();
-  if(!codes.length)return '<div class="card"><div class="empty">No hay órdenes con código de material y cantidad cargados.<br>Agregá código y cantidad a tus órdenes para ver el histórico de precios.</div></div>';
-  // categorías disponibles a partir de los materiales con compras
+  if(!codes.length)return '<div class="card"><div class="empty">No hay materiales en el catálogo ni órdenes con código de material.<br>Cargá un material en la sección Materiales para verlo acá.</div></div>';
+  // categorías disponibles a partir de los materiales (con o sin compras)
   var catsMap={}; codes.forEach(function(c){catsMap[priceCatOf(c)]=1;});
   var cats=Object.keys(catsMap).sort();
   if(!PRICE_CAT||cats.indexOf(PRICE_CAT)<0)PRICE_CAT=cats[0];
@@ -1813,6 +2001,20 @@ function viewPrices(){
   var catOpts=cats.map(function(c){return '<option value="'+c.replace(/"/g,'&quot;')+'"'+(c===PRICE_CAT?' selected':'')+'>'+c+'</option>';}).join('');
   var opts=(filtered.length?filtered:inCat).map(function(c){return '<option value="'+c+'"'+(c===PRICE_MAT?' selected':'')+'>'+c+' — '+mats[c]+'</option>';}).join('');
   var list=DB.orders.filter(function(o){return o.material===PRICE_MAT&&o.qty>0;}).sort(function(a,b){return a.date<b.date?-1:1;});
+  // material sin historial de compras: mostramos el selector pero sin gráfico/estadísticas
+  if(!list.length){
+    return ''+
+    '<div class="toolbar" style="margin-bottom:1.2rem;flex-wrap:wrap;gap:.7rem">'+
+      '<div style="display:flex;flex-direction:column;gap:.25rem"><span class="date-lbl">1 · Categoría</span>'+
+        '<select class="filter-sel" style="min-width:200px" onchange="onPriceCat(this.value)">'+catOpts+'</select></div>'+
+      '<div style="display:flex;flex-direction:column;gap:.25rem;flex:1;min-width:220px"><span class="date-lbl">2 · Buscar material</span>'+
+        '<div class="search-box" style="flex:1"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'+
+        '<input type="text" id="priceSearch" placeholder="Filtrar por código o descripción..." value="'+(PRICE_Q||'').replace(/"/g,'&quot;')+'" oninput="onPriceSearch(this.value)"></div></div>'+
+      '<div style="display:flex;flex-direction:column;gap:.25rem"><span class="date-lbl">3 · Material</span>'+
+        '<select class="filter-sel" style="min-width:320px" onchange="onPriceMat(this.value)">'+opts+'</select></div>'+
+    '</div>'+
+    '<div class="card"><div class="empty"><strong>'+PRICE_MAT+'</strong> — '+(mats[PRICE_MAT]||'')+'<br><br>Este material está en el catálogo pero todavía no tiene órdenes de compra con cantidad cargada.<br>El histórico de precios aparecerá cuando registres la primera orden.</div></div>';
+  }
   var prices=list.map(function(o){return unitP(o);});
   var first=prices[0],last=prices[prices.length-1];
   var change=first?((last-first)/first*100):0;
@@ -2058,20 +2260,27 @@ function prefillSP(code,qty){
 }
 function viewSPs(){
   var sps=(DB.sps||[]).slice().reverse();
-  // filtro "mis pendientes": SP asignadas al usuario logueado y aún sin convertir
-  if(typeof SP_MINE==='undefined')window.SP_MINE=false;
   if(typeof SP_FILTER==='undefined')window.SP_FILTER='';
+  if(typeof SP_OWNER==='undefined')window.SP_OWNER=''; // '', 'mias', 'otros', 'sinasignar'
+  if(typeof SP_PENDING_ONLY==='undefined')window.SP_PENDING_ONLY=false;
   var meUser=(SESSION&&SESSION.user)||'';var meName=(SESSION&&SESSION.name)||'';
-  if(window.SP_MINE){
-    sps=sps.filter(function(s){return (s.assignedTo===meUser||s.assignedTo===meName)&&s.status!=='Convertida'&&s.status!=='Rechazada';});
-  }
-  if(window.SP_FILTER){
-    sps=sps.filter(function(s){return s.status===window.SP_FILTER;});
-  }
+  function isMine(s){return s.assignedTo&&(s.assignedTo===meUser||s.assignedTo===meName);}
+  function isPendingTreat(s){return s.status==='Abierta'||s.status==='Pendiente de gestión';}
+  // filtros aplicados a la tabla
+  if(window.SP_PENDING_ONLY)sps=sps.filter(isPendingTreat);
+  if(window.SP_OWNER==='mias')sps=sps.filter(function(s){return isMine(s);});
+  else if(window.SP_OWNER==='otros')sps=sps.filter(function(s){return s.assignedTo&&!isMine(s);});
+  else if(window.SP_OWNER==='sinasignar')sps=sps.filter(function(s){return !s.assignedTo;});
+  if(window.SP_FILTER)sps=sps.filter(function(s){return s.status===window.SP_FILTER;});
+  // contadores globales
   var open=(DB.sps||[]).filter(function(s){return s.status==='Abierta';}).length;
   var gestion=(DB.sps||[]).filter(function(s){return s.status==='Pendiente de gestión';}).length;
   var conv=(DB.sps||[]).filter(function(s){return s.status==='Convertida';}).length;
-  var mias=(DB.sps||[]).filter(function(s){return (s.assignedTo===meUser||s.assignedTo===meName)&&s.status!=='Convertida'&&s.status!=='Rechazada';}).length;
+  // contadores del segmento "pendientes de tratar"
+  var pend=(DB.sps||[]).filter(isPendingTreat);
+  var nMias=pend.filter(function(s){return isMine(s);}).length;
+  var nOtros=pend.filter(function(s){return s.assignedTo&&!isMine(s);}).length;
+  var nSin=pend.filter(function(s){return !s.assignedTo;}).length;
   var rows=sps.map(function(s){
     var i=DB.sps.indexOf(s);
     var tagCls=s.status==='Abierta'?'tag-amber':s.status==='Convertida'?'tag-green':s.status==='Pendiente de gestión'?'tag-blue':'tag-red';
@@ -2083,14 +2292,14 @@ function viewSPs(){
       if(isAdmin())acts+='<button class="icon-btn del" title="Rechazar solicitud" onclick="rejectSP('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
     }
     if(isAdmin())acts+='<button class="icon-btn del" title="Eliminar" onclick="deleteSP('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>';
-    var asignado=s.assignedTo?buyerName(s.assignedTo):'<span style="color:var(--muted)">sin asignar</span>';
+    var asignado=s.assignedTo?(isMine(s)?'<strong style="color:var(--primary)">'+buyerName(s.assignedTo)+' (vos)</strong>':buyerName(s.assignedTo)):'<span style="color:var(--muted)">sin asignar</span>';
     return '<tr style="cursor:pointer" onclick="spDetail('+i+')">'+
       '<td class="td-strong">'+s.id+'</td>'+
       '<td>'+s.date+'</td>'+
       '<td>'+buyerName(s.requester)+'</td>'+
       '<td>'+asignado+'</td>'+
       '<td><span class="tag tag-gray">'+(s.type||'—')+'</span></td>'+
-      '<td><span class="tag tag-blue" title="'+(s.matDesc||'').replace(/"/g,'&quot;')+'">'+(s.material||'—')+'</span></td>'+
+      '<td><span class="tag tag-blue" title="'+(s.matDesc||'').replace(/"/g,'&quot;')+'">'+(s.items&&s.items.length>1?(s.items.length+' pos.'):(s.material||'—'))+'</span></td>'+
       '<td>'+(s.qty||0).toLocaleString('es-ES')+'</td>'+
       '<td>'+(s.cc||'—')+'</td>'+
       '<td>'+(s.neededBy||'—')+'</td>'+
@@ -2099,32 +2308,46 @@ function viewSPs(){
       '<td onclick="event.stopPropagation()"><div class="row-actions">'+acts+'</div></td>'+
     '</tr>';
   }).join('');
-  if(!rows)rows='<tr><td colspan="12" class="empty">'+(window.SP_MINE?'No tenés solicitudes pendientes de gestión asignadas.':'No hay solicitudes registradas.')+'</td></tr>';
-  // (Quitado) El "sugerido de compra por consumo" se eliminó: este S2P no gestiona
-  // reposición automática por consumo de producción. El ajuste de stock es solo dato.
-  var sugHtml='';
-  var contractHtml='';
+  if(!rows)rows='<tr><td colspan="12" class="empty">No hay solicitudes que coincidan con el filtro actual.</td></tr>';
   function spChip(label,n,color,key){
     var active=(window.SP_FILTER===key);
     return '<button onclick="setSPFilter(\''+(active?'':key)+'\')" class="mini-stat" style="cursor:pointer;text-align:left;border:1.5px solid '+(active?color:'transparent')+';background:'+(active?'rgba(0,0,0,.02)':'')+'"><div class="l">'+label+'</div><div class="v" style="color:'+color+'">'+n+'</div></button>';
   }
-  var filterNote=window.SP_FILTER?'<div class="hint" style="margin-bottom:.8rem">Filtrando por estado: <strong>'+window.SP_FILTER+'</strong> · <a href="#" onclick="setSPFilter(\'\');return false;" style="color:var(--green)">ver todas</a></div>':'';
-  return ''+sugHtml+contractHtml+
+  function ownerBtn(label,key,n){
+    var active=(window.SP_OWNER===key);
+    return '<button class="btn '+(active?'btn-primary':'btn-ghost')+'" style="padding:.4rem .8rem" onclick="setSPOwner(\''+key+'\')">'+label+(n!=null?' ('+n+')':'')+'</button>';
+  }
+  var filterNote=window.SP_FILTER?'<div class="hint" style="margin-bottom:.8rem">Filtrando por estado: <strong>'+window.SP_FILTER+'</strong> · <a href="#" onclick="setSPFilter(\'\');return false;" style="color:var(--green)">quitar</a></div>':'';
+  // segmento "pendientes de tratar"
+  var segment='<div class="card" style="margin-bottom:1.2rem;border:1.5px solid var(--primary-light)">'+
+    '<div class="card-head"><div><div class="card-title">Pendientes de tratar</div><div class="card-sub">Solicitudes abiertas o en gestión. Filtrá por comprador para ver las tuyas, las de otros o las que falta asignar.</div></div>'+
+      '<button class="btn '+(window.SP_PENDING_ONLY?'btn-primary':'btn-ghost')+'" onclick="toggleSPPendingOnly()" title="Mostrar en la tabla solo las pendientes de tratar">'+(window.SP_PENDING_ONLY?'Mostrando solo pendientes':'Ver solo pendientes en la tabla')+'</button>'+
+    '</div>'+
+    '<div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">'+
+      '<button class="btn '+(window.SP_OWNER===''?'btn-primary':'btn-ghost')+'" style="padding:.4rem .8rem" onclick="setSPOwner(\'\')">Todas ('+pend.length+')</button>'+
+      ownerBtn('Mías',  'mias',nMias)+
+      ownerBtn('De otros compradores','otros',nOtros)+
+      ownerBtn('Sin asignar','sinasignar',nSin)+
+    '</div>'+
+  '</div>';
+  return ''+
   '<div class="section-stats" style="grid-template-columns:repeat(4,1fr)">'+
     spChip('Abiertas',open,'var(--amber)','Abierta')+
     spChip('Pendiente de gestión',gestion,'var(--primary)','Pendiente de gestión')+
     spChip('Convertidas en OC',conv,'var(--green)','Convertida')+
     '<div class="mini-stat"><div class="l">Total solicitudes</div><div class="v">'+(DB.sps||[]).length+'</div></div>'+
-  '</div>'+filterNote+
-  '<div class="card" style="margin-bottom:1.2rem"><div class="card-head"><div><div class="card-title">Solicitudes de pedido</div><div class="card-sub">Cada OC nace de una solicitud — o se registra como compra directa</div></div>'+
-  '<button class="btn '+(window.SP_MINE?'btn-primary':'btn-ghost')+'" onclick="toggleSPMine()">'+(window.SP_MINE?'Ver todas':'Mis pendientes ('+mias+')')+'</button></div>'+
+  '</div>'+
+  segment+filterNote+
+  '<div class="card" style="margin-bottom:1.2rem"><div class="card-head"><div><div class="card-title">Solicitudes de pedido</div><div class="card-sub">'+
+    (window.SP_OWNER==='mias'?'Tus solicitudes asignadas':window.SP_OWNER==='otros'?'Solicitudes de otros compradores':window.SP_OWNER==='sinasignar'?'Solicitudes sin comprador asignado':'Todas las solicitudes')+
+    (window.SP_PENDING_ONLY?' · solo pendientes de tratar':'')+'</div></div>'+
+  (window.SP_OWNER||window.SP_PENDING_ONLY||window.SP_FILTER?'<button class="btn btn-ghost" onclick="clearSPFilters()">Limpiar filtros</button>':'')+'</div>'+
   '<div class="table-wrap"><table><thead><tr><th>SP</th><th>Fecha</th><th>Solicitante</th><th>Comprador</th><th>Tipo</th><th>Material</th><th>Cant.</th><th>CC</th><th>Necesidad</th><th>Estado</th><th>OC vinculada</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>'+
   '<div class="form-card"><div class="card-title" style="margin-bottom:.4rem">Nueva solicitud de pedido</div>'+
   '<div class="card-sub" style="margin-bottom:1.2rem">Una solicitud puede incluir varios materiales, todos del mismo sector (centro de costo).</div>'+
   '<div class="form-grid">'+
     '<div class="field"><label>Tipo</label><select id="q-type"><option>Material</option><option>Servicio</option></select></div>'+
-    '<div class="field"><label>Sector / Centro de costo</label><select id="q-cc">'+ccOptions('')+'</select></div>'+
-    '<div class="field"><label>Categoría de budget</label><select id="q-budget">'+catList().map(function(c){return '<option>'+c+'</option>';}).join('')+'</select></div>'+
+    '<div class="field"><label>Sector / Centro de costo (imputa el presupuesto)</label><select id="q-cc">'+ccOptions('')+'</select></div>'+
     '<div class="field"><label>Fecha de necesidad</label><input type="date" id="q-needed"></div>'+
   '</div>'+
   '<div class="card-sub" style="margin:1rem 0 .5rem;font-weight:600;color:var(--slate)">Materiales solicitados</div>'+
@@ -2133,6 +2356,9 @@ function viewSPs(){
   '<div class="form-grid" style="margin-top:1rem"><div class="field full"><label>Justificación / notas</label><textarea id="q-notes" rows="2" placeholder="Para qué se necesita..."></textarea></div></div>'+
   '<div class="form-actions"><button class="btn btn-primary" onclick="addSP()">Crear solicitud</button></div></div>';
 }
+function setSPOwner(v){window.SP_OWNER=v;render('sps');}
+function toggleSPPendingOnly(){window.SP_PENDING_ONLY=!window.SP_PENDING_ONLY;render('sps');}
+function clearSPFilters(){window.SP_OWNER='';window.SP_PENDING_ONLY=false;window.SP_FILTER='';render('sps');}
 // ítems dinámicos de la SP en construcción
 var SP_ITEMS_INIT=false;
 function spItemRow(idx,it){
@@ -2221,7 +2447,7 @@ function addSP(){
     qty:items.reduce(function(a,it){return a+it.qty;},0),
     items:items,
     cc:cc,
-    budgetCat:document.getElementById('q-budget').value,
+    budgetCat:cc,
     neededBy:document.getElementById('q-needed').value||'',
     notes:(document.getElementById('q-notes').value||'').trim(),
     status:'Abierta',linkedPO:'',assignedTo:''
@@ -2245,7 +2471,7 @@ function deleteSP(i){
   var s=DB.sps[i];if(!s)return;
   if(confirm('¿Eliminar la solicitud '+s.id+'?')){_deleted.sps.push(s.id);DB.sps.splice(i,1);save();toast('Solicitud eliminada');render('sps');}
 }
-var SP_MINE=false;var SP_FILTER='';
+var SP_MINE=false;var SP_FILTER='';var SP_OWNER='';var SP_PENDING_ONLY=false;
 function toggleSPMine(){window.SP_MINE=!window.SP_MINE;render('sps');}
 function setSPFilter(k){window.SP_FILTER=k;render('sps');}
 // asignar comprador a una SP -> queda "Pendiente de gestión" para ese comprador
@@ -2289,13 +2515,12 @@ function spDetail(i){
       row('Comprador asignado',s.assignedTo?buyerName(s.assignedTo):'sin asignar')+
       row('Tipo',s.type)+
       (s.items&&s.items.length>1?
-        ('<div style="padding:.6rem 0"><div style="color:var(--muted);margin-bottom:.3rem">Materiales ('+s.items.length+')</div>'+
-         '<table class="raw" style="width:100%"><thead><tr><th>Código</th><th>Descripción</th><th>Cant.</th></tr></thead><tbody>'+
-         s.items.map(function(it){return '<tr><td class="td-strong">'+(it.code||'—')+'</td><td>'+(it.desc||'—')+'</td><td>'+(it.qty||0)+'</td></tr>';}).join('')+
+        ('<div style="padding:.6rem 0"><div style="color:var(--muted);margin-bottom:.3rem">Materiales ('+s.items.length+')'+(s.partial?' · <span style="color:var(--amber)">saldo pendiente de compra</span>':'')+'</div>'+
+         '<table class="raw" style="width:100%"><thead><tr><th>Código</th><th>Descripción</th><th>Pedido</th><th>Pendiente</th></tr></thead><tbody>'+
+         s.items.map(function(it){var pend=(it.pending!=null)?it.pending:(it.qty||0);return '<tr><td class="td-strong">'+(it.code||'—')+'</td><td>'+(it.desc||'—')+'</td><td>'+(it.qty||0)+'</td><td'+(pend<(it.qty||0)?' style="color:var(--amber);font-weight:600"':'')+'>'+pend+'</td></tr>';}).join('')+
          '</tbody></table></div>')
-        :(row('Material',(s.material||'')+(s.matDesc?(' — '+s.matDesc):''))+row('Cantidad',(s.qty||0).toLocaleString('es-ES'))))+
+        :(row('Material',(s.material||'')+(s.matDesc?(' — '+s.matDesc):''))+row('Cantidad pedida',(s.qty||0).toLocaleString('es-ES'))+(s.items&&s.items.length===1&&s.items[0].pending!=null&&s.items[0].pending<(s.items[0].qty||0)?row('Pendiente de compra','<span style="color:var(--amber);font-weight:700">'+s.items[0].pending+'</span>'):'')))+
       row('Sector / Centro de costo',ccLabel(s.cc))+
-      row('Categoría budget',s.budgetCat)+
       row('Fecha de necesidad',s.neededBy)+
       row('OC vinculada',s.linkedPO)+
       (s.notes?('<div style="padding:.6rem 0"><div style="color:var(--muted);margin-bottom:.3rem">Justificación / notas</div><div style="background:var(--bg);border-radius:8px;padding:.6rem .7rem">'+s.notes+'</div></div>'):'')+
@@ -2316,7 +2541,7 @@ function viewAprobaciones(){
   var rej=DB.orders.filter(function(o){return o.status==='Rechazada';}).length;
   var rows=pend.map(function(x){
     var o=x.o,i=x.i;
-    return '<tr>'+
+    return '<tr style="cursor:pointer" onclick="orderDetailModal('+i+')">'+
       '<td class="td-strong">'+o.id+(o.sp?'<div style="font-size:.62rem;color:var(--muted);font-weight:500">'+o.sp+'</div>':'')+'</td>'+
       '<td>'+o.date+'</td>'+
       '<td>'+buyerName(o.buyer)+'</td>'+
@@ -2325,7 +2550,8 @@ function viewAprobaciones(){
       '<td>'+(o.cc||'—')+'</td>'+
       '<td class="td-strong">'+ocMoney(o)+'</td>'+
       '<td>'+statusTag(o.status)+'</td>'+
-      '<td><div class="row-actions">'+
+      '<td onclick="event.stopPropagation()"><div class="row-actions">'+
+        '<button class="btn btn-ghost" style="padding:.35rem .7rem;font-size:.74rem" onclick="orderDetailModal('+i+')" title="Ver toda la información de la orden">Ver</button>'+
         '<button class="btn btn-primary" style="padding:.35rem .8rem;font-size:.74rem" onclick="approveOrder('+i+')">Aprobar</button>'+
         '<button class="btn btn-ghost" style="padding:.35rem .8rem;font-size:.74rem;color:var(--red)" onclick="rejectOrder('+i+')">Rechazar</button>'+
       '</div></td>'+
@@ -2348,14 +2574,62 @@ function viewAprobaciones(){
   '<div class="table-wrap"><table><thead><tr><th>Orden</th><th>Comprador</th><th>Monto</th><th>Resultado</th><th>Entrega</th></tr></thead><tbody>'+(recent||'<tr><td colspan="5" class="empty">Sin decisiones aún.</td></tr>')+'</tbody></table></div></div>';
 }
 
+// Detalle read-only de una OC — para que el aprobador vea qué está aprobando
+function orderDetailModal(idx){
+  var o=DB.orders[idx];if(!o)return;
+  var sup=(DB.suppliers||[]).find(function(x){return x.name===o.supplier;})||{};
+  function row(label,val){return '<div style="display:flex;justify-content:space-between;gap:1rem;padding:.5rem 0;border-bottom:1px solid var(--faint)"><span style="color:var(--muted);font-size:.8rem">'+label+'</span><span style="font-weight:600;text-align:right">'+(val==null||val===''?'—':val)+'</span></div>';}
+  var posTable='';
+  if(o.items&&o.items.length>1){
+    posTable='<div style="margin-top:1rem"><div class="card-sub" style="font-weight:600;color:var(--slate);margin-bottom:.5rem">Posiciones ('+o.items.length+')</div>'+
+      '<div style="border:1px solid var(--faint);border-radius:8px;overflow:hidden"><table class="raw" style="width:100%"><thead><tr><th>Material</th><th>Descripción</th><th>Cant.</th><th>Monto</th><th>SP</th></tr></thead><tbody>'+
+      o.items.map(function(p){return '<tr><td class="td-strong">'+(p.material||'—')+'</td><td>'+(p.matDesc||'—')+'</td><td>'+(p.qty||0)+'</td><td>'+ocMoneyVal(p.amount,o.currency)+'</td><td>'+(p.sp||'—')+'</td></tr>';}).join('')+
+      '</tbody></table></div></div>';
+  }
+  var m=document.getElementById('modalContent');
+  m.innerHTML=''+
+    '<div class="modal-head"><div class="modal-title">Orden '+o.id+' · '+statusTag(o.status)+'</div>'+
+      '<button class="modal-close" onclick="closeModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
+    '<div class="hint" style="margin-bottom:1rem">Revisá los datos antes de aprobar. Esta vista es de solo lectura.</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 2rem">'+
+      '<div>'+
+        row('Proveedor',o.supplier)+
+        row('Contacto',sup.contact)+
+        row('Email',sup.email)+
+        row('Comprador',buyerName(o.buyer))+
+        row('Fecha',o.date)+
+        row('Solicitud de origen',o.sp||(o.sps&&o.sps.length?o.sps.join(', '):'Compra directa'))+
+      '</div>'+
+      '<div>'+
+        row('Centro de costo',ccLabel(o.cc)||o.cc)+
+        row('Tipo',o.type)+
+        (o.items&&o.items.length>1?'':row('Material',(o.material||'—')+(o.matDesc?' · '+o.matDesc:'')))+
+        (o.items&&o.items.length>1?'':row('Cantidad',(o.qty||0).toLocaleString('es-ES')))+
+        row('Monto total',ocMoney(o))+
+        row('Saving estimado',o.saving?ocMoneyVal(o.saving,o.currency):'—')+
+      '</div>'+
+    '</div>'+
+    posTable+
+    (o.comment?'<div style="margin-top:1rem;padding:.8rem;background:var(--bg);border-radius:8px"><div style="color:var(--muted);font-size:.78rem;margin-bottom:.2rem">Comentario</div>'+o.comment+'</div>':'')+
+    '<div class="form-actions" style="margin-top:1.4rem">'+
+      (o.status!=='Aprobada'&&o.status!=='Rechazada'?'<button class="btn btn-primary" onclick="closeModal();approveOrder('+idx+')">Aprobar orden</button>'+
+        '<button class="btn btn-ghost" style="color:var(--red)" onclick="closeModal();rejectOrder('+idx+')">Rechazar</button>':'')+
+      '<button class="btn btn-ghost" onclick="closeModal()">Cerrar</button>'+
+    '</div>';
+  document.getElementById('modalBg').classList.add('show');
+}
+
+
 // ---- CONFIGURACIÓN (admin) ----
 function viewConfig(){
   var C=DB.config||{};
   function esc(v){return String(v||'').replace(/"/g,'&quot;');}
   var ccRows=(DB.ccs||[]).map(function(c,i){
     var used=DB.orders.filter(function(o){return o.cc===c.code;}).length;
-    return '<tr><td class="td-strong">'+c.code+'</td><td>'+c.name+'</td><td>'+used+' órdenes</td>'+
-      '<td><button class="icon-btn del" title="Eliminar centro de costo" onclick="deleteCC('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button></td></tr>';
+    var bud=+c.budget||0;
+    return '<tr><td class="td-strong">'+c.code+'</td><td>'+c.name+'</td><td>'+(bud?eurK(bud):'<span style="color:var(--muted)">sin asignar</span>')+'</td><td>'+used+' órdenes</td>'+
+      '<td><div class="row-actions"><button class="icon-btn" title="Editar centro de costo" onclick="editCC('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 013 3L12 15l-4 1 1-4z"/></svg></button>'+
+      '<button class="icon-btn del" title="Eliminar centro de costo" onclick="deleteCC('+i+')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button></div></td></tr>';
   }).join('');
   return ''+
   '<div class="hint" style="max-width:780px"><strong>Estos datos se imprimen en cada orden de compra.</strong> Como Lemalli da el servicio a distintas empresas, acá cargás los datos de la empresa emisora — su razón social, CIF y condiciones aparecen en el PDF y en los emails al proveedor.</div>'+
@@ -2371,11 +2645,12 @@ function viewConfig(){
     '<div class="field full"><label>Condiciones de entrega</label><input type="text" id="cfg-delivery" value="'+esc(C.delivery)+'"></div>'+
     '<div class="field full"><label>Notas legales al pie de la OC</label><textarea id="cfg-notes" rows="3">'+(C.notes||'')+'</textarea></div>'+
   '</div><div class="form-actions"><button class="btn btn-primary" onclick="saveConfig()">Guardar configuración</button></div></div>'+
-  '<div class="card" style="max-width:860px"><div class="card-head"><div><div class="card-title">Centros de costo</div><div class="card-sub">Se asignan en solicitudes y órdenes para imputar el gasto</div></div></div>'+
-  '<div class="table-wrap"><table><thead><tr><th>Código</th><th>Nombre</th><th>Uso</th><th></th></tr></thead><tbody>'+(ccRows||'')+'</tbody></table></div>'+
+  '<div class="card" style="max-width:860px"><div class="card-head"><div><div class="card-title">Centros de costo</div><div class="card-sub">Cada centro de costo tiene su presupuesto. El gasto se imputa al centro de costo elegido en solicitudes y órdenes.</div></div></div>'+
+  '<div class="table-wrap"><table><thead><tr><th>Código</th><th>Nombre</th><th>Presupuesto</th><th>Uso</th><th></th></tr></thead><tbody>'+(ccRows||'')+'</tbody></table></div>'+
   '<div class="toolbar" style="margin-top:1rem">'+
-    '<input type="text" class="filter-sel" id="cc-code" placeholder="CC-500" style="max-width:120px">'+
-    '<input type="text" class="filter-sel" id="cc-name" placeholder="Nombre del centro" style="flex:1;max-width:280px">'+
+    '<input type="text" class="filter-sel" id="cc-code" placeholder="CC-500" style="max-width:110px">'+
+    '<input type="text" class="filter-sel" id="cc-name" placeholder="Nombre del centro" style="flex:1;max-width:240px">'+
+    '<input type="number" class="filter-sel" id="cc-budget" placeholder="Presupuesto €" style="max-width:150px" min="0" step="1000">'+
     '<button class="btn btn-primary" onclick="addCC()">Agregar</button>'+
   '</div></div>';
 }
@@ -2396,10 +2671,30 @@ function saveConfig(){
 function addCC(){
   var code=(document.getElementById('cc-code').value||'').trim().toUpperCase();
   var name=(document.getElementById('cc-name').value||'').trim();
+  var budget=parseFloat(document.getElementById('cc-budget').value)||0;
   if(!code||!name){toast('Completá código y nombre');return;}
   if((DB.ccs||[]).some(function(c){return c.code===code;})){toast('Ese código ya existe');return;}
-  DB.ccs.push({code:code,name:name});
+  DB.ccs.push({code:code,name:name,budget:budget});
   save();toast('Centro de costo '+code+' agregado');render('config');
+}
+function editCC(i){
+  var c=DB.ccs[i];if(!c)return;
+  var el=document.getElementById('modalContent');
+  el.innerHTML=''+
+    '<div class="modal-head"><div class="modal-title">Editar '+c.code+'</div>'+
+      '<button class="modal-close" onclick="closeModal()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'+
+    '<div class="form-grid">'+
+      '<div class="field full"><label>Nombre del centro de costo</label><input type="text" id="cc-e-name" value="'+(c.name||'').replace(/"/g,'&quot;')+'"></div>'+
+      '<div class="field full"><label>Presupuesto asignado (€)</label><input type="number" id="cc-e-budget" value="'+(+c.budget||0)+'" min="0" step="1000" placeholder="0"></div>'+
+    '</div><div class="form-actions"><button class="btn btn-primary" onclick="saveCC('+i+')">Guardar</button>'+
+    '<button class="btn btn-ghost" onclick="closeModal()">Cancelar</button></div>';
+  document.getElementById('modalBg').classList.add('show');
+}
+function saveCC(i){
+  var c=DB.ccs[i];if(!c)return;
+  c.name=(document.getElementById('cc-e-name').value||'').trim()||c.name;
+  c.budget=parseFloat(document.getElementById('cc-e-budget').value)||0;
+  save();closeModal();toast('Centro de costo actualizado');render('config');
 }
 function deleteCC(i){
   var c=DB.ccs[i];if(!c)return;
@@ -2926,9 +3221,8 @@ function openOrderModal(order,idx){
          '<div class="field"><label>Descripción material</label><input type="text" id="e-matdesc" value="'+(order.matDesc||'').replace(/"/g,'&quot;')+'"'+dis+'></div>'+
          '<div class="field"><label>Cantidad</label><input type="number" id="e-qty" min="0" step="1" value="'+(order.qty||0)+'"'+dis+'></div>'))+
       '<div class="field"><label>Tipo</label><select id="e-type"'+dis+'><option'+((order.type||'Material')==='Material'?' selected':'')+'>Material</option><option'+(order.type==='Servicio'?' selected':'')+'>Servicio</option></select></div>'+
-      '<div class="field"><label>Centro de costo</label><select id="e-cc"'+dis+'>'+ccOptions(order.cc||'')+'</select></div>'+
+      '<div class="field"><label>Centro de costo (imputa el presupuesto)</label><select id="e-cc"'+dis+'>'+ccOptions(order.cc||'')+'</select></div>'+
       (order.sp?'<div class="field"><label>Solicitud asociada</label><input type="text" value="'+order.sp+'" disabled></div>':'')+
-      '<div class="field"><label>Categoría de budget</label><select id="e-budget" required'+dis+'>'+budOpts+'</select></div>'+
       (isAdmin()?'<div class="field"><label>Estado</label><select id="e-status">'+statOpts+'</select></div>':'<div class="field"><label>Estado</label><input type="text" value="'+order.status+'" disabled><select id="e-status" style="display:none"><option selected>'+order.status+'</option></select></div>')+
       '<div class="field"><label>Monto'+(multi?' (suma de posiciones)':'')+'</label><input type="number" id="e-amount" min="0" step="100" value="'+order.amount+'" required'+(multi?' readonly style="background:var(--bg)"':dis)+'></div>'+
       '<div class="field"><label>Moneda</label><select id="e-currency"'+dis+'>'+curOptions(order.currency||'USD')+'</select></div>'+
@@ -2976,7 +3270,7 @@ function saveEdit(e,idx){
     currency:val('e-currency','USD')||'USD',
     fxToUsd:+(val('e-fx',0))||0,
     saving:+val('e-saving',0)||0,
-    budgetCat:val('e-budget',prev.budgetCat),
+    budgetCat:(val('e-cc','')||prev.budgetCat),
     date:val('e-date',prev.date),
     status:val('e-status',prev.status),
     delivery:newDeliv,
@@ -3184,6 +3478,7 @@ document.getElementById('nav').addEventListener('click',function(e){
 document.getElementById('modalBg').addEventListener('click',function(e){if(e.target===this)closeModal();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
 (async function initApp(){
+  try{if(localStorage.getItem('sbCollapsed')==='1')document.querySelector('.app').classList.add('sb-collapsed');}catch(e){}
   var sess=await sb.auth.getSession();
   if(sess.data&&sess.data.session&&sess.data.session.user){
     try{await afterLogin(sess.data.session.user);}
@@ -3403,6 +3698,15 @@ function ansPending(){
   var tot=p.reduce(function(a,o){return a+(+o.amount||0);},0);
   return 'Hay **'+p.length+'** órdenes pendientes de aprobación ('+eur2(tot)+' en total):\n'+p.map(function(o){return '• '+o.id+' — '+o.supplier+' — '+eur2(o.amount)+(o.buyer?' ('+o.buyer+')':'');}).join('\n');
 }
+// mayor/menor gasto ENTRE las órdenes pendientes de aprobación
+function ansPendingExtreme(dir){
+  var p=(DB.orders||[]).filter(function(o){return o.status==='Pendiente'||o.status==='En revisión';});
+  if(!p.length)return 'No hay órdenes pendientes de aprobación. ✅';
+  p.sort(function(a,b){return dir==='min'?(a.amount-b.amount):(b.amount-a.amount);});
+  var o=p[0];
+  var cual=dir==='min'?'menor':'mayor';
+  return 'Entre las **'+p.length+'** pendientes de aprobación, la de '+cual+' gasto es **'+o.id+'** — '+o.supplier+' — **'+ocMoney(o)+'**'+(o.buyer?' (comprador: '+buyerName(o.buyer)+')':'')+(o.material?' · '+o.material:'')+'.';
+}
 function ansSummary(range){
   var o=ordersIn(range);
   var gasto=o.reduce(function(a,x){return a+(+x.amount||0);},0);
@@ -3432,12 +3736,13 @@ function ansByBuyer(range){
   return 'Gestión por comprador'+(range?' ('+range.label+')':'')+':\n'+keys.map(function(k){return '• '+k+': '+map[k].c+' OC · '+eur2(map[k].g)+' gasto · '+eur2(map[k].s)+' savings';}).join('\n');
 }
 function ansBudget(){
-  var rows=(DB.budgets||[]).map(function(b){
-    var sp=(DB.orders||[]).filter(function(o){return o.budgetCat===b.cat;}).reduce(function(a,o){return a+(+o.amount||0);},0);
-    var pct=b.budget>0?Math.round(sp/b.budget*100):0;
-    return '• '+b.cat+': '+eur2(sp)+' / '+eur2(b.budget)+' ('+pct+'%)';
+  var rows=(DB.ccs||[]).map(function(c){
+    var sp=(DB.orders||[]).filter(function(o){return o.cc===c.code;}).reduce(function(a,o){return a+(+o.amount||0);},0);
+    var bud=+c.budget||0;
+    var pct=bud>0?Math.round(sp/bud*100):0;
+    return '• '+c.code+' '+c.name+': '+eur2(sp)+' / '+(bud?eur2(bud):'sin presupuesto')+(bud?' ('+pct+'%)':'');
   });
-  return rows.length?('Ejecución de budget:\n'+rows.join('\n')):'No hay budgets cargados.';
+  return rows.length?('Ejecución de presupuesto por centro de costo:\n'+rows.join('\n')):'No hay centros de costo cargados.';
 }
 function ansMaterial(mat){
   var m=(DB.materials||[]).find(function(x){return x.code===mat;});
@@ -3457,7 +3762,7 @@ function ansCount(what){
     case 'solicitudes': return 'Hay **'+(DB.sps||[]).length+'** solicitudes de pedido en total ('+(DB.sps||[]).filter(function(s){return s.status==='Abierta';}).length+' abiertas).';
     case 'cc': return 'Tenés **'+(DB.ccs||[]).length+'** centros de costo: '+(DB.ccs||[]).map(function(c){return c.code;}).join(', ')+'.';
     case 'usuarios': return 'Hay **'+(DB.users||[]).length+'** usuarios: '+(DB.users||[]).map(function(u){return u.name+' ('+(u.role==='admin'?'admin':'comprador')+')';}).join(', ')+'.';
-    case 'budgets': return 'Tenés **'+(DB.budgets||[]).length+'** categorías de budget definidas.';
+    case 'budgets': return 'El presupuesto se gestiona por centro de costo. Tenés **'+(DB.ccs||[]).length+'** centros de costo con presupuesto asignado.';
     case 'categorias': var cats={};(DB.materials||[]).forEach(function(m){if(m.category)cats[m.category]=1;});(DB.orders||[]).forEach(function(o){if(o.category)cats[o.category]=1;});return 'Hay **'+Object.keys(cats).length+'** categorías: '+Object.keys(cats).join(', ')+'.';
   }
   return null;
@@ -3912,6 +4217,11 @@ function aiAnswer(q){
   if(w('count')&&phrase('parcial')) push(9,function(){return 'Hay **'+(DB.orders||[]).filter(function(o){return o.delivery==='Parcial';}).length+'** órdenes con entrega parcial.';});
   if((w('order'))&&w('status')&&!oc) push(7,function(){return ansOCbyStatus(null);});
   // -- pending approvals (action) --
+  // mayor/menor gasto ENTRE las pendientes (combina pending + max/min) — debe ganar a ansPending solo
+  if(w('pending')&&w('max')) push(17,function(){return ansPendingExtreme('max');});
+  if(w('pending')&&w('min')) push(18,function(){return ansPendingExtreme('min');});
+  if((phrase('por aprobar','para aprobar','sin aprobar','pendiente de aprobar','pendientes de aprobar','pendientes de aprobacion','pendiente de aprobacion')||w('approve'))&&w('max')&&!oc) push(17,function(){return ansPendingExtreme('max');});
+  if((phrase('por aprobar','para aprobar','sin aprobar','pendiente de aprobar','pendientes de aprobar')||w('approve'))&&w('min')&&!oc) push(18,function(){return ansPendingExtreme('min');});
   if(w('pending')&&w('approve')) push(9,function(){return ansPending();});
   if(phrase('por aprobar','para aprobar','falta aprobar','sin aprobar')) push(9,function(){return ansPending();});
   // -- delivery --
